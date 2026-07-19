@@ -13,7 +13,8 @@ class AuditRepository implements IAuditRepository {
   AuditRepository(this._apiClient, this._localDb);
 
   @override
-  Future<List<AuditLog>> getLogs({int page = 1, int pageSize = 50, String? userId}) async {
+  Future<List<AuditLog>> getLogs(
+      {int page = 1, int pageSize = 50, String? userId}) async {
     final response = await _apiClient.instance.get('/logs', queryParameters: {
       'page': page,
       'pageSize': pageSize,
@@ -42,6 +43,20 @@ class AuditRepository implements IAuditRepository {
               isSynced: const Value(false),
             ),
           );
+    }
+  }
+
+  @override
+  Future<bool> syncPendingAccess(String resourceId, String action) async {
+    try {
+      await _apiClient.instance.post('/logs/register', data: {
+        'resourceId': resourceId,
+        'action': action,
+        'timestamp': DateTime.now().toIso8601String(),
+      });
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 }

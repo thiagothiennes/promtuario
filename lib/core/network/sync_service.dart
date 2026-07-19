@@ -1,131 +1,100 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:logging/logging.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../database/local_database.dart';
-import '../providers/providers.dart';
-import '../../features/prontuario/domain/entities/attachment.dart';
+import 'package:logging/logging.dart';
+import 'package:promt/core/database/local_database.dart';
+import 'package:promt/core/providers/providers.dart';
 
-/// Serviço responsável por sincronizar dados pendentes do banco local para a API.
-/// Garante a resiliência do sistema em ambientes com internet instável.
+/// Coordena a sincronizaÃ§Ã£o de dados persistidos localmente.
 class SyncService {
-  final AppDatabase _db;
-  final Ref _ref;
-  final _logger = Logger('SyncService');
-  Timer? _syncTimer;
-
   SyncService(this._db, this._ref);
 
-  /// Inicia o monitoramento de sincronização periódica.
+  final AppDatabase _db;
+  final Ref _ref;
+  final Logger _logger = Logger('SyncService');
+  Timer? _syncTimer;
+  bool _isSynchronizing = false;
+
   void startAutoSync() {
     _syncTimer?.cancel();
-    syncAll();
-    _syncTimer = Timer.periodic(const Duration(minutes: 5), (_) => syncAll());
-    _logger.info('Auto-sync iniciado.');
+    unawaited(syncAll());
+    _syncTimer =
+        Timer.periodic(const Duration(minutes: 5), (_) => unawaited(syncAll()));
   }
 
-  /// Executa o ciclo completo de sincronização.
   Future<void> syncAll() async {
-    _logger.info('Iniciando ciclo de sincronização de dados pendentes...');
-    
-    await _syncPatients();
-    await _syncAppointments();
-    await _syncWaitList();
-    await _syncProntuario();
-    await _syncAttachments();
-    await _syncAuditLogs();
-    
-    _logger.info('Ciclo de sincronização finalizado.');
-  }
-
-  /// Sincroniza novos pacientes cadastrados offline.
-  Future<void> _syncPatients() async {
+    if (_isSynchronizing) return;
+    _isSynchronizing = true;
     try {
-      await _ref.read(patientRepositoryProvider).syncPatients();
-    } catch (e) {
-      _logger.warning('Falha ao sincronizar pacientes: $e');
+      _logger.info('Iniciando sincronizaÃ§Ã£o de dados pendentes.');
+      await _syncPatients();
+      await _syncAppointments();
+      await _syncWaitList();
+      await _syncProntuario();
+      await _syncAttachments();
+      await _syncAuditLogs();
+      _logger.info('SincronizaÃ§Ã£o de dados pendentes concluÃ­da.');
+    } finally {
+      _isSynchronizing = false;
     }
   }
 
-  /// Sincroniza agendamentos feitos offline.
-  Future<void> _syncAppointments() async {
-    try {
-      await _ref.read(appointmentRepositoryProvider).syncAppointments();
-    } catch (e) {
-      _logger.warning('Falha ao sincronizar agendamentos: $e');
-    }
-  }
+  Future<void> _syncPatients() => _run(
+      'pacientes', () => _ref.read(patientRepositoryProvider).syncPatients());
 
-  /// Sincroniza a lista de espera.
-  Future<void> _syncWaitList() async {
-    try {
-      await _ref.read(waitListRepositoryProvider).syncWaitList();
-    } catch (e) {
-      _logger.warning('Falha ao sincronizar lista de espera: $e');
-    }
-  }
+  Future<void> _syncAppointments() => _run('agendamentos',
+      () => _ref.read(appointmentRepositoryProvider).syncAppointments());
 
-  /// Sincroniza evoluções, anamneses e itens de tratamento.
-  Future<void> _syncProntuario() async {
-    try {
-      await _ref.read(prontuarioRepositoryProvider).syncPendingData();
-    } catch (e) {
-      _logger.warning('Falha ao sincronizar dados do prontuário: $e');
-    }
-  }
+  Future<void> _syncWaitList() => _run('lista de espera',
+      () => _ref.read(waitListRepositoryProvider).syncWaitList());
 
-  /// Sincroniza anexos (fotos e exames) pendentes.
+  Future<void> _syncProntuario() => _run('prontuÃ¡rio',
+      () => _ref.read(prontuarioRepositoryProvider).syncPendingData());
+
   Future<void> _syncAttachments() async {
-    final unsynced = await (_db.select(_db.attachmentsLocal)
-          ..where((t) => t.isSynced.equals(false)))
+    final pending = await (_db.select(_db.attachmentsLocal)
+          ..where((table) => table.isSynced.equals(false)))
         .get();
-
-    if (unsynced.isEmpty) return;
-
-    final repo = _ref.read(attachmentRepositoryProvider);
-    for (final row in unsynced) {
-      try {
-        final file = File(row.localPath);
-        if (await file.exists()) {
-          final type = AttachmentType.values.firstWhere((e) => e.name == row.type);
-          await repo.uploadAttachment(row.patientId, file, type, description: row.description);
-          
-          // Se o upload foi bem sucedido (o repo marcará como sincronizado), podemos remover o registro local
-          await (_db.delete(_db.attachmentsLocal)..where((t) => t.id.equals(row.id))).go();
-          _logger.info('Anexo ${row.id} sincronizado com sucesso.');
-        } else {
-          // Arquivo local não encontrado, remove da fila
-          await (_db.delete(_db.attachmentsLocal)..where((t) => t.id.equals(row.id))).go();
-        }
-      } catch (e) {
-        _logger.warning('Falha ao sincronizar anexo ${row.id}: $e');
+    final repository = _ref.read(attachmentRepositoryProvider);
+    for (final attachment in pending) {
+      final sent = await repository.syncPendingAttachment(attachment.id);
+      if (!sent) {
+        _logger.warning(
+            'Anexo ${attachment.id} mantido na fila para nova tentativa.');
       }
     }
   }
 
-  /// Sincroniza logs de auditoria (Conformidade LGPD).
   Future<void> _syncAuditLogs() async {
-    final unsynced = await (_db.select(_db.auditLocal)
-          ..where((t) => t.isSynced.equals(false)))
+    final pending = await (_db.select(_db.auditLocal)
+          ..where((table) => table.isSynced.equals(false)))
         .get();
-
-    if (unsynced.isEmpty) return;
-
-    final repo = _ref.read(auditRepositoryProvider);
-    for (final log in unsynced) {
+    final repository = _ref.read(auditRepositoryProvider);
+    for (final log in pending) {
       try {
-        await repo.registerAccess(log.resourceId, log.action);
-        await (_db.delete(_db.auditLocal)..where((t) => t.id.equals(log.id))).go();
-      } catch (_) {}
+        final sent =
+            await repository.syncPendingAccess(log.resourceId, log.action);
+        if (!sent) continue;
+        await (_db.delete(_db.auditLocal)
+              ..where((table) => table.id.equals(log.id)))
+            .go();
+      } catch (error, stackTrace) {
+        _logger.warning(
+            'Falha ao sincronizar auditoria ${log.id}.', error, stackTrace);
+      }
     }
   }
 
-  void stop() {
-    _syncTimer?.cancel();
+  Future<void> _run(String scope, Future<void> Function() action) async {
+    try {
+      await action();
+    } catch (error, stackTrace) {
+      _logger.warning('Falha ao sincronizar $scope.', error, stackTrace);
+    }
   }
+
+  void stop() => _syncTimer?.cancel();
 }
 
-final syncServiceProvider = Provider((ref) {
-  final db = ref.watch(databaseProvider);
-  return SyncService(db, ref);
-});
+final syncServiceProvider =
+    Provider((ref) => SyncService(ref.watch(databaseProvider), ref));

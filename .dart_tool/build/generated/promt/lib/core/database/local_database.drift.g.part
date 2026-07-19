@@ -1436,8 +1436,19 @@ class $OdontogramLocalTable extends OdontogramLocal
   late final GeneratedColumn<DateTime> lastUpdated = GeneratedColumn<DateTime>(
       'last_updated', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _isSyncedMeta =
+      const VerificationMeta('isSynced');
   @override
-  List<GeneratedColumn> get $columns => [patientId, dataJson, lastUpdated];
+  late final GeneratedColumn<bool> isSynced = GeneratedColumn<bool>(
+      'is_synced', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_synced" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  @override
+  List<GeneratedColumn> get $columns =>
+      [patientId, dataJson, lastUpdated, isSynced];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1469,6 +1480,10 @@ class $OdontogramLocalTable extends OdontogramLocal
     } else if (isInserting) {
       context.missing(_lastUpdatedMeta);
     }
+    if (data.containsKey('is_synced')) {
+      context.handle(_isSyncedMeta,
+          isSynced.isAcceptableOrUnknown(data['is_synced']!, _isSyncedMeta));
+    }
     return context;
   }
 
@@ -1484,6 +1499,8 @@ class $OdontogramLocalTable extends OdontogramLocal
           .read(DriftSqlType.string, data['${effectivePrefix}data_json'])!,
       lastUpdated: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}last_updated'])!,
+      isSynced: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_synced'])!,
     );
   }
 
@@ -1498,16 +1515,19 @@ class OdontogramLocalData extends DataClass
   final String patientId;
   final String dataJson;
   final DateTime lastUpdated;
+  final bool isSynced;
   const OdontogramLocalData(
       {required this.patientId,
       required this.dataJson,
-      required this.lastUpdated});
+      required this.lastUpdated,
+      required this.isSynced});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['patient_id'] = Variable<String>(patientId);
     map['data_json'] = Variable<String>(dataJson);
     map['last_updated'] = Variable<DateTime>(lastUpdated);
+    map['is_synced'] = Variable<bool>(isSynced);
     return map;
   }
 
@@ -1516,6 +1536,7 @@ class OdontogramLocalData extends DataClass
       patientId: Value(patientId),
       dataJson: Value(dataJson),
       lastUpdated: Value(lastUpdated),
+      isSynced: Value(isSynced),
     );
   }
 
@@ -1526,6 +1547,7 @@ class OdontogramLocalData extends DataClass
       patientId: serializer.fromJson<String>(json['patientId']),
       dataJson: serializer.fromJson<String>(json['dataJson']),
       lastUpdated: serializer.fromJson<DateTime>(json['lastUpdated']),
+      isSynced: serializer.fromJson<bool>(json['isSynced']),
     );
   }
   @override
@@ -1535,15 +1557,20 @@ class OdontogramLocalData extends DataClass
       'patientId': serializer.toJson<String>(patientId),
       'dataJson': serializer.toJson<String>(dataJson),
       'lastUpdated': serializer.toJson<DateTime>(lastUpdated),
+      'isSynced': serializer.toJson<bool>(isSynced),
     };
   }
 
   OdontogramLocalData copyWith(
-          {String? patientId, String? dataJson, DateTime? lastUpdated}) =>
+          {String? patientId,
+          String? dataJson,
+          DateTime? lastUpdated,
+          bool? isSynced}) =>
       OdontogramLocalData(
         patientId: patientId ?? this.patientId,
         dataJson: dataJson ?? this.dataJson,
         lastUpdated: lastUpdated ?? this.lastUpdated,
+        isSynced: isSynced ?? this.isSynced,
       );
   OdontogramLocalData copyWithCompanion(OdontogramLocalCompanion data) {
     return OdontogramLocalData(
@@ -1551,6 +1578,7 @@ class OdontogramLocalData extends DataClass
       dataJson: data.dataJson.present ? data.dataJson.value : this.dataJson,
       lastUpdated:
           data.lastUpdated.present ? data.lastUpdated.value : this.lastUpdated,
+      isSynced: data.isSynced.present ? data.isSynced.value : this.isSynced,
     );
   }
 
@@ -1559,37 +1587,42 @@ class OdontogramLocalData extends DataClass
     return (StringBuffer('OdontogramLocalData(')
           ..write('patientId: $patientId, ')
           ..write('dataJson: $dataJson, ')
-          ..write('lastUpdated: $lastUpdated')
+          ..write('lastUpdated: $lastUpdated, ')
+          ..write('isSynced: $isSynced')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(patientId, dataJson, lastUpdated);
+  int get hashCode => Object.hash(patientId, dataJson, lastUpdated, isSynced);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is OdontogramLocalData &&
           other.patientId == this.patientId &&
           other.dataJson == this.dataJson &&
-          other.lastUpdated == this.lastUpdated);
+          other.lastUpdated == this.lastUpdated &&
+          other.isSynced == this.isSynced);
 }
 
 class OdontogramLocalCompanion extends UpdateCompanion<OdontogramLocalData> {
   final Value<String> patientId;
   final Value<String> dataJson;
   final Value<DateTime> lastUpdated;
+  final Value<bool> isSynced;
   final Value<int> rowid;
   const OdontogramLocalCompanion({
     this.patientId = const Value.absent(),
     this.dataJson = const Value.absent(),
     this.lastUpdated = const Value.absent(),
+    this.isSynced = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   OdontogramLocalCompanion.insert({
     required String patientId,
     required String dataJson,
     required DateTime lastUpdated,
+    this.isSynced = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : patientId = Value(patientId),
         dataJson = Value(dataJson),
@@ -1598,12 +1631,14 @@ class OdontogramLocalCompanion extends UpdateCompanion<OdontogramLocalData> {
     Expression<String>? patientId,
     Expression<String>? dataJson,
     Expression<DateTime>? lastUpdated,
+    Expression<bool>? isSynced,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (patientId != null) 'patient_id': patientId,
       if (dataJson != null) 'data_json': dataJson,
       if (lastUpdated != null) 'last_updated': lastUpdated,
+      if (isSynced != null) 'is_synced': isSynced,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1612,11 +1647,13 @@ class OdontogramLocalCompanion extends UpdateCompanion<OdontogramLocalData> {
       {Value<String>? patientId,
       Value<String>? dataJson,
       Value<DateTime>? lastUpdated,
+      Value<bool>? isSynced,
       Value<int>? rowid}) {
     return OdontogramLocalCompanion(
       patientId: patientId ?? this.patientId,
       dataJson: dataJson ?? this.dataJson,
       lastUpdated: lastUpdated ?? this.lastUpdated,
+      isSynced: isSynced ?? this.isSynced,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1633,6 +1670,9 @@ class OdontogramLocalCompanion extends UpdateCompanion<OdontogramLocalData> {
     if (lastUpdated.present) {
       map['last_updated'] = Variable<DateTime>(lastUpdated.value);
     }
+    if (isSynced.present) {
+      map['is_synced'] = Variable<bool>(isSynced.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1645,6 +1685,7 @@ class OdontogramLocalCompanion extends UpdateCompanion<OdontogramLocalData> {
           ..write('patientId: $patientId, ')
           ..write('dataJson: $dataJson, ')
           ..write('lastUpdated: $lastUpdated, ')
+          ..write('isSynced: $isSynced, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -4800,6 +4841,7 @@ typedef $$OdontogramLocalTableCreateCompanionBuilder = OdontogramLocalCompanion
   required String patientId,
   required String dataJson,
   required DateTime lastUpdated,
+  Value<bool> isSynced,
   Value<int> rowid,
 });
 typedef $$OdontogramLocalTableUpdateCompanionBuilder = OdontogramLocalCompanion
@@ -4807,6 +4849,7 @@ typedef $$OdontogramLocalTableUpdateCompanionBuilder = OdontogramLocalCompanion
   Value<String> patientId,
   Value<String> dataJson,
   Value<DateTime> lastUpdated,
+  Value<bool> isSynced,
   Value<int> rowid,
 });
 
@@ -4827,6 +4870,9 @@ class $$OdontogramLocalTableFilterComposer
 
   ColumnFilters<DateTime> get lastUpdated => $composableBuilder(
       column: $table.lastUpdated, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isSynced => $composableBuilder(
+      column: $table.isSynced, builder: (column) => ColumnFilters(column));
 }
 
 class $$OdontogramLocalTableOrderingComposer
@@ -4846,6 +4892,9 @@ class $$OdontogramLocalTableOrderingComposer
 
   ColumnOrderings<DateTime> get lastUpdated => $composableBuilder(
       column: $table.lastUpdated, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isSynced => $composableBuilder(
+      column: $table.isSynced, builder: (column) => ColumnOrderings(column));
 }
 
 class $$OdontogramLocalTableAnnotationComposer
@@ -4865,6 +4914,9 @@ class $$OdontogramLocalTableAnnotationComposer
 
   GeneratedColumn<DateTime> get lastUpdated => $composableBuilder(
       column: $table.lastUpdated, builder: (column) => column);
+
+  GeneratedColumn<bool> get isSynced =>
+      $composableBuilder(column: $table.isSynced, builder: (column) => column);
 }
 
 class $$OdontogramLocalTableTableManager extends RootTableManager<
@@ -4897,24 +4949,28 @@ class $$OdontogramLocalTableTableManager extends RootTableManager<
             Value<String> patientId = const Value.absent(),
             Value<String> dataJson = const Value.absent(),
             Value<DateTime> lastUpdated = const Value.absent(),
+            Value<bool> isSynced = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               OdontogramLocalCompanion(
             patientId: patientId,
             dataJson: dataJson,
             lastUpdated: lastUpdated,
+            isSynced: isSynced,
             rowid: rowid,
           ),
           createCompanionCallback: ({
             required String patientId,
             required String dataJson,
             required DateTime lastUpdated,
+            Value<bool> isSynced = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               OdontogramLocalCompanion.insert(
             patientId: patientId,
             dataJson: dataJson,
             lastUpdated: lastUpdated,
+            isSynced: isSynced,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0

@@ -18,14 +18,14 @@ class Patients extends Table {
   TextColumn get gender => text().nullable()();
   BoolColumn get lgpdConsent => boolean().withDefault(const Constant(false))();
   BoolColumn get isSynced => boolean().withDefault(const Constant(true))();
-  
+
   TextColumn get street => text().nullable()();
   TextColumn get number => text().nullable()();
   TextColumn get neighborhood => text().nullable()();
   TextColumn get city => text().nullable()();
   TextColumn get state => text().nullable()();
   TextColumn get zipCode => text().nullable()();
-  
+
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -59,9 +59,10 @@ class AttachmentsLocal extends Table {
 /// Cache local de Odontograma (Estado dos dentes em JSON).
 class OdontogramLocal extends Table {
   TextColumn get patientId => text()();
-  TextColumn get dataJson => text()(); 
+  TextColumn get dataJson => text()();
   DateTimeColumn get lastUpdated => dateTime()();
-  
+  BoolColumn get isSynced => boolean().withDefault(const Constant(false))();
+
   @override
   Set<Column> get primaryKey => {patientId};
 }
@@ -97,7 +98,7 @@ class AnamneseLocal extends Table {
   TextColumn get responsesJson => text()();
   DateTimeColumn get lastUpdated => dateTime()();
   BoolColumn get isSynced => boolean().withDefault(const Constant(true))();
-  
+
   @override
   Set<Column> get primaryKey => {patientId};
 }
@@ -116,7 +117,7 @@ class AppointmentsLocal extends Table {
   TextColumn get notes => text().nullable()();
   TextColumn get clinicId => text().withDefault(const Constant(''))();
   BoolColumn get isSynced => boolean().withDefault(const Constant(true))();
-  
+
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -129,7 +130,7 @@ class EvolutionsLocal extends Table {
   TextColumn get professorId => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
   BoolColumn get isSynced => boolean().withDefault(const Constant(false))();
-  
+
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -143,39 +144,39 @@ class TreatmentItemsLocal extends Table {
   IntColumn get toothNumber => integer().nullable()();
   TextColumn get status => text()();
   BoolColumn get isSynced => boolean().withDefault(const Constant(true))();
-  
+
   @override
   Set<Column> get primaryKey => {id};
 }
 
 @DriftDatabase(tables: [
-  Patients, 
-  UsersLocal, 
-  AttachmentsLocal, 
-  OdontogramLocal, 
-  WaitListLocal, 
-  AuditLocal, 
-  AnamneseLocal, 
-  AppointmentsLocal, 
-  EvolutionsLocal, 
+  Patients,
+  UsersLocal,
+  AttachmentsLocal,
+  OdontogramLocal,
+  WaitListLocal,
+  AuditLocal,
+  AnamneseLocal,
+  AppointmentsLocal,
+  EvolutionsLocal,
   TreatmentItemsLocal
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 18; 
+  int get schemaVersion => 19;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-    onCreate: (m) async => await m.createAll(),
-    onUpgrade: (m, from, to) async {
-       if (from < 18) {
-          // Em desenvolvimento, garantimos que as tabelas existem reiniciando se necessário
-          await m.createAll();
-       }
-    },
-  );
+        onCreate: (m) async => await m.createAll(),
+        onUpgrade: (m, from, to) async {
+          if (from < 19) {
+            // Em desenvolvimento, garantimos que as tabelas existem reiniciando se necessário
+            await m.addColumn(odontogramLocal, odontogramLocal.isSynced);
+          }
+        },
+      );
 }
 
 LazyDatabase _openConnection() {

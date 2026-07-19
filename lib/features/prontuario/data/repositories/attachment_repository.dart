@@ -1,17 +1,18 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
-import '../../../core/network/api_client.dart';
-import '../../../core/database/local_database.dart';
-import '../../domain/entities/attachment.dart';
-import '../../domain/repositories/i_attachment_repository.dart';
+import 'package:promt/core/database/local_database.dart';
+import 'package:promt/core/network/api_client.dart';
+import 'package:promt/features/prontuario/domain/entities/attachment.dart';
+import 'package:promt/features/prontuario/domain/repositories/i_attachment_repository.dart';
 
-/// Implementação do repositório de anexos com suporte offline.
+/// RepositÃ³rio de anexos com fila local para operaÃ§Ãµes offline-first.
 class AttachmentRepository implements IAttachmentRepository {
+  AttachmentRepository(this._apiClient, this._localDb);
+
   final ApiClient _apiClient;
   final AppDatabase _localDb;
-
-  AttachmentRepository(this._apiClient, this._localDb);
 
   @override
   Future<Attachment> uploadAttachment(
@@ -21,70 +22,50 @@ class AttachmentRepository implements IAttachmentRepository {
     String? description,
   }) async {
     try {
-      final formData = FormData.fromMap({
-        'file': await MultipartFile.fromFile(file.path, filename: file.path.split('/').last),
-        'tipo': type.name,
-        if (description != null) 'description': description,
-      });
+      return await _upload(patientId, file, type, description: description);
+    } on DioException {
+      return _enqueue(patientId, file, type, description);
+    }
+  }
 
-      final response = await _apiClient.instance.post(
-        '/anexos/upload/$patientId',
-        data: formData,
-      );
+  @override
+  Future<bool> syncPendingAttachment(String attachmentId) async {
+    final queued = await (_localDb.select(_localDb.attachmentsLocal)
+          ..where((table) => table.id.equals(attachmentId)))
+        .getSingleOrNull();
+    if (queued == null) return true;
 
-      final attachment = _mapJsonToEntity(response.data);
-      return attachment;
-    } catch (e) {
-      // Falha na rede: Registra na fila local para o SyncService tentar depois
-      final id = DateTime.now().millisecondsSinceEpoch.toString();
-      await _localDb.into(_localDb.attachmentsLocal).insert(
-            AttachmentsLocalCompanion.insert(
-              id: id,
-              patientId: patientId,
-              localPath: file.path,
-              type: type.name,
-              description: Value(description),
-              createdAt: DateTime.now(),
-              isSynced: const Value(false),
-            ),
-          );
-      
-      // Retorna um objeto temporário para a UI
-      return Attachment(
-        id: id,
-        patientId: patientId,
-        name: file.path.split('/').last,
-        type: type,
-        url: '', // Sem URL pois ainda não subiu
-        date: DateTime.now(),
-        uploadedBy: 'me',
-        description: description,
-      );
+    final file = File(queued.localPath);
+    if (!await file.exists()) return false;
+
+    try {
+      final type = AttachmentType.values.byName(queued.type);
+      await _upload(queued.patientId, file, type,
+          description: queued.description);
+      await (_localDb.delete(_localDb.attachmentsLocal)
+            ..where((table) => table.id.equals(attachmentId)))
+          .go();
+      return true;
+    } on ArgumentError {
+      return false;
+    } on DioException {
+      return false;
     }
   }
 
   @override
   Future<List<Attachment>> getAttachments(String patientId) async {
     try {
-      final response = await _apiClient.instance.get('/anexos/paciente/$patientId');
-      final List<dynamic> data = response.data ?? [];
-      return data.map((json) => _mapJsonToEntity(json)).toList();
-    } catch (e) {
-      // Offline: Busca anexos que foram salvos localmente e ainda não subiram
-      final results = await (_localDb.select(_localDb.attachmentsLocal)
-            ..where((t) => t.patientId.equals(patientId)))
-          .get();
-      
-      return results.map((row) => Attachment(
-        id: row.id,
-        patientId: row.patientId,
-        name: row.localPath.split('/').last,
-        type: AttachmentType.values.firstWhere((e) => e.name == row.type),
-        url: row.localPath, // Usa o path local como URL temporária
-        date: row.createdAt,
-        uploadedBy: 'me',
-        description: row.description,
-      )).toList();
+      final response =
+          await _apiClient.instance.get('/anexos/paciente/$patientId');
+      final data = response.data as List<dynamic>? ?? const <dynamic>[];
+      final remote = data
+          .map((json) =>
+              _mapJsonToEntity(Map<String, dynamic>.from(json as Map)))
+          .toList();
+      return [...remote, ...await _getPendingAttachments(patientId)];
+    } on DioException {
+      return _getPendingAttachments(patientId);
     }
   }
 
@@ -93,24 +74,93 @@ class AttachmentRepository implements IAttachmentRepository {
     try {
       await _apiClient.instance.delete('/anexos/$attachmentId');
     } finally {
-      // Tenta remover do banco local também
-      await (_localDb.delete(_localDb.attachmentsLocal)..where((t) => t.id.equals(attachmentId))).go();
+      await (_localDb.delete(_localDb.attachmentsLocal)
+            ..where((table) => table.id.equals(attachmentId)))
+          .go();
     }
+  }
+
+  Future<Attachment> _upload(
+    String patientId,
+    File file,
+    AttachmentType type, {
+    String? description,
+  }) async {
+    final formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(file.path,
+          filename: file.uri.pathSegments.last),
+      'tipo': type.name,
+      if (description != null) 'description': description,
+    });
+    final response = await _apiClient.instance
+        .post('/anexos/upload/$patientId', data: formData);
+    return _mapJsonToEntity(Map<String, dynamic>.from(response.data as Map));
+  }
+
+  Future<Attachment> _enqueue(
+    String patientId,
+    File file,
+    AttachmentType type,
+    String? description,
+  ) async {
+    final id = DateTime.now().microsecondsSinceEpoch.toString();
+    final createdAt = DateTime.now();
+    await _localDb.into(_localDb.attachmentsLocal).insert(
+          AttachmentsLocalCompanion.insert(
+            id: id,
+            patientId: patientId,
+            localPath: file.path,
+            type: type.name,
+            description: Value(description),
+            createdAt: createdAt,
+            isSynced: const Value(false),
+          ),
+        );
+    return Attachment(
+      id: id,
+      patientId: patientId,
+      name: file.uri.pathSegments.last,
+      type: type,
+      url: file.path,
+      date: createdAt,
+      uploadedBy: 'local-pending-upload',
+      description: description,
+    );
+  }
+
+  Future<List<Attachment>> _getPendingAttachments(String patientId) async {
+    final rows = await (_localDb.select(_localDb.attachmentsLocal)
+          ..where((table) => table.patientId.equals(patientId)))
+        .get();
+    return rows
+        .map((row) => Attachment(
+              id: row.id,
+              patientId: row.patientId,
+              name: File(row.localPath).uri.pathSegments.last,
+              type: AttachmentType.values.byName(row.type),
+              url: row.localPath,
+              date: row.createdAt,
+              uploadedBy: 'local-pending-upload',
+              description: row.description,
+            ))
+        .toList();
   }
 
   Attachment _mapJsonToEntity(Map<String, dynamic> json) {
     return Attachment(
-      id: json['id'],
-      patientId: json['pacienteId'],
-      name: json['nome'],
+      id: json['id'].toString(),
+      patientId: (json['pacienteId'] ?? json['patientId']).toString(),
+      name: (json['nome'] ?? json['name']).toString(),
       type: AttachmentType.values.firstWhere(
-        (e) => e.name == json['tipo'].toString().toLowerCase(),
+        (value) =>
+            value.name ==
+            (json['tipo'] ?? json['type']).toString().toLowerCase(),
         orElse: () => AttachmentType.document,
       ),
-      url: json['url'],
-      date: DateTime.parse(json['criadoEm'] ?? json['data'] ?? DateTime.now().toIso8601String()),
-      uploadedBy: json['criadoPorId'],
-      description: json['descricao'],
+      url: json['url'].toString(),
+      date: DateTime.parse((json['criadoEm'] ?? json['date']).toString()),
+      uploadedBy: (json['criadoPorId'] ?? json['uploadedBy']).toString(),
+      description: (json['descricao'] ?? json['description'])?.toString(),
     );
   }
 }
