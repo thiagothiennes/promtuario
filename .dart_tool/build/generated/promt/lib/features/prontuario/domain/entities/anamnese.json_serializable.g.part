@@ -1,0 +1,25 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$AnamneseImpl _$$AnamneseImplFromJson(Map<String, dynamic> json) =>
+    _$AnamneseImpl(
+      id: json['id'] as String,
+      patientId: json['patientId'] as String,
+      responses: json['responses'] as Map<String, dynamic>,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdBy: json['createdBy'] as String,
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$$AnamneseImplToJson(_$AnamneseImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'patientId': instance.patientId,
+      'responses': instance.responses,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'createdBy': instance.createdBy,
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+    };

@@ -1,0 +1,54 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$SpecialtyProductionImpl _$$SpecialtyProductionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SpecialtyProductionImpl(
+      specialty: json['specialty'] as String,
+      appointmentCount: (json['appointmentCount'] as num).toInt(),
+      totalValue: (json['totalValue'] as num).toDouble(),
+      efficiencyRate: (json['efficiencyRate'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$$SpecialtyProductionImplToJson(
+        _$SpecialtyProductionImpl instance) =>
+    <String, dynamic>{
+      'specialty': instance.specialty,
+      'appointmentCount': instance.appointmentCount,
+      'totalValue': instance.totalValue,
+      'efficiencyRate': instance.efficiencyRate,
+    };
+
+_$ClinicPerformanceMetricsImpl _$$ClinicPerformanceMetricsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ClinicPerformanceMetricsImpl(
+      occupancyRate: (json['occupancyRate'] as num).toDouble(),
+      absenceRate: (json['absenceRate'] as num).toDouble(),
+      totalProceduresThisMonth:
+          (json['totalProceduresThisMonth'] as num).toInt(),
+      growthHistory: (json['growthHistory'] as List<dynamic>)
+          .map((e) => MonthlyGrowth.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$ClinicPerformanceMetricsImplToJson(
+        _$ClinicPerformanceMetricsImpl instance) =>
+    <String, dynamic>{
+      'occupancyRate': instance.occupancyRate,
+      'absenceRate': instance.absenceRate,
+      'totalProceduresThisMonth': instance.totalProceduresThisMonth,
+      'growthHistory': instance.growthHistory,
+    };
+
+_$MonthlyGrowthImpl _$$MonthlyGrowthImplFromJson(Map<String, dynamic> json) =>
+    _$MonthlyGrowthImpl(
+      month: json['month'] as String,
+      count: (json['count'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$MonthlyGrowthImplToJson(_$MonthlyGrowthImpl instance) =>
+    <String, dynamic>{
+      'month': instance.month,
+      'count': instance.count,
+    };

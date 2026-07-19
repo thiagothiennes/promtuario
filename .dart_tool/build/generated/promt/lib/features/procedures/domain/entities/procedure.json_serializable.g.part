@@ -1,0 +1,23 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$ProcedureImpl _$$ProcedureImplFromJson(Map<String, dynamic> json) =>
+    _$ProcedureImpl(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      code: json['code'] as String,
+      baseValue: (json['baseValue'] as num).toDouble(),
+      specialty: json['specialty'] as String,
+      estimatedTimeMinutes: (json['estimatedTimeMinutes'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$ProcedureImplToJson(_$ProcedureImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'code': instance.code,
+      'baseValue': instance.baseValue,
+      'specialty': instance.specialty,
+      'estimatedTimeMinutes': instance.estimatedTimeMinutes,
+    };

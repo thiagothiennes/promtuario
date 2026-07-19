@@ -1,0 +1,8 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/features/prontuario/domain/entities/evolution.dart",
+    "package:promt/core/providers/providers.dart"
+  ]
+}

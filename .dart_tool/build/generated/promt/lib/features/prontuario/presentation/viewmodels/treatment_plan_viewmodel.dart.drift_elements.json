@@ -1,0 +1,1 @@
+{"valid_import":true,"imports":[{"uri":"package:flutter_riverpod/flutter_riverpod.dart","transitive":false},{"uri":"package:promt/features/prontuario/domain/entities/treatment_plan.dart","transitive":false},{"uri":"package:promt/core/providers/providers.dart","transitive":false}],"elements":[]}

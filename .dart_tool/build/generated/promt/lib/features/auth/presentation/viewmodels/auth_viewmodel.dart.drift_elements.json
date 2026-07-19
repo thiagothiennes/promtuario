@@ -1,0 +1,1 @@
+{"valid_import":true,"imports":[{"uri":"package:flutter_riverpod/flutter_riverpod.dart","transitive":false},{"uri":"package:promt/features/auth/domain/entities/user.dart","transitive":false},{"uri":"package:promt/core/providers/providers.dart","transitive":false},{"uri":"package:promt/core/network/realtime_service.dart","transitive":false}],"elements":[]}

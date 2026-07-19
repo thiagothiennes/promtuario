@@ -1,0 +1,10 @@
+{
+  "elements": {},
+  "imports": [
+    "package:drift/drift.dart",
+    "package:promt/core/network/api_client.dart",
+    "package:promt/core/database/local_database.dart",
+    "package:promt/features/patients/domain/entities/patient.dart",
+    "package:promt/features/patients/domain/repositories/i_patient_repository.dart"
+  ]
+}

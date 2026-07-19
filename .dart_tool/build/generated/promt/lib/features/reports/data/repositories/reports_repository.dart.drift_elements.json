@@ -1,0 +1,1 @@
+{"valid_import":true,"imports":[{"uri":"package:promt/core/network/api_client.dart","transitive":false},{"uri":"package:promt/features/reports/domain/entities/report_data.dart","transitive":false},{"uri":"package:promt/features/reports/domain/repositories/i_reports_repository.dart","transitive":false}],"elements":[]}

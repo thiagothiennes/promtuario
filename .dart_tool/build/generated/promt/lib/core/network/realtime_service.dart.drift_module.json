@@ -1,0 +1,10 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:logging/logging.dart",
+    "package:signalr_netcore/signalr_client.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/core/security/storage_service.dart"
+  ]
+}

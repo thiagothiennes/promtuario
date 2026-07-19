@@ -1,0 +1,8 @@
+{
+  "elements": {},
+  "imports": [
+    "package:promt/core/network/api_client.dart",
+    "package:promt/features/reports/domain/entities/report_data.dart",
+    "package:promt/features/reports/domain/repositories/i_reports_repository.dart"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/features/audit/domain/entities/audit_log.dart",
+    "package:promt/core/providers/providers.dart"
+  ]
+}

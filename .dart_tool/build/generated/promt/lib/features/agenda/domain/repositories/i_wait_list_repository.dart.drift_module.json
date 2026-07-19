@@ -1,0 +1,6 @@
+{
+  "elements": {},
+  "imports": [
+    "package:promt/features/agenda/domain/entities/wait_list_entry.dart"
+  ]
+}

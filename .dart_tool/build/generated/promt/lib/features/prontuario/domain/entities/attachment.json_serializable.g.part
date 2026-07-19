@@ -1,0 +1,34 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$AttachmentImpl _$$AttachmentImplFromJson(Map<String, dynamic> json) =>
+    _$AttachmentImpl(
+      id: json['id'] as String,
+      patientId: json['patientId'] as String,
+      name: json['name'] as String,
+      type: $enumDecode(_$AttachmentTypeEnumMap, json['type']),
+      url: json['url'] as String,
+      date: DateTime.parse(json['date'] as String),
+      uploadedBy: json['uploadedBy'] as String,
+      description: json['description'] as String?,
+    );
+
+Map<String, dynamic> _$$AttachmentImplToJson(_$AttachmentImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'patientId': instance.patientId,
+      'name': instance.name,
+      'type': _$AttachmentTypeEnumMap[instance.type]!,
+      'url': instance.url,
+      'date': instance.date.toIso8601String(),
+      'uploadedBy': instance.uploadedBy,
+      'description': instance.description,
+    };
+
+const _$AttachmentTypeEnumMap = {
+  AttachmentType.radiography: 'radiography',
+  AttachmentType.photo: 'photo',
+  AttachmentType.document: 'document',
+  AttachmentType.exam: 'exam',
+};

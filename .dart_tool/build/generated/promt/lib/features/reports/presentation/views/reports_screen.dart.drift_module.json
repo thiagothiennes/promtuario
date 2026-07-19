@@ -1,0 +1,10 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:intl/intl.dart",
+    "package:promt/features/reports/presentation/viewmodels/reports_viewmodel.dart",
+    "package:promt/features/reports/domain/entities/report_data.dart"
+  ]
+}

@@ -1,0 +1,1 @@
+{"valid_import":true,"imports":[{"uri":"package:promt/core/network/api_client.dart","transitive":false},{"uri":"package:promt/features/procedures/domain/entities/procedure.dart","transitive":false},{"uri":"package:promt/features/procedures/domain/repositories/i_procedure_repository.dart","transitive":false}],"elements":[]}

@@ -1,0 +1,10 @@
+{
+  "elements": {},
+  "imports": [
+    "package:promt/core/network/api_client.dart",
+    "package:promt/core/security/storage_service.dart",
+    "package:promt/features/auth/domain/entities/user.dart",
+    "package:promt/features/auth/domain/repositories/i_auth_repository.dart",
+    "package:promt/features/auth/data/models/user_model.dart"
+  ]
+}

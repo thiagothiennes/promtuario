@@ -1,0 +1,23 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$AuditLogImpl _$$AuditLogImplFromJson(Map<String, dynamic> json) =>
+    _$AuditLogImpl(
+      id: json['id'] as String,
+      usuarioId: json['usuarioId'] as String,
+      acao: json['acao'] as String,
+      ipAddress: json['ipAddress'] as String,
+      dataHora: DateTime.parse(json['dataHora'] as String),
+      detalhes: json['detalhes'] as String?,
+    );
+
+Map<String, dynamic> _$$AuditLogImplToJson(_$AuditLogImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'usuarioId': instance.usuarioId,
+      'acao': instance.acao,
+      'ipAddress': instance.ipAddress,
+      'dataHora': instance.dataHora.toIso8601String(),
+      'detalhes': instance.detalhes,
+    };

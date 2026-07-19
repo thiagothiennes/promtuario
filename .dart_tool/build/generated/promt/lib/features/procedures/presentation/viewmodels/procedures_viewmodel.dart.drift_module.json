@@ -1,0 +1,8 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/features/procedures/domain/entities/procedure.dart",
+    "package:promt/features/core/providers/providers.dart"
+  ]
+}

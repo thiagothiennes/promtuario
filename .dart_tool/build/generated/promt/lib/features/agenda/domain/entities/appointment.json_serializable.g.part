@@ -1,0 +1,42 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$AppointmentImpl _$$AppointmentImplFromJson(Map<String, dynamic> json) =>
+    _$AppointmentImpl(
+      id: json['id'] as String,
+      patientId: json['patientId'] as String,
+      patientName: json['patientName'] as String,
+      doctorId: json['doctorId'] as String,
+      doctorName: json['doctorName'] as String,
+      startTime: DateTime.parse(json['startTime'] as String),
+      endTime: DateTime.parse(json['endTime'] as String),
+      status: $enumDecode(_$AppointmentStatusEnumMap, json['status']),
+      procedureName: json['procedureName'] as String?,
+      notes: json['notes'] as String?,
+      clinicId: json['clinicId'] as String,
+    );
+
+Map<String, dynamic> _$$AppointmentImplToJson(_$AppointmentImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'patientId': instance.patientId,
+      'patientName': instance.patientName,
+      'doctorId': instance.doctorId,
+      'doctorName': instance.doctorName,
+      'startTime': instance.startTime.toIso8601String(),
+      'endTime': instance.endTime.toIso8601String(),
+      'status': _$AppointmentStatusEnumMap[instance.status]!,
+      'procedureName': instance.procedureName,
+      'notes': instance.notes,
+      'clinicId': instance.clinicId,
+    };
+
+const _$AppointmentStatusEnumMap = {
+  AppointmentStatus.scheduled: 'scheduled',
+  AppointmentStatus.confirmed: 'confirmed',
+  AppointmentStatus.inProgress: 'inProgress',
+  AppointmentStatus.completed: 'completed',
+  AppointmentStatus.cancelled: 'cancelled',
+  AppointmentStatus.missed: 'missed',
+};

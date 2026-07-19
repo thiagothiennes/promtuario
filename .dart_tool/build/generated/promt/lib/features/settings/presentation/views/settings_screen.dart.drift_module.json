@@ -1,0 +1,9 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/features/auth/presentation/viewmodels/auth_viewmodel.dart",
+    "package:promt/core/theme/theme_viewmodel.dart"
+  ]
+}

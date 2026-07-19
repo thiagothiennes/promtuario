@@ -1,0 +1,11 @@
+{
+  "elements": {},
+  "imports": [
+    "package:drift/drift.dart",
+    "package:promt/core/network/api_client.dart",
+    "package:promt/core/database/local_database.dart",
+    "package:promt/features/auth/data/models/user_model.dart",
+    "package:promt/features/auth/domain/entities/user.dart",
+    "package:promt/features/users/domain/repositories/i_user_management_repository.dart"
+  ]
+}

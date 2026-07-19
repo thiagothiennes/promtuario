@@ -1,0 +1,39 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$DashboardStatsModelImpl _$$DashboardStatsModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DashboardStatsModelImpl(
+      totalPatients: (json['totalPatients'] as num).toInt(),
+      appointmentsToday: (json['appointmentsToday'] as num).toInt(),
+      proceduresThisMonth: (json['proceduresThisMonth'] as num).toInt(),
+      pendingAlerts: (json['pendingAlerts'] as num).toInt(),
+      growthData: (json['growthData'] as List<dynamic>)
+          .map((e) => MonthlyGrowthModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$DashboardStatsModelImplToJson(
+        _$DashboardStatsModelImpl instance) =>
+    <String, dynamic>{
+      'totalPatients': instance.totalPatients,
+      'appointmentsToday': instance.appointmentsToday,
+      'proceduresThisMonth': instance.proceduresThisMonth,
+      'pendingAlerts': instance.pendingAlerts,
+      'growthData': instance.growthData,
+    };
+
+_$MonthlyGrowthModelImpl _$$MonthlyGrowthModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MonthlyGrowthModelImpl(
+      month: json['month'] as String,
+      count: (json['count'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$MonthlyGrowthModelImplToJson(
+        _$MonthlyGrowthModelImpl instance) =>
+    <String, dynamic>{
+      'month': instance.month,
+      'count': instance.count,
+    };

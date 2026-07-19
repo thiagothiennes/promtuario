@@ -1,0 +1,9 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/features/agenda/domain/entities/wait_list_entry.dart",
+    "package:promt/features/agenda/domain/repositories/i_wait_list_repository.dart",
+    "package:promt/core/providers/providers.dart"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_localizations/flutter_localizations.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:intl/date_symbol_data_local.dart",
+    "package:logging/logging.dart",
+    "package:promt/core/router/app_router.dart",
+    "package:promt/core/theme/app_theme.dart",
+    "package:promt/core/theme/theme_viewmodel.dart",
+    "package:promt/core/network/realtime_service.dart",
+    "package:promt/core/network/sync_service.dart",
+    "package:promt/core/network/notification_handler.dart"
+  ]
+}

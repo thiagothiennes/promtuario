@@ -1,0 +1,6 @@
+{
+  "elements": {},
+  "imports": [
+    "package:promt/features/auth/domain/entities/user.dart"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:go_router/go_router.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/features/auth/presentation/views/login_screen.dart",
+    "package:promt/features/auth/presentation/views/splash_screen.dart",
+    "package:promt/features/dashboard/presentation/views/dashboard_screen.dart",
+    "package:promt/features/auth/presentation/viewmodels/auth_viewmodel.dart",
+    "package:promt/features/patients/presentation/views/patient_list_screen.dart",
+    "package:promt/features/patients/presentation/views/add_patient_screen.dart",
+    "package:promt/features/prontuario/presentation/views/prontuario_screen.dart",
+    "package:promt/features/patients/domain/entities/patient.dart",
+    "package:promt/features/users/presentation/views/user_list_screen.dart",
+    "package:promt/features/users/presentation/views/add_user_screen.dart",
+    "package:promt/features/agenda/presentation/views/agenda_screen.dart",
+    "package:promt/features/agenda/presentation/views/add_appointment_screen.dart",
+    "package:promt/features/agenda/presentation/views/wait_list_screen.dart",
+    "package:promt/features/prontuario/presentation/views/prescription_screen.dart",
+    "package:promt/features/prontuario/presentation/views/certificate_screen.dart",
+    "package:promt/features/prontuario/presentation/views/anamnese_screen.dart",
+    "package:promt/features/prontuario/presentation/views/treatment_plan_screen.dart",
+    "package:promt/features/reports/presentation/views/reports_screen.dart",
+    "package:promt/features/settings/presentation/views/settings_screen.dart",
+    "package:promt/features/notifications/presentation/views/notification_list_screen.dart",
+    "package:promt/features/audit/presentation/views/audit_log_screen.dart"
+  ]
+}

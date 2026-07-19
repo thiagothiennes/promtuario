@@ -1,0 +1,6 @@
+{
+  "elements": {},
+  "imports": [
+    "package:promt/features/notifications/domain/entities/notification_item.dart"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "elements": {},
+  "imports": [
+    "package:drift/drift.dart",
+    "package:logging/logging.dart",
+    "package:promt/core/network/api_client.dart",
+    "package:promt/core/database/local_database.dart",
+    "package:promt/features/agenda/domain/entities/appointment.dart",
+    "package:promt/features/agenda/domain/repositories/i_appointment_repository.dart"
+  ]
+}

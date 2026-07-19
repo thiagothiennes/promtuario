@@ -1,0 +1,1 @@
+{"valid_import":true,"imports":[{"uri":"package:promt/features/core/network/api_client.dart","transitive":false},{"uri":"package:promt/features/notifications/domain/entities/notification_item.dart","transitive":false},{"uri":"package:promt/features/notifications/domain/repositories/i_notification_repository.dart","transitive":false}],"elements":[]}

@@ -1,0 +1,20 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:go_router/go_router.dart",
+    "package:image_picker/image_picker.dart",
+    "package:promt/features/prontuario/presentation/viewmodels/prontuario_viewmodel.dart",
+    "package:promt/features/prontuario/presentation/viewmodels/documents_viewmodel.dart",
+    "package:promt/features/prontuario/presentation/viewmodels/attachment_viewmodel.dart",
+    "package:promt/features/prontuario/presentation/viewmodels/evolution_viewmodel.dart",
+    "package:promt/features/users/presentation/viewmodels/user_management_viewmodel.dart",
+    "package:promt/features/prontuario/presentation/widgets/odontogram_widget.dart",
+    "package:promt/features/patients/domain/entities/patient.dart",
+    "package:promt/features/prontuario/domain/entities/attachment.dart",
+    "package:promt/features/auth/domain/entities/user.dart",
+    "package:promt/features/auth/presentation/viewmodels/auth_viewmodel.dart",
+    "package:intl/intl.dart"
+  ]
+}

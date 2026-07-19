@@ -1,0 +1,13 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:go_router/go_router.dart",
+    "package:uuid/uuid.dart",
+    "package:promt/features/prontuario/domain/entities/treatment_plan.dart",
+    "package:promt/features/prontuario/presentation/viewmodels/treatment_plan_viewmodel.dart",
+    "package:promt/features/auth/domain/entities/user.dart",
+    "package:promt/features/auth/presentation/viewmodels/auth_viewmodel.dart"
+  ]
+}

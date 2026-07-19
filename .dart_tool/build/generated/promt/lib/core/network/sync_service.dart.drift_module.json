@@ -1,0 +1,10 @@
+{
+  "elements": {},
+  "imports": [
+    "package:logging/logging.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/core/database/local_database.dart",
+    "package:promt/core/providers/providers.dart",
+    "package:promt/features/prontuario/domain/entities/attachment.dart"
+  ]
+}

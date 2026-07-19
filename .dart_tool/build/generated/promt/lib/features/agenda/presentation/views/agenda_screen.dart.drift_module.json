@@ -1,0 +1,11 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:go_router/go_router.dart",
+    "package:promt/features/agenda/presentation/viewmodels/appointment_viewmodel.dart",
+    "package:promt/features/agenda/domain/entities/appointment.dart",
+    "package:intl/intl.dart"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/features/dashboard/domain/models/dashboard_stats_model.dart",
+    "package:promt/features/core/providers/providers.dart"
+  ]
+}

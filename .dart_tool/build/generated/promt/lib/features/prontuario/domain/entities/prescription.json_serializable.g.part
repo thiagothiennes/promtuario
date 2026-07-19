@@ -1,0 +1,73 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$PrescriptionImpl _$$PrescriptionImplFromJson(Map<String, dynamic> json) =>
+    _$PrescriptionImpl(
+      id: json['id'] as String,
+      patientId: json['patientId'] as String,
+      doctorId: json['doctorId'] as String,
+      doctorName: json['doctorName'] as String,
+      date: DateTime.parse(json['date'] as String),
+      items: (json['items'] as List<dynamic>)
+          .map((e) => PrescriptionItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      observations: json['observations'] as String?,
+      clinicId: json['clinicId'] as String,
+    );
+
+Map<String, dynamic> _$$PrescriptionImplToJson(_$PrescriptionImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'patientId': instance.patientId,
+      'doctorId': instance.doctorId,
+      'doctorName': instance.doctorName,
+      'date': instance.date.toIso8601String(),
+      'items': instance.items,
+      'observations': instance.observations,
+      'clinicId': instance.clinicId,
+    };
+
+_$PrescriptionItemImpl _$$PrescriptionItemImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PrescriptionItemImpl(
+      medicineName: json['medicineName'] as String,
+      dosage: json['dosage'] as String,
+      instructions: json['instructions'] as String,
+    );
+
+Map<String, dynamic> _$$PrescriptionItemImplToJson(
+        _$PrescriptionItemImpl instance) =>
+    <String, dynamic>{
+      'medicineName': instance.medicineName,
+      'dosage': instance.dosage,
+      'instructions': instance.instructions,
+    };
+
+_$MedicalCertificateImpl _$$MedicalCertificateImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MedicalCertificateImpl(
+      id: json['id'] as String,
+      patientId: json['patientId'] as String,
+      doctorId: json['doctorId'] as String,
+      doctorName: json['doctorName'] as String,
+      date: DateTime.parse(json['date'] as String),
+      content: json['content'] as String,
+      daysOfRest: (json['daysOfRest'] as num).toInt(),
+      cid: json['cid'] as String,
+      clinicId: json['clinicId'] as String,
+    );
+
+Map<String, dynamic> _$$MedicalCertificateImplToJson(
+        _$MedicalCertificateImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'patientId': instance.patientId,
+      'doctorId': instance.doctorId,
+      'doctorName': instance.doctorName,
+      'date': instance.date.toIso8601String(),
+      'content': instance.content,
+      'daysOfRest': instance.daysOfRest,
+      'cid': instance.cid,
+      'clinicId': instance.clinicId,
+    };

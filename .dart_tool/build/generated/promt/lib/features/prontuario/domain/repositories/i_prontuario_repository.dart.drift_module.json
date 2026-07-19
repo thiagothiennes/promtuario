@@ -1,0 +1,10 @@
+{
+  "elements": {},
+  "imports": [
+    "package:promt/features/prontuario/domain/entities/odontogram.dart",
+    "package:promt/features/prontuario/domain/entities/prescription.dart",
+    "package:promt/features/prontuario/domain/entities/anamnese.dart",
+    "package:promt/features/prontuario/domain/entities/treatment_plan.dart",
+    "package:promt/features/prontuario/domain/entities/evolution.dart"
+  ]
+}

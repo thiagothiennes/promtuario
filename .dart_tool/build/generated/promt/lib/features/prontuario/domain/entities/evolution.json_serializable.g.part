@@ -1,0 +1,35 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$EvolutionImpl _$$EvolutionImplFromJson(Map<String, dynamic> json) =>
+    _$EvolutionImpl(
+      id: json['id'] as String,
+      patientId: json['patientId'] as String,
+      studentId: json['studentId'] as String,
+      studentName: json['studentName'] as String,
+      professorId: json['professorId'] as String,
+      professorName: json['professorName'] as String,
+      description: json['description'] as String,
+      isSignedByProfessor: json['isSignedByProfessor'] as bool,
+      signedAt: json['signedAt'] == null
+          ? null
+          : DateTime.parse(json['signedAt'] as String),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      clinicName: json['clinicName'] as String?,
+    );
+
+Map<String, dynamic> _$$EvolutionImplToJson(_$EvolutionImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'patientId': instance.patientId,
+      'studentId': instance.studentId,
+      'studentName': instance.studentName,
+      'professorId': instance.professorId,
+      'professorName': instance.professorName,
+      'description': instance.description,
+      'isSignedByProfessor': instance.isSignedByProfessor,
+      'signedAt': instance.signedAt?.toIso8601String(),
+      'createdAt': instance.createdAt.toIso8601String(),
+      'clinicName': instance.clinicName,
+    };

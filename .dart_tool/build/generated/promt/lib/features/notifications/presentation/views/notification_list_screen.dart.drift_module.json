@@ -1,0 +1,10 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:intl/intl.dart",
+    "package:promt/features/notifications/presentation/viewmodels/notification_viewmodel.dart",
+    "package:promt/features/notifications/domain/entities/notification_item.dart"
+  ]
+}

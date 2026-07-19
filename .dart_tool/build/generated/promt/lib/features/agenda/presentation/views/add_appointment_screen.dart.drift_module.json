@@ -1,0 +1,17 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:go_router/go_router.dart",
+    "package:intl/intl.dart",
+    "package:uuid/uuid.dart",
+    "package:promt/features/agenda/presentation/viewmodels/appointment_viewmodel.dart",
+    "package:promt/features/patients/presentation/viewmodels/patient_viewmodel.dart",
+    "package:promt/features/users/presentation/viewmodels/user_management_viewmodel.dart",
+    "package:promt/features/procedures/presentation/viewmodels/clinics_viewmodel.dart",
+    "package:promt/features/procedures/presentation/viewmodels/procedures_viewmodel.dart",
+    "package:promt/features/agenda/domain/entities/appointment.dart",
+    "package:promt/features/auth/domain/entities/user.dart"
+  ]
+}

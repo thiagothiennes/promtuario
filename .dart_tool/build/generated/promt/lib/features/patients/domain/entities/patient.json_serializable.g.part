@@ -1,0 +1,62 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$PatientImpl _$$PatientImplFromJson(Map<String, dynamic> json) =>
+    _$PatientImpl(
+      id: json['id'] as String,
+      fullName: json['fullName'] as String,
+      cpf: json['cpf'] as String,
+      birthDate: DateTime.parse(json['birthDate'] as String),
+      email: json['email'] as String?,
+      phone: json['phone'] as String?,
+      gender: json['gender'] as String?,
+      address: json['address'] == null
+          ? null
+          : PatientAddress.fromJson(json['address'] as Map<String, dynamic>),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+      lgpdConsent: json['lgpdConsent'] as bool? ?? false,
+      isSynced: json['isSynced'] as bool? ?? true,
+    );
+
+Map<String, dynamic> _$$PatientImplToJson(_$PatientImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'fullName': instance.fullName,
+      'cpf': instance.cpf,
+      'birthDate': instance.birthDate.toIso8601String(),
+      'email': instance.email,
+      'phone': instance.phone,
+      'gender': instance.gender,
+      'address': instance.address,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'lgpdConsent': instance.lgpdConsent,
+      'isSynced': instance.isSynced,
+    };
+
+_$PatientAddressImpl _$$PatientAddressImplFromJson(Map<String, dynamic> json) =>
+    _$PatientAddressImpl(
+      street: json['street'] as String,
+      number: json['number'] as String,
+      complement: json['complement'] as String?,
+      neighborhood: json['neighborhood'] as String,
+      city: json['city'] as String,
+      state: json['state'] as String,
+      zipCode: json['zipCode'] as String,
+    );
+
+Map<String, dynamic> _$$PatientAddressImplToJson(
+        _$PatientAddressImpl instance) =>
+    <String, dynamic>{
+      'street': instance.street,
+      'number': instance.number,
+      'complement': instance.complement,
+      'neighborhood': instance.neighborhood,
+      'city': instance.city,
+      'state': instance.state,
+      'zipCode': instance.zipCode,
+    };

@@ -1,0 +1,7 @@
+{
+  "elements": {},
+  "imports": [
+    "package:freezed_annotation/freezed_annotation.dart",
+    "package:promt/features/auth/domain/entities/user.dart"
+  ]
+}

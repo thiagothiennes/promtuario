@@ -1,0 +1,9 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/features/prontuario/presentation/viewmodels/prontuario_viewmodel.dart",
+    "package:promt/features/prontuario/domain/entities/odontogram.dart"
+  ]
+}

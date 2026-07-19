@@ -1,0 +1,9 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/core/network/realtime_service.dart",
+    "package:promt/core/router/app_router.dart"
+  ]
+}

@@ -1,0 +1,34 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$NotificationItemImpl _$$NotificationItemImplFromJson(
+        Map<String, dynamic> json) =>
+    _$NotificationItemImpl(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      message: json['message'] as String,
+      timestamp: DateTime.parse(json['timestamp'] as String),
+      isRead: json['isRead'] as bool? ?? false,
+      type: $enumDecode(_$NotificationTypeEnumMap, json['type']),
+      relatedEntityId: json['relatedEntityId'] as String?,
+    );
+
+Map<String, dynamic> _$$NotificationItemImplToJson(
+        _$NotificationItemImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'message': instance.message,
+      'timestamp': instance.timestamp.toIso8601String(),
+      'isRead': instance.isRead,
+      'type': _$NotificationTypeEnumMap[instance.type]!,
+      'relatedEntityId': instance.relatedEntityId,
+    };
+
+const _$NotificationTypeEnumMap = {
+  NotificationType.appointmentReminder: 'appointmentReminder',
+  NotificationType.pendingSignature: 'pendingSignature',
+  NotificationType.treatmentApproved: 'treatmentApproved',
+  NotificationType.systemAlert: 'systemAlert',
+};

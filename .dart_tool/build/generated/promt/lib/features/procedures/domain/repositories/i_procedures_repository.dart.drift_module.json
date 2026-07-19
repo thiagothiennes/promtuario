@@ -1,0 +1,7 @@
+{
+  "elements": {},
+  "imports": [
+    "package:promt/features/procedures/domain/entities/clinic.dart",
+    "package:promt/features/procedures/domain/entities/procedure.dart"
+  ]
+}

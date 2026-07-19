@@ -1,0 +1,12 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/core/theme/app_theme.dart",
+    "package:promt/features/auth/domain/entities/user.dart",
+    "package:promt/features/auth/presentation/viewmodels/auth_viewmodel.dart",
+    "package:promt/features/dashboard/presentation/viewmodels/dashboard_viewmodel.dart",
+    "package:go_router/go_router.dart"
+  ]
+}

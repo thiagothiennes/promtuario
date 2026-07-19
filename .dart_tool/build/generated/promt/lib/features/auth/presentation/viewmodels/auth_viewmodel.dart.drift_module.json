@@ -1,0 +1,9 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/features/auth/domain/entities/user.dart",
+    "package:promt/core/providers/providers.dart",
+    "package:promt/core/network/realtime_service.dart"
+  ]
+}

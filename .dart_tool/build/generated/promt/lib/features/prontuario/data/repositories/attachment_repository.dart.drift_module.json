@@ -1,0 +1,11 @@
+{
+  "elements": {},
+  "imports": [
+    "package:dio/dio.dart",
+    "package:drift/drift.dart",
+    "package:promt/features/core/network/api_client.dart",
+    "package:promt/features/core/database/local_database.dart",
+    "package:promt/features/prontuario/domain/entities/attachment.dart",
+    "package:promt/features/prontuario/domain/repositories/i_attachment_repository.dart"
+  ]
+}

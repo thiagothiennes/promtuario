@@ -1,0 +1,10 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/features/agenda/domain/entities/appointment.dart",
+    "package:promt/features/agenda/domain/repositories/i_appointment_repository.dart",
+    "package:promt/core/providers/providers.dart",
+    "package:promt/core/network/realtime_service.dart"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "elements": {},
+  "imports": [
+    "package:dio/dio.dart",
+    "package:flutter/foundation.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:promt/core/security/storage_service.dart"
+  ]
+}
