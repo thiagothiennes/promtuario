@@ -13,31 +13,45 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+  bool _initialized = false;
+
   @override
   void initState() {
     super.initState();
-    _initApp();
+    // Aguarda o primeiro frame para garantir que o widget está montado
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && !_initialized) {
+        _initApp();
+      }
+    });
   }
 
   Future<void> _initApp() async {
-    // Tenta recuperar a sessão do usuário
-    await ref.read(authViewModelProvider.notifier).checkAuth();
-    
-    if (!mounted) return;
+    if (_initialized) return;
+    _initialized = true;
 
-    final authState = ref.read(authViewModelProvider);
-    
-    // Pequeno delay apenas para não "piscar" a logo
-    await Future.delayed(const Duration(milliseconds: 500));
+    try {
+      // Tenta recuperar a sessão do usuário
+      await ref.read(authViewModelProvider.notifier).checkAuth();
+      
+      if (!mounted) return;
 
-    if (!mounted) return;
+      final authState = ref.read(authViewModelProvider);
+      
+      // Pequeno delay apenas para não "piscar" a logo
+      await Future.delayed(const Duration(milliseconds: 500));
 
-    if (authState.user != null) {
-      if (mounted) {
+      if (!mounted) return;
+
+      if (authState.user != null) {
         context.go('/dashboard');
+      } else {
+        context.go('/login');
       }
-    } else {
+    } catch (e, stackTrace) {
+      debugPrint('Erro na inicialização: $e\n$stackTrace');
       if (mounted) {
+        // Em caso de erro crítico, vai para o login
         context.go('/login');
       }
     }
