@@ -8,13 +8,15 @@ import 'package:promt/features/prontuario/domain/entities/anamnese.dart';
 import 'package:promt/features/prontuario/domain/entities/treatment_plan.dart';
 import 'package:promt/features/prontuario/domain/entities/evolution.dart';
 import 'package:promt/features/prontuario/domain/repositories/i_prontuario_repository.dart';
+import 'package:promt/features/auth/domain/entities/user.dart';
 
 /// Implementação do Repositório de Prontuário com suporte a Cache Offline e Sincronização.
 class ProntuarioRepository implements IProntuarioRepository {
   final ApiClient _apiClient;
   final AppDatabase _localDb;
+  final User? _currentUser;
 
-  ProntuarioRepository(this._apiClient, this._localDb);
+  ProntuarioRepository(this._apiClient, this._localDb, [this._currentUser]);
 
   @override
   Future<Odontogram> getOdontogram(String patientId) async {
@@ -54,6 +56,12 @@ class ProntuarioRepository implements IProntuarioRepository {
   @override
   Future<void> addEvolution(
       String patientId, String description, String professorId) async {
+    final now = DateTime.now();
+    final evolutionId = now.millisecondsSinceEpoch.toString();
+    
+    // Determina se o usuário atual é professor para assinatura automática
+    final isProfessor = _currentUser?.role == UserRole.professor;
+    
     try {
       await _apiClient.instance.post(
         '/evolutions',
@@ -61,16 +69,27 @@ class ProntuarioRepository implements IProntuarioRepository {
           'patientId': patientId,
           'description': description,
           'professorId': professorId,
+          'studentId': _currentUser?.id,
+          'studentName': _currentUser?.name,
+          'isSignedByProfessor': isProfessor,
+          'signedAt': isProfessor ? now.toIso8601String() : null,
         },
       );
     } catch (e) {
+      // Persiste localmente em modo offline-first com dados completos
       await _localDb.into(_localDb.evolutionsLocal).insert(
             EvolutionsLocalCompanion.insert(
-              id: DateTime.now().millisecondsSinceEpoch.toString(),
+              id: evolutionId,
               patientId: patientId,
-              description: description,
+              studentId: Value(_currentUser?.id),
+              studentName: Value(_currentUser?.name),
               professorId: Value(professorId),
-              createdAt: DateTime.now(),
+              professorName: Value(_currentUser?.role == UserRole.professor ? _currentUser?.name : null),
+              description: description,
+              isSignedByProfessor: Value(isProfessor),
+              signedAt: Value(isProfessor ? now : null),
+              createdAt: now,
+              clinicName: Value(null),
               isSynced: const Value(false),
             ),
           );
@@ -93,13 +112,15 @@ class ProntuarioRepository implements IProntuarioRepository {
           .map((row) => Evolution(
                 id: row.id,
                 patientId: row.patientId,
-                studentId: '',
-                studentName: 'Modo Offline',
+                studentId: row.studentId ?? '',
+                studentName: row.studentName ?? 'Aluno',
                 professorId: row.professorId ?? '',
-                professorName: 'Aguardando Sinc.',
+                professorName: row.professorName ?? 'Professor',
                 description: row.description,
-                isSignedByProfessor: false,
+                isSignedByProfessor: row.isSignedByProfessor,
+                signedAt: row.signedAt,
                 createdAt: row.createdAt,
+                clinicName: row.clinicName,
               ))
           .toList();
     }
@@ -107,7 +128,24 @@ class ProntuarioRepository implements IProntuarioRepository {
 
   @override
   Future<void> signEvolution(String evolutionId) async {
-    await _apiClient.instance.patch('/prontuario/evolutions/$evolutionId/sign');
+    try {
+      await _apiClient.instance.patch('/prontuario/evolutions/$evolutionId/sign');
+    } catch (e) {
+      // Atualiza localmente se estiver offline
+      final existing = await (_localDb.select(_localDb.evolutionsLocal)
+            ..where((t) => t.id.equals(evolutionId)))
+          .getSingleOrNull();
+      
+      if (existing != null) {
+        await (_localDb.update(_localDb.evolutionsLocal)
+              ..where((t) => t.id.equals(evolutionId)))
+            .write(EvolutionsLocalCompanion(
+              isSignedByProfessor: const Value(true),
+              signedAt: Value(DateTime.now()),
+              professorName: Value(_currentUser?.name),
+            ));
+      }
+    }
   }
 
   @override

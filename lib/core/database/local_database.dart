@@ -122,13 +122,19 @@ class AppointmentsLocal extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-/// Cache local de Evoluções Clínicas com suporte a sincronização.
+/// Tabela de Evoluções Clínicas com suporte a sincronização e auditoria.
 class EvolutionsLocal extends Table {
   TextColumn get id => text()();
   TextColumn get patientId => text()();
-  TextColumn get description => text()();
+  TextColumn get studentId => text().nullable()();
+  TextColumn get studentName => text().nullable()();
   TextColumn get professorId => text().nullable()();
+  TextColumn get professorName => text().nullable()();
+  TextColumn get description => text()();
+  BoolColumn get isSignedByProfessor => boolean().withDefault(const Constant(false))();
+  DateTimeColumn get signedAt => dateTime().nullable()();
   DateTimeColumn get createdAt => dateTime()();
+  TextColumn get clinicName => text().nullable()();
   BoolColumn get isSynced => boolean().withDefault(const Constant(false))();
 
   @override
@@ -165,15 +171,22 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 19;
+  int get schemaVersion => 20;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async => await m.createAll(),
         onUpgrade: (m, from, to) async {
           if (from < 19) {
-            // Em desenvolvimento, garantimos que as tabelas existem reiniciando se necessário
             await m.addColumn(odontogramLocal, odontogramLocal.isSynced);
+          }
+          if (from < 20) {
+            await m.addColumn(evolutionsLocal, evolutionsLocal.studentId);
+            await m.addColumn(evolutionsLocal, evolutionsLocal.studentName);
+            await m.addColumn(evolutionsLocal, evolutionsLocal.professorName);
+            await m.addColumn(evolutionsLocal, evolutionsLocal.isSignedByProfessor);
+            await m.addColumn(evolutionsLocal, evolutionsLocal.signedAt);
+            await m.addColumn(evolutionsLocal, evolutionsLocal.clinicName);
           }
         },
       );
