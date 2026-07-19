@@ -95,18 +95,20 @@ class ReportsScreen extends ConsumerWidget {
   }
 
   Widget _buildSummaryGrid(ClinicPerformanceMetrics metrics) {
-    return GridView.count(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: MediaQuery.of(context).size.width > 800 ? 3 : 1,
-      crossAxisSpacing: 16,
-      mainAxisSpacing: 16,
-      childAspectRatio: 2.5,
-      children: [
-        _reportStat('Atendimentos', '${metrics.totalProceduresThisMonth}', Icons.assignment_turned_in, Colors.blue),
-        _reportStat('Taxa de Ocupação', '${(metrics.occupancyRate * 100).toStringAsFixed(1)}%', Icons.pie_chart, Colors.orange),
-        _reportStat('Índice de Faltas', '${(metrics.absenceRate * 100).toStringAsFixed(1)}%', Icons.person_off, Colors.red),
-      ],
+    return Builder(
+      builder: (context) => GridView.count(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: MediaQuery.of(context).size.width > 800 ? 3 : 1,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 2.5,
+        children: [
+          _reportStat('Atendimentos', '${metrics.totalProceduresThisMonth}', Icons.assignment_turned_in, Colors.blue),
+          _reportStat('Taxa de Ocupação', '${(metrics.occupancyRate * 100).toStringAsFixed(1)}%', Icons.pie_chart, Colors.orange),
+          _reportStat('Índice de Faltas', '${(metrics.absenceRate * 100).toStringAsFixed(1)}%', Icons.person_off, Colors.red),
+        ],
+      ),
     );
   }
 

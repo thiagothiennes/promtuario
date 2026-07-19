@@ -15,7 +15,9 @@ class UserModel with _$UserModel {
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
+}
 
+extension UserModelExtension on UserModel {
   /// Converte o model da camada de dados para a entidade da camada de domínio.
   User toEntity() {
     return User(
