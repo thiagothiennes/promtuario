@@ -50,6 +50,7 @@ class AuditLogScreen extends ConsumerWidget {
   }
 
   Widget _buildAuditStats(List<AuditLog> logs) {
+    final agora = DateTime.now();
     return Container(
       padding: const EdgeInsets.all(16),
       color: Colors.blue.withOpacity(0.05),
@@ -57,7 +58,7 @@ class AuditLogScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _buildStatItem('Total de Registros', logs.length.toString()),
-          _buildStatItem('Acessos Hoje', logs.where((l) => l.dataHora.day == DateTime.now().day).length.toString()),
+          _buildStatItem('Acessos Hoje', logs.where((l) => l.dataHora.day == agora.day && l.dataHora.month == agora.month && l.dataHora.year == agora.year).length.toString()),
         ],
       ),
     );

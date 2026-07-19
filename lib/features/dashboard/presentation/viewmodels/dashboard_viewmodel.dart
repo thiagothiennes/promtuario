@@ -15,8 +15,9 @@ class DashboardViewModel extends StateNotifier<AsyncValue<DashboardStatsModel>> 
     return DashboardStatsModel(
       totalPatients: 0,
       appointmentsToday: 0,
-      pendingTreatments: 0,
-      revenue: 0.0,
+      proceduresThisMonth: 0,
+      pendingAlerts: 0,
+      growthData: [],
     );
   }
 
