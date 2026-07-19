@@ -1,11 +1,10 @@
-import '../../../core/network/api_client.dart';
-import '../../../core/security/storage_service.dart';
-import '../../domain/entities/user.dart';
-import '../../domain/repositories/i_auth_repository.dart';
-import '../models/user_model.dart';
+import 'package:promt/core/network/api_client.dart';
+import 'package:promt/core/security/storage_service.dart';
+import 'package:promt/features/auth/domain/entities/user.dart';
+import 'package:promt/features/auth/domain/repositories/i_auth_repository.dart';
+import 'package:promt/features/auth/data/models/user_model.dart';
 
 /// Implementação concreta do repositório de autenticação.
-/// Integra o cliente de rede (Dio) com o armazenamento seguro.
 class AuthRepository implements IAuthRepository {
   final ApiClient _apiClient;
   final StorageService _storage;
@@ -20,17 +19,14 @@ class AuthRepository implements IAuthRepository {
         'password': password,
       });
 
-      // Extrai os tokens e o usuário da resposta
       final accessToken = response.data['accessToken'];
       final refreshToken = response.data['refreshToken'];
       final userModel = UserModel.fromJson(response.data['user']);
 
-      // Persiste os tokens de forma segura
       await _storage.saveTokens(access: accessToken, refresh: refreshToken);
 
       return userModel.toEntity();
     } catch (e) {
-      // Em produção, aqui seria feito o mapeamento de erros específicos (ex: InvalidCredentialsException)
       rethrow;
     }
   }

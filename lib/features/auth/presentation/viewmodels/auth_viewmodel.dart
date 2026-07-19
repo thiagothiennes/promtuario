@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/user.dart';
-import '../../../core/providers/providers.dart';
-import '../../../../core/network/realtime_service.dart';
+import 'package:promt/features/auth/domain/entities/user.dart';
+import 'package:promt/core/providers/providers.dart';
+import 'package:promt/core/network/realtime_service.dart';
 
 /// Estado da autenticação.
 class AuthState {
@@ -78,7 +78,6 @@ class AuthViewModel extends StateNotifier<AuthState> {
   Future<void> logout() async {
     final user = state.user;
     if (user != null) {
-      // Tenta registrar o logout antes de limpar a sessão
       await ref.read(auditRepositoryProvider).registerAccess(user.id, 'USER_LOGOUT');
     }
 

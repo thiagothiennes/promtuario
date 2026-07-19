@@ -3,16 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-import '../viewmodels/appointment_viewmodel.dart';
-import '../../patients/presentation/viewmodels/patient_viewmodel.dart';
-import '../../users/presentation/viewmodels/user_management_viewmodel.dart';
-import '../../procedures/presentation/viewmodels/clinics_viewmodel.dart';
-import '../../procedures/presentation/viewmodels/procedures_viewmodel.dart';
-import '../domain/entities/appointment.dart';
-import '../../../auth/domain/entities/user.dart';
+import 'package:promt/features/agenda/presentation/viewmodels/appointment_viewmodel.dart';
+import 'package:promt/features/patients/presentation/viewmodels/patient_viewmodel.dart';
+import 'package:promt/features/users/presentation/viewmodels/user_management_viewmodel.dart';
+import 'package:promt/features/procedures/presentation/viewmodels/clinics_viewmodel.dart';
+import 'package:promt/features/procedures/presentation/viewmodels/procedures_viewmodel.dart';
+import 'package:promt/features/agenda/domain/entities/appointment.dart';
+import 'package:promt/features/auth/domain/entities/user.dart';
 
 /// Tela para criação de novos agendamentos na agenda clínica.
-/// Integra dados reais de pacientes, profissionais, clínicas e procedimentos.
 class AddAppointmentScreen extends ConsumerStatefulWidget {
   const AddAppointmentScreen({super.key});
 
@@ -59,7 +58,6 @@ class _AddAppointmentScreenState extends ConsumerState<AddAppointmentScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Seleção de Clínica
               clinicsAsync.when(
                 data: (clinics) => DropdownButtonFormField<String>(
                   decoration: const InputDecoration(labelText: 'Clínica / Especialidade', prefixIcon: Icon(Icons.account_balance)),
@@ -72,7 +70,6 @@ class _AddAppointmentScreenState extends ConsumerState<AddAppointmentScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Seleção de Paciente
               patientsAsync.when(
                 data: (patients) => DropdownButtonFormField<String>(
                   decoration: const InputDecoration(labelText: 'Paciente', prefixIcon: Icon(Icons.person_outline)),
@@ -90,7 +87,6 @@ class _AddAppointmentScreenState extends ConsumerState<AddAppointmentScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Seleção de Profissional
               usersAsync.when(
                 data: (users) {
                   final professionals = users.where((u) => u.role == UserRole.professor || u.role == UserRole.aluno).toList();
@@ -111,7 +107,6 @@ class _AddAppointmentScreenState extends ConsumerState<AddAppointmentScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Procedimento
               proceduresAsync.when(
                 data: (procedures) => DropdownButtonFormField<String>(
                   decoration: const InputDecoration(labelText: 'Procedimento', prefixIcon: Icon(Icons.list_alt)),
@@ -124,7 +119,6 @@ class _AddAppointmentScreenState extends ConsumerState<AddAppointmentScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Data e Hora
               Row(
                 children: [
                   Expanded(
@@ -161,7 +155,6 @@ class _AddAppointmentScreenState extends ConsumerState<AddAppointmentScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Duração
               DropdownButtonFormField<int>(
                 value: _durationMinutes,
                 decoration: const InputDecoration(labelText: 'Duração estimada'),

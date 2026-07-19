@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
-import '../../../../core/network/api_client.dart';
-import '../../../../core/database/local_database.dart';
-import '../domain/entities/wait_list_entry.dart';
-import '../domain/repositories/i_wait_list_repository.dart';
+import 'package:promt/core/network/api_client.dart';
+import 'package:promt/core/database/local_database.dart';
+import 'package:promt/features/agenda/domain/entities/wait_list_entry.dart';
+import 'package:promt/features/agenda/domain/repositories/i_wait_list_repository.dart';
 
 /// Implementação do repositório de Lista de Espera com suporte a Cache Offline.
 class WaitListRepository implements IWaitListRepository {
@@ -21,12 +21,10 @@ class WaitListRepository implements IWaitListRepository {
       final List<dynamic> data = response.data;
       final entries = data.map((json) => WaitListEntry.fromJson(json)).toList();
 
-      // Atualiza o cache local
       _updateLocalCache(entries);
 
       return entries;
     } catch (e) {
-      // Offline: Busca no banco local
       final results = await (_localDb.select(_localDb.waitListLocal)
             ..where((t) => t.clinicId.equals(clinicId)))
           .get();
@@ -49,7 +47,6 @@ class WaitListRepository implements IWaitListRepository {
       await _apiClient.instance.post('/wait-list', data: entry.toJson());
       await _saveLocal(entry, true);
     } catch (e) {
-      // Falha na rede: Salva localmente marcado como NÃO sincronizado
       await _saveLocal(entry, false);
     }
   }
@@ -58,11 +55,8 @@ class WaitListRepository implements IWaitListRepository {
   Future<void> resolveEntry(String entryId) async {
     try {
       await _apiClient.instance.patch('/wait-list/$entryId/resolve');
-      // Remove do banco local ao resolver
       await (_localDb.delete(_localDb.waitListLocal)..where((t) => t.id.equals(entryId))).go();
-    } catch (e) {
-      // No offline, poderíamos marcar como "pendente de resolução"
-    }
+    } catch (e) {}
   }
 
   @override

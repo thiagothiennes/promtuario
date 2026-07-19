@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/audit_log.dart';
-import '../../../core/providers/providers.dart';
+import 'package:promt/features/audit/domain/entities/audit_log.dart';
+import 'package:promt/core/providers/providers.dart';
 
 /// Gerencia os logs de auditoria (LGPD).
 class AuditViewModel extends StateNotifier<AsyncValue<List<AuditLog>>> {

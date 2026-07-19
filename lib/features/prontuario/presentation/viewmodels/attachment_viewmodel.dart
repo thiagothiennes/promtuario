@@ -1,45 +1,55 @@
+import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/providers/providers.dart';
+import 'package:promt/core/providers/providers.dart';
+import 'package:promt/features/prontuario/domain/entities/attachment.dart';
 
 /// Gerencia anexos do prontuário (imagens, exames, etc).
-class AttachmentViewModel extends StateNotifier<AsyncValue<List<String>>> {
-  AttachmentViewModel(this.ref) : super(const AsyncValue.loading()) {
-    _fetchAttachments();
-  }
+class AttachmentViewModel extends FamilyStateNotifier<AsyncValue<List<Attachment>>, String> {
+  AttachmentViewModel(this.ref) : super(const AsyncValue.loading());
 
   final Ref ref;
+  late String _patientId;
 
-  Future<List<String>> _fetchAttachments({String? patientId}) async {
-    // TODO: Implementar repositório de anexos
-    return [];
+  @override
+  AsyncValue<List<Attachment>> build(String arg) {
+    _patientId = arg;
+    _fetchAttachments();
+    return const AsyncValue.loading();
   }
 
-  /// Recarrega os anexos.
-  Future<void> refresh() async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _fetchAttachments());
+  Future<void> _fetchAttachments() async {
+    state = await AsyncValue.guard(() => 
+      ref.read(attachmentRepositoryProvider).getAttachments(_patientId)
+    );
   }
 
-  /// Adiciona um anexo.
-  Future<void> addAttachment(String path) async {
+  Future<void> refresh() async => _fetchAttachments();
+
+  Future<void> uploadFile(File file, AttachmentType type, {String? description}) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      // TODO: Implementar adição de anexo
-      return _fetchAttachments();
+      await ref.read(attachmentRepositoryProvider).uploadAttachment(
+        _patientId, 
+        file, 
+        type, 
+        description: description
+      );
+      final list = await ref.read(attachmentRepositoryProvider).getAttachments(_patientId);
+      return list;
     });
   }
 
-  /// Remove um anexo.
   Future<void> removeAttachment(String id) async {
-    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      // TODO: Implementar remoção de anexo
-      return _fetchAttachments();
+      await ref.read(attachmentRepositoryProvider).deleteAttachment(id);
+      final list = await ref.read(attachmentRepositoryProvider).getAttachments(_patientId);
+      return list;
     });
   }
 }
 
-/// Provider para criar a instância do AttachmentViewModel.
-final attachmentViewModelProvider = StateNotifierProvider<AttachmentViewModel, AsyncValue<List<String>>>((ref) {
-  return AttachmentViewModel(ref);
+final attachmentViewModelProvider = StateNotifierProvider.family<AttachmentViewModel, AsyncValue<List<Attachment>>, String>((ref, patientId) {
+  final vm = AttachmentViewModel(ref);
+  vm.build(patientId);
+  return vm;
 });

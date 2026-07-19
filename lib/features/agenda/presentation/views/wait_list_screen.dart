@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-import '../viewmodels/wait_list_viewmodel.dart';
-import '../domain/entities/wait_list_entry.dart';
-import '../../patients/presentation/viewmodels/patient_viewmodel.dart';
+import 'package:promt/features/agenda/presentation/viewmodels/wait_list_viewmodel.dart';
+import 'package:promt/features/agenda/domain/entities/wait_list_entry.dart';
+import 'package:promt/features/patients/presentation/viewmodels/patient_viewmodel.dart';
 
 /// Tela de Gestão da Lista de Espera.
-/// Permite visualizar e gerenciar pacientes aguardando atendimento por clínica.
 class WaitListScreen extends ConsumerWidget {
   final String clinicId;
   final String clinicName;

@@ -1,46 +1,41 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/anamnese.dart';
-import '../../../core/providers/providers.dart';
+import 'package:promt/features/prontuario/domain/entities/anamnese.dart';
+import 'package:promt/core/providers/providers.dart';
 
 /// Gerencia as anamneses dos pacientes.
-class AnamneseViewModel extends StateNotifier<AsyncValue<List<Anamnese>>> {
-  AnamneseViewModel(this.ref) : super(const AsyncValue.loading()) {
-    _fetchAnamneses();
-  }
+class AnamneseViewModel extends FamilyStateNotifier<AsyncValue<List<Anamnese>>, String> {
+  AnamneseViewModel(this.ref) : super(const AsyncValue.loading());
 
   final Ref ref;
+  late String _patientId;
 
-  Future<List<Anamnese>> _fetchAnamneses({String? patientId}) async {
-    // TODO: Implementar repositório de anamneses
-    return [];
+  @override
+  AsyncValue<List<Anamnese>> build(String arg) {
+    _patientId = arg;
+    _fetchAnamneses();
+    return const AsyncValue.loading();
   }
 
-  /// Recarrega as anamneses.
-  Future<void> refresh() async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _fetchAnamneses());
+  Future<void> _fetchAnamneses() async {
+    state = await AsyncValue.guard(() => 
+      ref.read(prontuarioRepositoryProvider).getAnamneses(_patientId)
+    );
   }
 
-  /// Cria uma nova anamnese.
-  Future<void> createAnamnese(Anamnese anamnese) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      // TODO: Implementar criação de anamnese
-      return _fetchAnamneses();
-    });
-  }
+  Future<void> refresh() async => _fetchAnamneses();
 
-  /// Atualiza uma anamnese existente.
-  Future<void> updateAnamnese(Anamnese anamnese) async {
+  Future<void> saveAnamnese(Map<String, dynamic> responses) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      // TODO: Implementar atualização de anamnese
-      return _fetchAnamneses();
+      await ref.read(prontuarioRepositoryProvider).saveAnamnese(_patientId, responses);
+      final list = await ref.read(prontuarioRepositoryProvider).getAnamneses(_patientId);
+      return list;
     });
   }
 }
 
-/// Provider para criar a instância do AnamneseViewModel.
-final anamneseViewModelProvider = StateNotifierProvider<AnamneseViewModel, AsyncValue<List<Anamnese>>>((ref) {
-  return AnamneseViewModel(ref);
+final anamneseViewModelProvider = StateNotifierProvider.family<AnamneseViewModel, AsyncValue<List<Anamnese>>, String>((ref, patientId) {
+  final vm = AnamneseViewModel(ref);
+  vm.build(patientId);
+  return vm;
 });

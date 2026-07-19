@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import '../viewmodels/prontuario_viewmodel.dart';
-import '../viewmodels/documents_viewmodel.dart';
-import '../viewmodels/attachment_viewmodel.dart';
-import '../viewmodels/evolution_viewmodel.dart';
-import '../../users/presentation/viewmodels/user_management_viewmodel.dart';
-import '../widgets/odontogram_widget.dart';
-import '../../patients/domain/entities/patient.dart';
-import '../domain/entities/attachment.dart';
-import '../../../auth/domain/entities/user.dart';
-import '../../../auth/presentation/viewmodels/auth_viewmodel.dart';
+import 'package:promt/features/prontuario/presentation/viewmodels/prontuario_viewmodel.dart';
+import 'package:promt/features/prontuario/presentation/viewmodels/documents_viewmodel.dart';
+import 'package:promt/features/prontuario/presentation/viewmodels/attachment_viewmodel.dart';
+import 'package:promt/features/prontuario/presentation/viewmodels/evolution_viewmodel.dart';
+import 'package:promt/features/users/presentation/viewmodels/user_management_viewmodel.dart';
+import 'package:promt/features/prontuario/presentation/widgets/odontogram_widget.dart';
+import 'package:promt/features/patients/domain/entities/patient.dart';
+import 'package:promt/features/prontuario/domain/entities/attachment.dart';
+import 'package:promt/features/auth/domain/entities/user.dart';
+import 'package:promt/features/auth/presentation/viewmodels/auth_viewmodel.dart';
 import 'package:intl/intl.dart';
 
 /// Tela de Prontuário Eletrônico.
@@ -358,7 +358,7 @@ class _ProntuarioScreenState extends ConsumerState<ProntuarioScreen> with Single
   Future<void> _handleImageUpload(ImageSource source) async {
     final XFile? photo = await _picker.pickImage(
       source: source,
-      imageQuality: 70, // Comprime para economizar banda e armazenamento
+      imageQuality: 70,
       maxWidth: 1920,
     );
 

@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
-import '../../../core/network/api_client.dart';
-import '../../../core/database/local_database.dart';
-import '../../domain/entities/patient.dart';
-import '../../domain/repositories/i_patient_repository.dart';
+import 'package:promt/core/network/api_client.dart';
+import 'package:promt/core/database/local_database.dart';
+import 'package:promt/features/patients/domain/entities/patient.dart';
+import 'package:promt/features/patients/domain/repositories/i_patient_repository.dart';
 
 /// Implementação do Repositório de Pacientes.
 /// Gerencia a sincronização entre a API remota e o Banco de Dados local (SQLite).
@@ -23,12 +23,10 @@ class PatientRepository implements IPatientRepository {
       final List<dynamic> data = response.data['items'];
       final patients = data.map((json) => _mapJsonToEntity(json)).toList();
 
-      // Atualiza o cache local de forma assíncrona
       _updateLocalCache(patients);
 
       return patients;
     } catch (e) {
-      // Em caso de falha na rede, busca no cache local
       return getLocalPatients();
     }
   }
@@ -45,11 +43,9 @@ class PatientRepository implements IPatientRepository {
       final response = await _apiClient.instance.post('/patients', data: _mapEntityToJson(patient));
       final newPatient = _mapJsonToEntity(response.data);
       
-      // Salva no banco local como sincronizado
       await _saveLocal(newPatient, true);
       return newPatient;
     } catch (e) {
-      // Se falhar a rede, salva localmente marcado como NÃO sincronizado
       await _saveLocal(patient, false);
       return patient;
     }
@@ -69,7 +65,6 @@ class PatientRepository implements IPatientRepository {
 
   @override
   Future<void> syncPatients() async {
-    // Busca pacientes criados offline
     final unsynced = await (_localDb.select(_localDb.patients)
           ..where((t) => t.isSynced.equals(false)))
         .get();
@@ -79,13 +74,10 @@ class PatientRepository implements IPatientRepository {
         final patient = _mapSchemaToEntity(row);
         await _apiClient.instance.post('/patients', data: _mapEntityToJson(patient));
         
-        // Marca como sincronizado no banco local
         await (_localDb.update(_localDb.patients)..where((t) => t.id.equals(row.id))).write(
           const PatientsCompanion(isSynced: Value(true)),
         );
-      } catch (_) {
-        // Ignora falha individual para tentar na próxima rodada do SyncService
-      }
+      } catch (_) {}
     }
   }
 

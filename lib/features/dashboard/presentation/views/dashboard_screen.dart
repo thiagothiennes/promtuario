@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/app_theme.dart';
-import '../../auth/domain/entities/user.dart';
-import '../../auth/presentation/viewmodels/auth_viewmodel.dart';
-import '../viewmodels/dashboard_viewmodel.dart';
+import 'package:promt/core/theme/app_theme.dart';
+import 'package:promt/features/auth/domain/entities/user.dart';
+import 'package:promt/features/auth/presentation/viewmodels/auth_viewmodel.dart';
+import 'package:promt/features/dashboard/presentation/viewmodels/dashboard_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 
 /// Tela principal do sistema (Dashboard).
@@ -183,8 +183,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       children: [
         CircleAvatar(
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          child: Text(user?.name.substring(0, 1).toUpperCase() ?? 'U'),
-        ),
+          child: Text(user?.name.substring(0, 1).toUpperCase() ?? 'U')),
         const SizedBox(width: 12),
         if (MediaQuery.of(context).size.width > 600)
           Column(
@@ -307,9 +306,5 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         ],
       ),
     );
-  }
-
-  String _getPageTitle(int index) {
-    return 'Resumo Operacional';
   }
 }

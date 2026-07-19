@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/notification_item.dart';
-import '../../../core/providers/providers.dart';
-import '../../../../core/network/realtime_service.dart';
+import 'package:promt/features/notifications/domain/entities/notification_item.dart';
+import 'package:promt/core/providers/providers.dart';
+import 'package:promt/core/network/realtime_service.dart';
 
 /// Gerencia as notificações em tempo real.
 class NotificationViewModel extends StateNotifier<AsyncValue<List<NotificationItem>>> {
@@ -20,31 +20,28 @@ class NotificationViewModel extends StateNotifier<AsyncValue<List<NotificationIt
     });
   }
 
-  Future<List<NotificationItem>> _fetchNotifications() async {
-    // TODO: Implementar repositório de notificações
-    return [];
-  }
-
-  /// Marca uma notificação como lida.
-  Future<void> markAsRead(String id) async {
-    state = const AsyncValue.loading();
+  Future<void> _fetchNotifications() async {
     state = await AsyncValue.guard(() async {
-      // TODO: Implementar marcação como lida
-      return _fetchNotifications();
+      final repo = ref.read(notificationRepositoryProvider);
+      return await repo.getNotifications();
     });
   }
 
-  /// Limpa todas as notificações lidas.
-  Future<void> clearRead() async {
-    state = const AsyncValue.loading();
+  Future<void> markAsRead(String id) async {
     state = await AsyncValue.guard(() async {
-      // TODO: Implementar limpeza de notificacoes lidas
-      return _fetchNotifications();
+      await ref.read(notificationRepositoryProvider).markAsRead(id);
+      return await ref.read(notificationRepositoryProvider).getNotifications();
+    });
+  }
+
+  Future<void> markAllAsRead() async {
+    state = await AsyncValue.guard(() async {
+      await ref.read(notificationRepositoryProvider).markAllAsRead();
+      return await ref.read(notificationRepositoryProvider).getNotifications();
     });
   }
 }
 
-/// Provider para criar a instância do NotificationViewModel.
 final notificationViewModelProvider = StateNotifierProvider<NotificationViewModel, AsyncValue<List<NotificationItem>>>((ref) {
   return NotificationViewModel(ref);
 });

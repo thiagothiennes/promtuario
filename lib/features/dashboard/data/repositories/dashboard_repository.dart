@@ -1,6 +1,6 @@
-import '../../../core/network/api_client.dart';
-import '../../domain/models/dashboard_stats_model.dart';
-import '../../domain/repositories/i_dashboard_repository.dart';
+import 'package:promt/core/network/api_client.dart';
+import 'package:promt/features/dashboard/domain/models/dashboard_stats_model.dart';
+import 'package:promt/features/dashboard/domain/repositories/i_dashboard_repository.dart';
 
 /// Implementação do Repositório do Dashboard.
 class DashboardRepository implements IDashboardRepository {
@@ -20,6 +20,7 @@ class DashboardRepository implements IDashboardRepository {
         appointmentsToday: 0,
         proceduresThisMonth: 0,
         pendingAlerts: 0,
+        growthData: [],
       );
     }
   }

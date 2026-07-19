@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../viewmodels/appointment_viewmodel.dart';
-import '../domain/entities/appointment.dart';
+import 'package:promt/features/agenda/presentation/viewmodels/appointment_viewmodel.dart';
+import 'package:promt/features/agenda/domain/entities/appointment.dart';
 import 'package:intl/intl.dart';
 
 /// Tela de Agenda Odontológica.
-/// Permite visualizar compromissos diários e gerenciar status das consultas.
 class AgendaScreen extends ConsumerStatefulWidget {
   const AgendaScreen({super.key});
 
@@ -236,19 +235,6 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            if (appointment.status == AppointmentStatus.confirmed)
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: () {
-                    ref.read(appointmentViewModelProvider.notifier).updateStatus(appointment.id, AppointmentStatus.inProgress);
-                    Navigator.pop(context);
-                    context.push('/dashboard/patients/prontuario', extra: null); // Aqui redirecionaria para o prontuário do paciente
-                  },
-                  child: const Text('Iniciar Atendimento'),
-                ),
-              ),
           ],
         ),
       ),

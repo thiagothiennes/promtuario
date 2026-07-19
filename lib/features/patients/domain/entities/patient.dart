@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'patient.freezed.dart';
+part 'patient.g.dart';
 
 @freezed
 class Patient with _$Patient {
@@ -16,8 +17,10 @@ class Patient with _$Patient {
     required DateTime createdAt,
     DateTime? updatedAt,
     @Default(false) bool lgpdConsent,
-    @Default(true) bool isSynced, // Adicionado para feedback visual de sincronização
+    @Default(true) bool isSynced,
   }) = _Patient;
+
+  factory Patient.fromJson(Map<String, dynamic> json) => _$PatientFromJson(json);
 }
 
 @freezed
@@ -31,4 +34,6 @@ class PatientAddress with _$PatientAddress {
     required String state,
     required String zipCode,
   }) = _PatientAddress;
+
+  factory PatientAddress.fromJson(Map<String, dynamic> json) => _$PatientAddressFromJson(json);
 }

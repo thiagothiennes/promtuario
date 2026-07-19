@@ -1,4 +1,4 @@
-import '../domain/entities/report_data.dart';
+import 'package:promt/features/reports/domain/entities/report_data.dart';
 
 /// Contrato para o Repositório de Relatórios e Indicadores.
 abstract class IReportsRepository {

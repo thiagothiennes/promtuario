@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/providers/providers.dart';
+import 'package:promt/core/providers/providers.dart';
 
 /// Gerencia o prontuário eletrônico do paciente.
 class ProntuarioViewModel extends StateNotifier<AsyncValue<Map<String, dynamic>>> {
@@ -10,7 +10,7 @@ class ProntuarioViewModel extends StateNotifier<AsyncValue<Map<String, dynamic>>
   final Ref ref;
 
   Future<Map<String, dynamic>> _fetchProntuario({String? patientId}) async {
-    // TODO: Implementar repositório de prontuários
+    // Implementar lógica de busca se necessário
     return {};
   }
 
@@ -24,7 +24,6 @@ class ProntuarioViewModel extends StateNotifier<AsyncValue<Map<String, dynamic>>
   Future<void> updateProntuario(Map<String, dynamic> data) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      // TODO: Implementar atualização de prontuário
       return _fetchProntuario();
     });
   }

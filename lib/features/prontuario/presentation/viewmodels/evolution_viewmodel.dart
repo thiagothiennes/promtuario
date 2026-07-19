@@ -1,37 +1,52 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/evolution.dart';
-import '../../../core/providers/providers.dart';
+import 'package:promt/features/prontuario/domain/entities/evolution.dart';
+import 'package:promt/core/providers/providers.dart';
 
-/// Gerencia as evoluções dos pacientes.
-class EvolutionViewModel extends StateNotifier<AsyncValue<List<Evolution>>> {
-  EvolutionViewModel(this.ref) : super(const AsyncValue.loading()) {
-    _fetchEvolutions();
-  }
+/// Gerencia as evoluções clínicas dos pacientes.
+class EvolutionViewModel extends FamilyStateNotifier<AsyncValue<List<Evolution>>, String> {
+  EvolutionViewModel(this.ref) : super(const AsyncValue.loading());
 
   final Ref ref;
+  late String _patientId;
 
-  Future<List<Evolution>> _fetchEvolutions({String? patientId}) async {
-    // TODO: Implementar repositório de evoluções
-    return [];
+  @override
+  AsyncValue<List<Evolution>> build(String arg) {
+    _patientId = arg;
+    _fetchEvolutions();
+    return const AsyncValue.loading();
   }
 
-  /// Recarrega as evoluções.
-  Future<void> refresh() async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _fetchEvolutions());
+  Future<void> _fetchEvolutions() async {
+    state = await AsyncValue.guard(() => 
+      ref.read(prontuarioRepositoryProvider).getEvolutions(_patientId)
+    );
   }
 
-  /// Cria uma nova evolução.
-  Future<void> createEvolution(Evolution evolution) async {
+  Future<void> refresh() async => _fetchEvolutions();
+
+  /// Adiciona uma nova evolução clínica.
+  Future<void> addEvolution(String description, String professorId) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      // TODO: Implementar criação de evolução
-      return _fetchEvolutions();
+      await ref.read(prontuarioRepositoryProvider).addEvolution(_patientId, description, professorId);
+      final list = await ref.read(prontuarioRepositoryProvider).getEvolutions(_patientId);
+      return list;
+    });
+  }
+
+  /// Assina uma evolução (Ação exclusiva do professor).
+  Future<void> signEvolution(String evolutionId) async {
+    state = await AsyncValue.guard(() async {
+      await ref.read(prontuarioRepositoryProvider).signEvolution(evolutionId);
+      final list = await ref.read(prontuarioRepositoryProvider).getEvolutions(_patientId);
+      return list;
     });
   }
 }
 
-/// Provider para criar a instância do EvolutionViewModel.
-final evolutionViewModelProvider = StateNotifierProvider<EvolutionViewModel, AsyncValue<List<Evolution>>>((ref) {
-  return EvolutionViewModel(ref);
+/// Provider para criar a instância do EvolutionViewModel por paciente.
+final evolutionViewModelProvider = StateNotifierProvider.family<EvolutionViewModel, AsyncValue<List<Evolution>>, String>((ref, patientId) {
+  final vm = EvolutionViewModel(ref);
+  vm.build(patientId);
+  return vm;
 });

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/providers/providers.dart';
-import '../../domain/entities/user.dart';
+import 'package:promt/core/providers/providers.dart';
+import 'package:promt/features/auth/domain/entities/user.dart';
 
 /// Gerencia o cadastro e administração de usuários.
 class UserManagementViewModel extends StateNotifier<AsyncValue<List<User>>> {
@@ -11,9 +11,8 @@ class UserManagementViewModel extends StateNotifier<AsyncValue<List<User>>> {
   final Ref ref;
 
   Future<List<User>> _fetchUsers() async {
-    final repository = ref.read(authRepositoryProvider);
-    // TODO: Implementar método para listar todos os usuários
-    return [];
+    final repository = ref.read(userManagementRepositoryProvider);
+    return await repository.getAllUsers();
   }
 
   /// Recarrega a lista de usuários.
@@ -26,7 +25,7 @@ class UserManagementViewModel extends StateNotifier<AsyncValue<List<User>>> {
   Future<void> createUser(User user) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      // TODO: Implementar criação de usuário
+      await ref.read(userManagementRepositoryProvider).createUser(user);
       return _fetchUsers();
     });
   }
@@ -35,16 +34,7 @@ class UserManagementViewModel extends StateNotifier<AsyncValue<List<User>>> {
   Future<void> updateUser(User user) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      // TODO: Implementar atualização de usuário
-      return _fetchUsers();
-    });
-  }
-
-  /// Remove um usuário.
-  Future<void> deleteUser(String id) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      // TODO: Implementar remoção de usuário
+      await ref.read(userManagementRepositoryProvider).updateUser(user);
       return _fetchUsers();
     });
   }

@@ -1,36 +1,30 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/providers/providers.dart';
+import 'package:promt/core/providers/providers.dart';
 
-/// Gerencia documentos anexados ao prontuário.
-class DocumentsViewModel extends StateNotifier<AsyncValue<List<String>>> {
-  DocumentsViewModel(this.ref) : super(const AsyncValue.loading()) {
-    _fetchDocuments();
-  }
+/// Gerencia documentos (atestados/receitas) gerados para o paciente.
+class DocumentsViewModel extends FamilyStateNotifier<AsyncValue<List<String>>, String> {
+  DocumentsViewModel(this.ref) : super(const AsyncValue.loading());
 
   final Ref ref;
+  late String _patientId;
 
-  Future<List<String>> _fetchDocuments({String? patientId}) async {
-    // TODO: Implementar repositório de documentos
-    return [];
+  @override
+  AsyncValue<List<String>> build(String arg) {
+    _patientId = arg;
+    _fetchDocuments();
+    return const AsyncValue.loading();
   }
 
-  /// Recarrega os documentos.
-  Future<void> refresh() async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _fetchDocuments());
+  Future<void> _fetchDocuments() async {
+    // Implementar busca de documentos gerados no repositório
+    state = const AsyncValue.data([]);
   }
 
-  /// Adiciona um documento.
-  Future<void> addDocument(String path) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      // TODO: Implementar adição de documento
-      return _fetchDocuments();
-    });
-  }
+  Future<void> refresh() async => _fetchDocuments();
 }
 
-/// Provider para criar a instância do DocumentsViewModel.
-final documentsViewModelProvider = StateNotifierProvider<DocumentsViewModel, AsyncValue<List<String>>>((ref) {
-  return DocumentsViewModel(ref);
+final documentsViewModelProvider = StateNotifierProvider.family<DocumentsViewModel, AsyncValue<List<String>>, String>((ref, patientId) {
+  final vm = DocumentsViewModel(ref);
+  vm.build(patientId);
+  return vm;
 });

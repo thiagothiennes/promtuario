@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../viewmodels/notification_viewmodel.dart';
-import '../domain/entities/notification_item.dart';
+import 'package:promt/features/notifications/presentation/viewmodels/notification_viewmodel.dart';
+import 'package:promt/features/notifications/domain/entities/notification_item.dart';
 
 /// Tela de notificações e alertas do sistema.
 class NotificationListScreen extends ConsumerWidget {
@@ -48,7 +48,7 @@ class NotificationListScreen extends ConsumerWidget {
         children: [
           Icon(Icons.notifications_none_outlined, size: 64, color: Colors.grey),
           SizedBox(height: 16),
-          Text('Você não possui novas notificações.', style: TextStyle(color: Colors.grey)),
+          const Text('Você não possui novas notificações.', style: TextStyle(color: Colors.grey)),
         ],
       ),
     );

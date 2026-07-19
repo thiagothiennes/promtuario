@@ -1,29 +1,28 @@
-/// Entidade de domínio representando um Usuário no sistema.
-/// Seguindo DDD, esta classe contém apenas lógica de domínio e dados puros.
-class User {
-  final String id;
-  final String name;
-  final String email;
-  final UserRole role;
-  final bool isActive;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const User({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.role,
-    this.isActive = true,
-  });
+part 'user.freezed.dart';
+part 'user.g.dart';
+
+@freezed
+class User with _$User {
+  const factory User({
+    required String id,
+    required String name,
+    required String email,
+    required UserRole role,
+    @Default(true) bool isActive,
+  }) = _User;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
 
-/// Enumeração de papéis (RBAC) conforme especificado nos requisitos.
 enum UserRole {
-  admin,
-  coordenador,
-  professor,
-  aluno,
-  recepcionista,
-  secretaria;
+  @JsonValue('admin') admin,
+  @JsonValue('coordenador') coordenador,
+  @JsonValue('professor') professor,
+  @JsonValue('aluno') aluno,
+  @JsonValue('recepcionista') recepcionista,
+  @JsonValue('secretaria') secretaria;
 
   String get displayName {
     return switch (this) {

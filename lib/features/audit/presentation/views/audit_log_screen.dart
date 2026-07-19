@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../viewmodels/audit_viewmodel.dart';
-import '../domain/entities/audit_log.dart';
+import 'package:promt/features/audit/presentation/viewmodels/audit_viewmodel.dart';
+import 'package:promt/features/audit/domain/entities/audit_log.dart';
 
 /// Tela de Logs de Auditoria e Transparência (LGPD).
-/// Permite aos administradores monitorar acessos e alterações em dados sensíveis.
 class AuditLogScreen extends ConsumerWidget {
   const AuditLogScreen({super.key});
 

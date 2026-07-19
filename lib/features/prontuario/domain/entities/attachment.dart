@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'attachment.freezed.dart';
+part 'attachment.g.dart';
 
 @freezed
 class Attachment with _$Attachment {
@@ -14,11 +15,13 @@ class Attachment with _$Attachment {
     required String uploadedBy,
     String? description,
   }) = _Attachment;
+
+  factory Attachment.fromJson(Map<String, dynamic> json) => _$AttachmentFromJson(json);
 }
 
 enum AttachmentType {
-  radiography,
-  photo,
-  document,
-  exam,
+  @JsonValue('radiography') radiography,
+  @JsonValue('photo') photo,
+  @JsonValue('document') document,
+  @JsonValue('exam') exam,
 }
