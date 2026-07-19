@@ -66,7 +66,7 @@ events:
       The output was:
       0
       Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
-      Compila├º├úo de 19/07/2026 00:27:11 iniciada.
+      Compila├º├úo de 19/07/2026 02:02:38 iniciada.
       
       Projeto "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" no n├│ 1 (destinos padr├úo).
       PrepareForBuild:
@@ -95,7 +95,7 @@ events:
           0 Aviso(s)
           0 Erro(s)
       
-      Tempo Decorrido 00:00:01.46
+      Tempo Decorrido 00:00:00.88
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -648,8 +648,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-odif5d"
-      binary: "C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-odif5d"
+      source: "C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-wcf194"
+      binary: "C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-wcf194"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -659,39 +659,39 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-odif5d'
+        Change Dir: 'C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-wcf194'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_72e18.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_6f199.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
         Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
-        Compila├º├úo de 19/07/2026 00:27:14 iniciada.
+        Compila├º├úo de 19/07/2026 02:02:39 iniciada.
         
-        Projeto "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-odif5d\\cmTC_72e18.vcxproj" no n├│ 1 (destinos padr├úo).
+        Projeto "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-wcf194\\cmTC_6f199.vcxproj" no n├│ 1 (destinos padr├úo).
         PrepareForBuild:
           A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
-          Criando o diret├│rio "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-odif5d\\Debug\\".
-          Criando o diret├│rio "cmTC_72e18.dir\\Debug\\cmTC_72e18.tlog\\".
+          Criando o diret├│rio "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-wcf194\\Debug\\".
+          Criando o diret├│rio "cmTC_6f199.dir\\Debug\\cmTC_6f199.tlog\\".
         InitializeBuildStatus:
-          Criando "cmTC_72e18.dir\\Debug\\cmTC_72e18.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
-          Tocando "cmTC_72e18.dir\\Debug\\cmTC_72e18.tlog\\unsuccessfulbuild".
+          Criando "cmTC_6f199.dir\\Debug\\cmTC_6f199.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "cmTC_6f199.dir\\Debug\\cmTC_6f199.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_72e18.dir\\Debug\\\\" /Fd"cmTC_72e18.dir\\Debug\\vc145.pdb" /external:W3 /TP /errorReport:queue "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_6f199.dir\\Debug\\\\" /Fd"cmTC_6f199.dir\\Debug\\vc145.pdb" /external:W3 /TP /errorReport:queue "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
           Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
           Copyright (C) Microsoft Corporation. Todos os direitos reservados.
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_72e18.dir\\Debug\\\\" /Fd"cmTC_72e18.dir\\Debug\\vc145.pdb" /external:W3 /TP /errorReport:queue "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_6f199.dir\\Debug\\\\" /Fd"cmTC_6f199.dir\\Debug\\vc145.pdb" /external:W3 /TP /errorReport:queue "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
           CMakeCXXCompilerABI.cpp
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-odif5d\\Debug\\cmTC_72e18.exe" /INCREMENTAL /ILK:"cmTC_72e18.dir\\Debug\\cmTC_72e18.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-odif5d/Debug/cmTC_72e18.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-odif5d/Debug/cmTC_72e18.lib" /MACHINE:X64  /machine:x64 cmTC_72e18.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_72e18.vcxproj -> C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-odif5d\\Debug\\cmTC_72e18.exe
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-wcf194\\Debug\\cmTC_6f199.exe" /INCREMENTAL /ILK:"cmTC_6f199.dir\\Debug\\cmTC_6f199.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-wcf194/Debug/cmTC_6f199.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-wcf194/Debug/cmTC_6f199.lib" /MACHINE:X64  /machine:x64 cmTC_6f199.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_6f199.vcxproj -> C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-wcf194\\Debug\\cmTC_6f199.exe
         FinalizeBuildStatus:
-          Excluindo o arquivo "cmTC_72e18.dir\\Debug\\cmTC_72e18.tlog\\unsuccessfulbuild".
-          Tocando "cmTC_72e18.dir\\Debug\\cmTC_72e18.tlog\\cmTC_72e18.lastbuildstate".
-        Projeto de compila├º├úo pronto "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-odif5d\\cmTC_72e18.vcxproj" (destinos padr├úo).
+          Excluindo o arquivo "cmTC_6f199.dir\\Debug\\cmTC_6f199.tlog\\unsuccessfulbuild".
+          Tocando "cmTC_6f199.dir\\Debug\\cmTC_6f199.tlog\\cmTC_6f199.lastbuildstate".
+        Projeto de compila├º├úo pronto "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-wcf194\\cmTC_6f199.vcxproj" (destinos padr├úo).
         
         Compila├º├úo com ├¬xito.
             0 Aviso(s)
             0 Erro(s)
         
-        Tempo Decorrido 00:00:00.98
+        Tempo Decorrido 00:00:00.61
         
       exitCode: 0
   -
@@ -786,7 +786,7 @@ events:
       The output was:
       0
       Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
-      Compila├º├úo de 19/07/2026 00:27:15 iniciada.
+      Compila├º├úo de 19/07/2026 02:02:40 iniciada.
       
       Projeto "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\4.2.3-msvc3\\CompilerIdC\\CompilerIdC.vcxproj" no n├│ 1 (destinos padr├úo).
       PrepareForBuild:
@@ -815,7 +815,7 @@ events:
           0 Aviso(s)
           0 Erro(s)
       
-      Tempo Decorrido 00:00:00.73
+      Tempo Decorrido 00:00:00.63
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -993,8 +993,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-dd7jfy"
-      binary: "C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-dd7jfy"
+      source: "C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-4tc2es"
+      binary: "C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-4tc2es"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
       CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -1003,39 +1003,39 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-dd7jfy'
+        Change Dir: 'C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-4tc2es'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_b252d.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_653b2.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
         Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
-        Compila├º├úo de 19/07/2026 00:27:16 iniciada.
+        Compila├º├úo de 19/07/2026 02:02:41 iniciada.
         
-        Projeto "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-dd7jfy\\cmTC_b252d.vcxproj" no n├│ 1 (destinos padr├úo).
+        Projeto "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-4tc2es\\cmTC_653b2.vcxproj" no n├│ 1 (destinos padr├úo).
         PrepareForBuild:
           A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
-          Criando o diret├│rio "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-dd7jfy\\Debug\\".
-          Criando o diret├│rio "cmTC_b252d.dir\\Debug\\cmTC_b252d.tlog\\".
+          Criando o diret├│rio "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-4tc2es\\Debug\\".
+          Criando o diret├│rio "cmTC_653b2.dir\\Debug\\cmTC_653b2.tlog\\".
         InitializeBuildStatus:
-          Criando "cmTC_b252d.dir\\Debug\\cmTC_b252d.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
-          Tocando "cmTC_b252d.dir\\Debug\\cmTC_b252d.tlog\\unsuccessfulbuild".
+          Criando "cmTC_653b2.dir\\Debug\\cmTC_653b2.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "cmTC_653b2.dir\\Debug\\cmTC_653b2.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_b252d.dir\\Debug\\\\" /Fd"cmTC_b252d.dir\\Debug\\vc145.pdb" /external:W3 /TC /errorReport:queue "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_653b2.dir\\Debug\\\\" /Fd"cmTC_653b2.dir\\Debug\\vc145.pdb" /external:W3 /TC /errorReport:queue "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
           Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
           Copyright (C) Microsoft Corporation. Todos os direitos reservados.
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_b252d.dir\\Debug\\\\" /Fd"cmTC_b252d.dir\\Debug\\vc145.pdb" /external:W3 /TC /errorReport:queue "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_653b2.dir\\Debug\\\\" /Fd"cmTC_653b2.dir\\Debug\\vc145.pdb" /external:W3 /TC /errorReport:queue "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
           CMakeCCompilerABI.c
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-dd7jfy\\Debug\\cmTC_b252d.exe" /INCREMENTAL /ILK:"cmTC_b252d.dir\\Debug\\cmTC_b252d.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-dd7jfy/Debug/cmTC_b252d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-dd7jfy/Debug/cmTC_b252d.lib" /MACHINE:X64  /machine:x64 cmTC_b252d.dir\\Debug\\CMakeCCompilerABI.obj
-          cmTC_b252d.vcxproj -> C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-dd7jfy\\Debug\\cmTC_b252d.exe
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-4tc2es\\Debug\\cmTC_653b2.exe" /INCREMENTAL /ILK:"cmTC_653b2.dir\\Debug\\cmTC_653b2.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-4tc2es/Debug/cmTC_653b2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Thiago/AndroidStudioProjects/promtuario/build/windows/x64/CMakeFiles/CMakeScratch/TryCompile-4tc2es/Debug/cmTC_653b2.lib" /MACHINE:X64  /machine:x64 cmTC_653b2.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_653b2.vcxproj -> C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-4tc2es\\Debug\\cmTC_653b2.exe
         FinalizeBuildStatus:
-          Excluindo o arquivo "cmTC_b252d.dir\\Debug\\cmTC_b252d.tlog\\unsuccessfulbuild".
-          Tocando "cmTC_b252d.dir\\Debug\\cmTC_b252d.tlog\\cmTC_b252d.lastbuildstate".
-        Projeto de compila├º├úo pronto "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-dd7jfy\\cmTC_b252d.vcxproj" (destinos padr├úo).
+          Excluindo o arquivo "cmTC_653b2.dir\\Debug\\cmTC_653b2.tlog\\unsuccessfulbuild".
+          Tocando "cmTC_653b2.dir\\Debug\\cmTC_653b2.tlog\\cmTC_653b2.lastbuildstate".
+        Projeto de compila├º├úo pronto "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\build\\windows\\x64\\CMakeFiles\\CMakeScratch\\TryCompile-4tc2es\\cmTC_653b2.vcxproj" (destinos padr├úo).
         
         Compila├º├úo com ├¬xito.
             0 Aviso(s)
             0 Erro(s)
         
-        Tempo Decorrido 00:00:00.71
+        Tempo Decorrido 00:00:00.58
         
       exitCode: 0
   -
