@@ -24,7 +24,8 @@ build/
 target/
 *.jar
 *.war
-*.class
+*.zip
+*.tar.gz
 
 # Logs and temp files
 *.log
@@ -39,16 +40,30 @@ target/
 *.ipr
 *.iws
 
-# System files
+# OS generated files
 .DS_Store
 Thumbs.db
 
-# Testing
-.coverage
+# Coverage reports
 coverage/
 htmlcov/
-.pytest_cache/
+.coverage
+
+# Python specific
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Test coverage
 .mypy_cache/
+.pytest_cache/
+.hypothesis/
+
+# Gradle
+.gradle/
 
 # Compressed files
 *.zip
