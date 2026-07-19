@@ -76,3 +76,18 @@ class UserManagementRepository implements IUserManagementRepository {
     }
   }
 }
+
+extension on UserModel {
+  User toEntity() {
+    return User(
+      id: id,
+      name: name,
+      email: email,
+      role: UserRole.values.firstWhere(
+        (e) => e.name == role.toLowerCase(),
+        orElse: () => UserRole.aluno,
+      ),
+      isActive: isActive,
+    );
+  }
+}
