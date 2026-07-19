@@ -22,7 +22,7 @@ class Appointment with _$Appointment {
   factory Appointment.fromJson(Map<String, dynamic> json) => _$AppointmentFromJson(json);
 
   // Adicionado para permitir a conversão do objeto para JSON no repositório
-  Map<String, dynamic> toJson() => _$AppointmentToJson(this);
+  Map<String, dynamic> toJson() => _$$AppointmentImplToJson(this as _$AppointmentImpl);
 }
 
 enum AppointmentStatus {

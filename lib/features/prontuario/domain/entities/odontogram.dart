@@ -36,5 +36,5 @@ class Odontogram with _$Odontogram {
 
   factory Odontogram.fromJson(Map<String, dynamic> json) => _$OdontogramFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OdontogramToJson(this);
+  Map<String, dynamic> toJson() => _$$OdontogramImplToJson(this as _$OdontogramImpl);
 }
