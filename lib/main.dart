@@ -5,10 +5,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:logging/logging.dart';
 import 'package:promt/core/router/app_router.dart';
 import 'package:promt/core/theme/app_theme.dart';
-import 'package:promt/core/theme/theme_viewmodel.dart'; // Importação adicionada
-import 'package:promt/core/network/realtime_service.dart';
-import 'package:promt/core/network/sync_service.dart';
-import 'package:promt/core/network/notification_handler.dart';
+import 'package:promt/core/theme/theme_viewmodel.dart';
 
 /// Ponto de entrada principal do sistema OdontoClinica Universitária.
 void main() async {
@@ -18,27 +15,15 @@ void main() async {
   // Configuração global de Logs
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
-    debugPrint('${record.level.name}: ${record.time}: ${record.loggerName}: ${record.message}');
+    debugPrint('${record.level.name}: ${record.time}: ${record.message}');
   });
 
   // Inicializa a formatação de datas para Português do Brasil.
   await initializeDateFormatting('pt_BR', null);
 
-  // Cria o container do Riverpod para inicializações pré-runApp
-  final container = ProviderContainer();
-  
-  // Inicialização não-bloqueante de serviços
-  container.read(realtimeServiceProvider).init().catchError((e) {
-    debugPrint('Aviso: Erro na conexão inicial do SignalR: $e');
-  });
-
-  container.read(syncServiceProvider).startAutoSync();
-  container.read(notificationHandlerProvider).init();
-
   runApp(
-    UncontrolledProviderScope(
-      container: container,
-      child: const OdontoClinicaApp(),
+    const ProviderScope(
+      child: OdontoClinicaApp(),
     ),
   );
 }
