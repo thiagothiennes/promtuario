@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'appointment.freezed.dart';
+part 'appointment.g.dart';
 
 @freezed
 class Appointment with _$Appointment {
@@ -17,6 +18,11 @@ class Appointment with _$Appointment {
     String? notes,
     required String clinicId,
   }) = _Appointment;
+
+  factory Appointment.fromJson(Map<String, dynamic> json) => _$AppointmentFromJson(json);
+
+  // Adicionado para permitir a conversão do objeto para JSON no repositório
+  Map<String, dynamic> toJson() => _$AppointmentToJson(this);
 }
 
 enum AppointmentStatus {

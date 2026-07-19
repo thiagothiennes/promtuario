@@ -16,6 +16,7 @@ class Patient with _$Patient {
     required DateTime createdAt,
     DateTime? updatedAt,
     @Default(false) bool lgpdConsent,
+    @Default(true) bool isSynced, // Adicionado para feedback visual de sincronização
   }) = _Patient;
 }
 

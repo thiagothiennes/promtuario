@@ -1,25 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../viewmodels/auth_viewmodel.dart';
 
 /// Tela inicial de carregamento que decide o fluxo inicial do usuário.
-class SplashScreen extends StatefulWidget {
+/// Agora integrada ao AuthViewModel para verificação real de sessão.
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _checkAuthentication();
+    _initApp();
   }
 
-  Future<void> _checkAuthentication() async {
-    // Simula uma verificação de token/sessão
-    await Future.delayed(const Duration(seconds: 2));
-    if (mounted) {
+  Future<void> _initApp() async {
+    // Tenta recuperar a sessão do usuário
+    await ref.read(authViewModelProvider.notifier).checkAuth();
+    
+    if (!mounted) return;
+
+    final authState = ref.read(authViewModelProvider);
+    
+    // Pequeno delay apenas para não "piscar" a logo
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (authState.user != null) {
+      context.go('/dashboard');
+    } else {
       context.go('/login');
     }
   }

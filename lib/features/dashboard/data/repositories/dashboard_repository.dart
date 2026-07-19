@@ -2,8 +2,7 @@ import '../../../core/network/api_client.dart';
 import '../../domain/models/dashboard_stats_model.dart';
 import '../../domain/repositories/i_dashboard_repository.dart';
 
-/// Implementação do repositório de Dashboard.
-/// Busca dados estatísticos consolidados do Backend.
+/// Implementação do Repositório do Dashboard.
 class DashboardRepository implements IDashboardRepository {
   final ApiClient _apiClient;
 
@@ -11,7 +10,17 @@ class DashboardRepository implements IDashboardRepository {
 
   @override
   Future<DashboardStatsModel> getStats() async {
-    final response = await _apiClient.instance.get('/reports/dashboard-stats');
-    return DashboardStatsModel.fromJson(response.data);
+    try {
+      final response = await _apiClient.instance.get('/dashboard/stats');
+      return DashboardStatsModel.fromJson(response.data);
+    } catch (e) {
+      // Retorna dados zerados em caso de erro para não quebrar a UI
+      return const DashboardStatsModel(
+        totalPatients: 0,
+        appointmentsToday: 0,
+        proceduresThisMonth: 0,
+        pendingAlerts: 0,
+      );
+    }
   }
 }

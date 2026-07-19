@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import '../viewmodels/prontuario_viewmodel.dart';
 import '../viewmodels/documents_viewmodel.dart';
 import '../viewmodels/attachment_viewmodel.dart';
@@ -26,6 +28,7 @@ class ProntuarioScreen extends ConsumerStatefulWidget {
 
 class _ProntuarioScreenState extends ConsumerState<ProntuarioScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -333,15 +336,52 @@ class _ProntuarioScreenState extends ConsumerState<ProntuarioScreen> with Single
             ListTile(
               leading: const Icon(Icons.camera_alt_outlined),
               title: const Text('Tirar Foto Clínica'),
-              onTap: () => Navigator.pop(context),
+              onTap: () {
+                Navigator.pop(context);
+                _handleImageUpload(ImageSource.camera);
+              },
             ),
             ListTile(
-              leading: const Icon(Icons.file_present_outlined),
-              title: const Text('Carregar Radiografia/Documento'),
-              onTap: () => Navigator.pop(context),
+              leading: const Icon(Icons.photo_library_outlined),
+              title: const Text('Carregar da Galeria'),
+              onTap: () {
+                Navigator.pop(context);
+                _handleImageUpload(ImageSource.gallery);
+              },
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> _handleImageUpload(ImageSource source) async {
+    final XFile? photo = await _picker.pickImage(
+      source: source,
+      imageQuality: 70, // Comprime para economizar banda e armazenamento
+      maxWidth: 1920,
+    );
+
+    if (photo != null) {
+      final type = await _selectAttachmentType();
+      if (type != null && mounted) {
+        await ref.read(attachmentViewModelProvider(widget.patient.id).notifier)
+            .uploadFile(File(photo.path), type);
+      }
+    }
+  }
+
+  Future<AttachmentType?> _selectAttachmentType() async {
+    return showDialog<AttachmentType>(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: const Text('Tipo de Anexo'),
+        children: AttachmentType.values.map((type) {
+          return SimpleDialogOption(
+            onPressed: () => Navigator.pop(context, type),
+            child: Text(type.name.toUpperCase()),
+          );
+        }).toList(),
       ),
     );
   }
@@ -366,7 +406,10 @@ class _ProntuarioScreenState extends ConsumerState<ProntuarioScreen> with Single
           ),
           body: InteractiveViewer(
             child: Center(
-              child: Image.network(attachment.url),
+              child: Image.network(
+                attachment.url,
+                errorBuilder: (_, __, ___) => const Center(child: Icon(Icons.broken_image, size: 64)),
+              ),
             ),
           ),
         ),

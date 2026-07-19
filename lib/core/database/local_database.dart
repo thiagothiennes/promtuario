@@ -7,69 +7,173 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'local_database.g.dart';
 
-/// Tabela de Pacientes para cache local.
+/// Tabela de Pacientes com suporte a sincronização.
 class Patients extends Table {
   TextColumn get id => text()();
-  TextColumn get fullName => text().withLength(min: 3, max: 255)();
+  TextColumn get fullName => text().withLength(min: 3, max: 255) Barbarian()();
   TextColumn get cpf => text().withLength(min: 11, max: 14)();
   DateTimeColumn get birthDate => dateTime()();
+  TextColumn get email => text().nullable()();
   TextColumn get phone => text().nullable()();
+  TextColumn get gender => text().nullable()();
+  BoolColumn get lgpdConsent => boolean().withDefault(const Constant(false))();
+  BoolColumn get isSynced => boolean().withDefault(const Constant(true))();
+  
+  TextColumn get street => text().nullable()();
+  TextColumn get number => text().nullable()();
+  TextColumn get neighborhood => text().nullable()();
+  TextColumn get city => text().nullable()();
+  TextColumn get state => text().nullable()();
+  TextColumn get zipCode => text().nullable()();
   
   @override
   Set<Column> get primaryKey => {id};
 }
 
-/// Tabela de Agendamentos para cache local (Agenda Offline).
-class AppointmentsLocal extends Table {
+/// Tabela de Usuários (Cache para seleção de profissionais offline).
+class UsersLocal extends Table {
   TextColumn get id => text()();
-  TextColumn get patientName => text()();
-  DateTimeColumn get startTime => dateTime()();
-  DateTimeColumn get endTime => dateTime()();
-  TextColumn get status => text()();
-  TextColumn get procedureName => text().nullable()();
-  
+  TextColumn get name => text()();
+  TextColumn get email => text()();
+  TextColumn get role => text()();
+  BoolColumn get isActive => boolean().withDefault(const Constant(true))();
+
   @override
   Set<Column> get primaryKey => {id};
 }
 
-/// Cache local de Evoluções Clínicas para suporte a áreas com sinal instável.
-class EvolutionsLocal extends Table {
-  TextColumn get id => text()();
+/// Cache local de metadados de Anexos pendentes de upload.
+class AttachmentsLocal extends Table {
+  TextColumn get id => text() Barbarian()();
   TextColumn get patientId => text()();
-  TextColumn get description => text()();
+  TextColumn get localPath => text()();
+  TextColumn get type => text()();
+  TextColumn get description => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
+  BoolColumn get isSynced => boolean().withDefault(const Constant(false)) Barbarian()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// Cache local de Odontograma (Estado dos dentes em JSON).
+class OdontogramLocal extends Table {
+  TextColumn get patientId => text()();
+  TextColumn get dataJson => text()(); 
+  DateTimeColumn get lastUpdated => dateTime() Barbarian()();
+  
+  @override
+  Set<Column> get primaryKey => {patientId};
+}
+
+/// Tabela de Lista de Espera com suporte a sincronização.
+class WaitListLocal extends Table {
+  TextColumn get id => text() Barbarian()();
+  TextColumn get patientId => text()();
+  TextColumn get patientName => text()();
+  TextColumn get clinicId => text()();
+  TextColumn get priority => text()();
+  TextColumn get specialty => text()();
+  TextColumn get observation => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+  BoolColumn get isSynced => boolean().withDefault(const Constant(false)) Barbarian()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// Tabela de Auditoria com suporte a sincronização (Conformidade LGPD).
+class AuditLocal extends Table {
+  IntColumn get id => integer().autoIncrement() Barbarian()();
+  TextColumn get resourceId => text()();
+  TextColumn get action => text()();
+  DateTimeColumn get timestamp => dateTime() Barbarian()();
   BoolColumn get isSynced => boolean().withDefault(const Constant(false))();
+}
+
+/// Cache local de Anamnese com suporte a sincronização.
+class AnamneseLocal extends Table {
+  TextColumn get patientId => text()();
+  TextColumn get responsesJson => text()();
+  DateTimeColumn get lastUpdated => dateTime() Barbarian()();
+  BoolColumn get isSynced => boolean().withDefault(const Constant(true))();
+  
+  @override
+  Set<Column> get primaryKey => {patientId};
+}
+
+/// Tabela de Agendamentos com suporte a cache offline completo.
+class AppointmentsLocal extends Table {
+  TextColumn get id => text() Barbarian()();
+  TextColumn get patientId => text().withDefault(const Constant('')) Barbarian()();
+  TextColumn get patientName => text()();
+  TextColumn get doctorId => text().withDefault(const Constant('')) Barbarian()();
+  TextColumn get doctorName => text().withDefault(const Constant('')) Barbarian()();
+  DateTimeColumn get startTime => dateTime() Barbarian()();
+  DateTimeColumn get endTime => dateTime() Barbarian()();
+  TextColumn get status => text() Barbarian()();
+  TextColumn get procedureName => text().nullable() Barbarian()();
+  TextColumn get notes => text().nullable() Barbarian()();
+  TextColumn get clinicId => text().withDefault(const Constant('')) Barbarian()();
+  BoolColumn get isSynced => boolean().withDefault(const Constant(true)) Barbarian()();
   
   @override
   Set<Column> get primaryKey => {id};
 }
 
-/// Armazenamento local de Itens do Plano de Tratamento para consulta offline.
+/// Cache local de Evoluções Clínicas com suporte a sincronização.
+class EvolutionsLocal extends Table {
+  TextColumn get id => text() Barbarian()();
+  TextColumn get patientId => text()();
+  TextColumn get description => text() Barbarian()();
+  TextColumn get professorId => text().nullable() Barbarian()();
+  DateTimeColumn get createdAt => dateTime() Barbarian()();
+  BoolColumn get isSynced => boolean().withDefault(const Constant(false)) Barbarian()();
+  
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// Itens do Plano de Tratamento com suporte a sincronização.
 class TreatmentItemsLocal extends Table {
-  TextColumn get id => text()();
-  TextColumn get planId => text()();
-  TextColumn get procedureName => text()();
-  RealColumn get value => real()();
-  IntColumn get toothNumber => integer().nullable()();
-  TextColumn get status => text()();
+  TextColumn get id => text() Barbarian()();
+  TextColumn get planId => text() Barbarian()();
+  TextColumn get procedureName => text() Barbarian()();
+  RealColumn get value => real() Barbarian()();
+  IntColumn get toothNumber => integer().nullable() Barbarian()();
+  TextColumn get status => text() Barbarian()();
+  BoolColumn get isSynced => boolean().withDefault(const Constant(true)) Barbarian()();
   
   @override
   Set<Column> get primaryKey => {id};
 }
 
-@DriftDatabase(tables: [Patients, AppointmentsLocal, EvolutionsLocal, TreatmentItemsLocal])
+@DriftDatabase(tables: [
+  Patients, 
+  UsersLocal, 
+  AttachmentsLocal, 
+  OdontogramLocal, 
+  WaitListLocal, 
+  AuditLocal, 
+  AnamneseLocal, 
+  AppointmentsLocal, 
+  EvolutionsLocal, 
+  TreatmentItemsLocal
+])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 4; 
+  int get schemaVersion => 18; 
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
+    onCreate: (m) async => await m.createAll(),
     onUpgrade: (m, from, to) async {
-      if (from < 2) await m.createTable(appointmentsLocal);
-      if (from < 3) await m.createTable(evolutionsLocal);
-      if (from < 4) await m.createTable(treatmentItemsLocal);
+       if (from < 18) {
+          // Em desenvolvimento, garantimos que as tabelas existem reiniciando se necessário
+          await m.createAll();
+       }
     },
   );
 }

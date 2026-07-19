@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../auth/presentation/viewmodels/auth_viewmodel.dart';
-import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_viewmodel.dart';
 
 /// Tela de Configurações do Sistema e Perfil.
+/// Agora integrada ao ThemeViewModel para controle real de aparência.
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -11,6 +12,7 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authViewModelProvider);
     final user = authState.user;
+    final themeMode = ref.watch(themeViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,10 +32,6 @@ class SettingsScreen extends ConsumerWidget {
               ),
               title: Text(user?.name ?? 'Usuário', style: const TextStyle(fontWeight: FontWeight.bold)),
               subtitle: Text(user?.email ?? 'email@instituicao.edu.br'),
-              trailing: IconButton(
-                icon: const Icon(Icons.edit_outlined),
-                onPressed: () {}, // Editar perfil
-              ),
             ),
           ),
           const SizedBox(height: 32),
@@ -44,9 +42,9 @@ class SettingsScreen extends ConsumerWidget {
                 ListTile(
                   leading: const Icon(Icons.palette_outlined),
                   title: const Text('Tema do Aplicativo'),
-                  subtitle: const Text('Alternar entre modo claro e escuro'),
+                  subtitle: Text(_getThemeName(themeMode)),
                   trailing: const Icon(Icons.chevron_right),
-                  onTap: () {},
+                  onTap: () => _showThemeDialog(context, ref),
                 ),
                 const Divider(height: 1),
                 ListTile(
@@ -55,35 +53,17 @@ class SettingsScreen extends ConsumerWidget {
                   subtitle: const Text('Gerenciar alertas de agenda e assinaturas'),
                   trailing: Switch(value: true, onChanged: (v) {}),
                 ),
-                const Divider(height: 1),
-                ListTile(
-                  leading: const Icon(Icons.security_outlined),
-                  title: const Text('Segurança e Senha'),
-                  subtitle: const Text('Alterar minha senha de acesso'),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () {},
-                ),
               ],
             ),
           ),
           const SizedBox(height: 32),
           _buildSectionHeader('Privacidade (LGPD)'),
           Card(
-            child: Column(
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.policy_outlined),
-                  title: const Text('Política de Privacidade'),
-                  onTap: () {},
-                ),
-                const Divider(height: 1),
-                ListTile(
-                  leading: const Icon(Icons.history_toggle_off),
-                  title: const Text('Logs de Acesso'),
-                  subtitle: const Text('Ver registros de quem acessou seus dados'),
-                  onTap: () {},
-                ),
-              ],
+            child: ListTile(
+              leading: const Icon(Icons.history_toggle_off),
+              title: const Text('Logs de Acesso'),
+              subtitle: const Text('Ver registros de quem acessou seus dados'),
+              onTap: () => Navigator.pushNamed(context, '/dashboard/audit-logs'),
             ),
           ),
           const SizedBox(height: 48),
@@ -97,6 +77,55 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  String _getThemeName(ThemeMode mode) {
+    return switch (mode) {
+      ThemeMode.system => 'Acompanhar Sistema',
+      ThemeMode.light => 'Modo Claro',
+      ThemeMode.dark => 'Modo Escuro',
+    };
+  }
+
+  void _showThemeDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Escolha o Tema'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RadioListTile<ThemeMode>(
+              title: const Text('Claro'),
+              value: ThemeMode.light,
+              groupValue: ref.watch(themeViewModelProvider),
+              onChanged: (val) {
+                ref.read(themeViewModelProvider.notifier).setThemeMode(val!);
+                Navigator.pop(context);
+              },
+            ),
+            RadioListTile<ThemeMode>(
+              title: const Text('Escuro'),
+              value: ThemeMode.dark,
+              groupValue: ref.watch(themeViewModelProvider),
+              onChanged: (val) {
+                ref.read(themeViewModelProvider.notifier).setThemeMode(val!);
+                Navigator.pop(context);
+              },
+            ),
+            RadioListTile<ThemeMode>(
+              title: const Text('Padrão do Sistema'),
+              value: ThemeMode.system,
+              groupValue: ref.watch(themeViewModelProvider),
+              onChanged: (val) {
+                ref.read(themeViewModelProvider.notifier).setThemeMode(val!);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

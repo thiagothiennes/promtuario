@@ -21,6 +21,7 @@ class AnamneseScreen extends ConsumerStatefulWidget {
 
 class _AnamneseScreenState extends ConsumerState<AnamneseScreen> {
   final Map<String, dynamic> _responses = {};
+  bool _isSaving = false;
 
   final List<Map<String, dynamic>> _questions = [
     {'id': 'hist_doenca', 'label': 'Tem alguma doença? Quais?', 'type': 'text'},
@@ -43,51 +44,59 @@ class _AnamneseScreenState extends ConsumerState<AnamneseScreen> {
       appBar: AppBar(
         title: const Text('Ficha de Anamnese'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: _saveAnamnese,
-          ),
+          if (!_isSaving)
+            IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: _saveAnamnese,
+            ),
         ],
       ),
-      body: anamneseAsync.when(
-        data: (anamnese) {
-          // Inicializa respostas com o que já existe no banco
-          if (anamnese != null && _responses.isEmpty) {
-            _responses.addAll(anamnese.responses);
-          }
+      body: Stack(
+        children: [
+          anamneseAsync.when(
+            data: (anamnese) {
+              if (anamnese != null && _responses.isEmpty) {
+                _responses.addAll(anamnese.responses);
+              }
 
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Paciente: ${widget.patientName}',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Paciente: ${widget.patientName}',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Por favor, preencha o histórico de saúde do paciente com atenção.',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    const SizedBox(height: 32),
+                    ..._questions.map((q) => _buildQuestion(q)),
+                    const SizedBox(height: 48),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 56,
+                      child: FilledButton.icon(
+                        onPressed: _isSaving ? null : _saveAnamnese,
+                        icon: _isSaving 
+                            ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                            : const Icon(Icons.check),
+                        label: Text(_isSaving ? 'Salvando...' : 'Salvar Anamnese', style: const TextStyle(fontSize: 16)),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Por favor, preencha o histórico de saúde do paciente com atenção.',
-                  style: TextStyle(color: Colors.grey),
-                ),
-                const SizedBox(height: 32),
-                ..._questions.map((q) => _buildQuestion(q)),
-                const SizedBox(height: 48),
-                SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: FilledButton.icon(
-                    onPressed: _saveAnamnese,
-                    icon: const Icon(Icons.check),
-                    label: const Text('Salvar Anamnese', style: TextStyle(fontSize: 16)),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Erro ao carregar anamnese: $err')),
+              );
+            },
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (err, stack) => Center(child: Text('Erro ao carregar anamnese: $err')),
+          ),
+          if (_isSaving)
+            const ModalBarrier(dismissible: false, color: Colors.black12),
+        ],
       ),
     );
   }
@@ -130,12 +139,24 @@ class _AnamneseScreenState extends ConsumerState<AnamneseScreen> {
     );
   }
 
-  void _saveAnamnese() {
-    ref.read(anamneseViewModelProvider(widget.patientId).notifier).saveAnamnese(_responses).then((_) {
-      context.pop();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Anamnese salva com sucesso!')),
-      );
-    });
+  Future<void> _saveAnamnese() async {
+    setState(() => _isSaving = true);
+    try {
+      await ref.read(anamneseViewModelProvider(widget.patientId).notifier).saveAnamnese(_responses);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Anamnese salva com sucesso!'), backgroundColor: Colors.green),
+        );
+        context.pop();
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao salvar: $e'), backgroundColor: Colors.red),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
   }
 }

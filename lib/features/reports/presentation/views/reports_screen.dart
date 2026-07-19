@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../dashboard/presentation/viewmodels/dashboard_viewmodel.dart';
+import '../viewmodels/reports_viewmodel.dart';
+import '../../domain/entities/report_data.dart';
 
 /// Tela de Relatórios e Indicadores de Gestão.
-/// Fornece uma visão analítica da produção da clínica, faltas e atendimentos.
+/// Integrada ao ReportsViewModel para dados reais e filtragem por período.
 class ReportsScreen extends ConsumerWidget {
   const ReportsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dashboardAsync = ref.watch(dashboardViewModelProvider);
+    final reportsAsync = ref.watch(reportsViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Relatórios & Indicadores'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () => ref.read(reportsViewModelProvider.notifier).refresh(),
+          ),
           IconButton(
             icon: const Icon(Icons.download_outlined),
             tooltip: 'Exportar PDF',
@@ -24,19 +29,24 @@ class ReportsScreen extends ConsumerWidget {
           const SizedBox(width: 8),
         ],
       ),
-      body: dashboardAsync.when(
-        data: (stats) => SingleChildScrollView(
+      body: reportsAsync.when(
+        data: (state) => SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildPeriodSelector(context),
+              _buildPeriodSelector(context, ref, state),
               const SizedBox(height: 32),
-              _buildSummaryGrid(stats),
+              if (state.metrics != null) _buildSummaryGrid(state.metrics!),
               const SizedBox(height: 32),
-              _buildChartSection(context, stats.growthData),
+              if (state.metrics != null) _buildChartSection(context, state.metrics!.growthHistory),
               const SizedBox(height: 32),
-              _buildDetailedTable(context),
+              _buildDetailedTable(context, state.production),
+              if (state.errorMessage != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text(state.errorMessage!, style: const TextStyle(color: Colors.red)),
+                ),
             ],
           ),
         ),
@@ -46,25 +56,27 @@ class ReportsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildPeriodSelector(BuildContext context) {
+  Widget _buildPeriodSelector(BuildContext context, WidgetRef ref, ReportsState state) {
+    final df = DateFormat('dd/MM/yyyy');
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
-            const Icon(Icons.date_range, color: Colors.blue),
+            const Icon(Icons.date_range, color: Color(0xFF006494)),
             const SizedBox(width: 16),
-            const Text('Período:', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(width: 12),
-            TextButton(
-              onPressed: () {},
-              child: const Text('Últimos 30 dias'),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Período Analisado:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                Text('${df.format(state.startDate)} até ${df.format(state.endDate)}'),
+              ],
             ),
             const Spacer(),
-            FilledButton.icon(
-              onPressed: () {},
+            FilledButton.tonalIcon(
+              onPressed: () => _selectDateRange(context, ref, state),
               icon: const Icon(Icons.filter_alt_outlined),
-              label: const Text('Filtrar'),
+              label: const Text('Alterar Período'),
             ),
           ],
         ),
@@ -72,54 +84,78 @@ class ReportsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSummaryGrid(dynamic stats) {
+  Future<void> _selectDateRange(BuildContext context, WidgetRef ref, ReportsState state) async {
+    final picked = await showDateRangePicker(
+      context: context,
+      initialDateRange: DateTimeRange(start: state.startDate, end: state.endDate),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null) {
+      ref.read(reportsViewModelProvider.notifier).updatePeriod(picked.start, picked.end);
+    }
+  }
+
+  Widget _buildSummaryGrid(ClinicPerformanceMetrics metrics) {
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: 3,
+      crossAxisCount: MediaQuery.of(null).size.width > 800 ? 3 : 1,
       crossAxisSpacing: 16,
       mainAxisSpacing: 16,
-      childAspectRatio: 2,
+      childAspectRatio: 2.5,
       children: [
-        _buildReportCard('Produtividade', '${stats.proceduresThisMonth}', Icons.trending_up, Colors.green),
-        _buildReportCard('Taxa de Ocupação', '84%', Icons.pie_chart, Colors.orange),
-        _buildReportCard('Índice de Faltas', '12%', Icons.person_off, Colors.red),
+        _reportStat('Atendimentos', '${metrics.totalProceduresThisMonth}', Icons.assignment_turned_in, Colors.blue),
+        _reportStat('Taxa de Ocupação', '${(metrics.occupancyRate * 100).toStringAsFixed(1)}%', Icons.pie_chart, Colors.orange),
+        _reportStat('Índice de Faltas', '${(metrics.absenceRate * 100).toStringAsFixed(1)}%', Icons.person_off, Colors.red),
       ],
     );
   }
 
-  Widget _buildReportCard(String title, String value, IconData icon, Color color) {
+  Widget _reportStat(String title, String value, IconData icon, Color color) {
     return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade200)),
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
           children: [
-            Icon(icon, color: color, size: 28),
-            const SizedBox(height: 8),
-            Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            Text(title, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+              child: Icon(icon, color: color, size: 24),
+            ),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Text(title, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildChartSection(BuildContext context, List<dynamic> growthData) {
+  Widget _buildChartSection(BuildContext context, List<MonthlyGrowth> growthData) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Evolução de Atendimentos', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const Text('Evolução Mensal', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 16),
         Card(
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: SizedBox(
-              height: 300,
+              height: 200,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: growthData.map((d) => _buildBar(d.month, d.count)).toList(),
+                children: growthData.map((d) => _buildBar(context, d)).toList(),
               ),
             ),
           ),
@@ -128,58 +164,52 @@ class ReportsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildBar(String label, int value) {
+  Widget _buildBar(BuildContext context, MonthlyGrowth data) {
+    // Cálculo simples de altura para o gráfico de barras
+    final double height = (data.count * 2.0).clamp(10, 150);
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Container(
-          width: 50,
-          height: value.toDouble() * 3,
-          decoration: BoxDecoration(
-            color: Colors.blue.shade700,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+        Tooltip(
+          message: '${data.count} atendimentos',
+          child: Container(
+            width: 40,
+            height: height,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+            ),
           ),
         ),
         const SizedBox(height: 8),
-        Text(label, style: const TextStyle(fontSize: 10)),
+        Text(data.month, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
       ],
     );
   }
 
-  Widget _buildDetailedTable(BuildContext context) {
+  Widget _buildDetailedTable(BuildContext context, List<SpecialtyProduction> production) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Produção por Especialidade', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const Text('Produção Detalhada por Especialidade', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 16),
-        Card(
-          child: DataTable(
-            columns: const [
-              DataColumn(label: Text('Especialidade')),
-              DataColumn(label: Text('Atendimentos')),
-              DataColumn(label: Text('Valor Gerado')),
-              DataColumn(label: Text('Eficiência')),
-            ],
-            rows: const [
-              DataRow(cells: [
-                DataCell(Text('Endodontia')),
-                DataCell(Text('42')),
-                DataCell(Text('R\$ 12.450,00')),
-                DataCell(Text('92%')),
-              ]),
-              DataRow(cells: [
-                DataCell(Text('Cirurgia')),
-                DataCell(Text('28')),
-                DataCell(Text('R\$ 8.900,00')),
-                DataCell(Text('88%')),
-              ]),
-              DataRow(cells: [
-                DataCell(Text('Prótese')),
-                DataCell(Text('15')),
-                DataCell(Text('R\$ 22.300,00')),
-                DataCell(Text('75%')),
-              ]),
-            ],
+        SizedBox(
+          width: double.infinity,
+          child: Card(
+            child: DataTable(
+              columns: const [
+                DataColumn(label: Text('Especialidade')),
+                DataColumn(label: Text('Qtd')),
+                DataColumn(label: Text('Valor Total')),
+                DataColumn(label: Text('Eficiência')),
+              ],
+              rows: production.map((p) => DataRow(cells: [
+                DataCell(Text(p.specialty)),
+                DataCell(Text(p.appointmentCount.toString())),
+                DataCell(Text(NumberFormat.currency(symbol: 'R\$').format(p.totalValue))),
+                DataCell(Text('${(p.efficiencyRate * 100).toStringAsFixed(0)}%')),
+              ])).toList(),
+            ),
           ),
         ),
       ],
@@ -188,7 +218,7 @@ class ReportsScreen extends ConsumerWidget {
 
   void _exportReport(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Gerando relatório consolidado...')),
+      const SnackBar(content: Text('Gerando arquivo PDF consolidado...'), behavior: SnackBarBehavior.floating),
     );
   }
 }

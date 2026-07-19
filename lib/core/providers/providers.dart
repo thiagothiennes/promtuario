@@ -22,9 +22,12 @@ import '../../features/audit/domain/repositories/i_audit_repository.dart';
 import '../../features/audit/data/repositories/audit_repository.dart';
 import '../../features/agenda/domain/repositories/i_wait_list_repository.dart';
 import '../../features/agenda/data/repositories/wait_list_repository.dart';
+import '../../features/procedures/domain/repositories/i_procedures_repository.dart';
+import '../../features/procedures/data/repositories/procedures_repository.dart';
+import '../../features/reports/domain/repositories/i_reports_repository.dart';
+import '../../features/reports/data/repositories/reports_repository.dart';
 
 /// Centralização de Provedores de Repositório (Injeção de Dependência).
-/// Segue o princípio de inversão de dependência do SOLID.
 
 final authRepositoryProvider = Provider<IAuthRepository>((ref) {
   final apiClient = ref.watch(apiClientProvider);
@@ -40,17 +43,20 @@ final patientRepositoryProvider = Provider<IPatientRepository>((ref) {
 
 final appointmentRepositoryProvider = Provider<IAppointmentRepository>((ref) {
   final apiClient = ref.watch(apiClientProvider);
-  return AppointmentRepository(apiClient);
+  final localDb = ref.watch(databaseProvider);
+  return AppointmentRepository(apiClient, localDb);
 });
 
 final prontuarioRepositoryProvider = Provider<IProntuarioRepository>((ref) {
   final apiClient = ref.watch(apiClientProvider);
-  return ProntuarioRepository(apiClient);
+  final localDb = ref.watch(databaseProvider);
+  return ProntuarioRepository(apiClient, localDb);
 });
 
 final userManagementRepositoryProvider = Provider<IUserManagementRepository>((ref) {
   final apiClient = ref.watch(apiClientProvider);
-  return UserManagementRepository(apiClient);
+  final localDb = ref.watch(databaseProvider);
+  return UserManagementRepository(apiClient, localDb);
 });
 
 final dashboardRepositoryProvider = Provider<IDashboardRepository>((ref) {
@@ -60,7 +66,8 @@ final dashboardRepositoryProvider = Provider<IDashboardRepository>((ref) {
 
 final attachmentRepositoryProvider = Provider<IAttachmentRepository>((ref) {
   final apiClient = ref.watch(apiClientProvider);
-  return AttachmentRepository(apiClient);
+  final localDb = ref.watch(databaseProvider);
+  return AttachmentRepository(apiClient, localDb);
 });
 
 final notificationRepositoryProvider = Provider<INotificationRepository>((ref) {
@@ -70,10 +77,22 @@ final notificationRepositoryProvider = Provider<INotificationRepository>((ref) {
 
 final auditRepositoryProvider = Provider<IAuditRepository>((ref) {
   final apiClient = ref.watch(apiClientProvider);
-  return AuditRepository(apiClient);
+  final localDb = ref.watch(databaseProvider);
+  return AuditRepository(apiClient, localDb);
 });
 
 final waitListRepositoryProvider = Provider<IWaitListRepository>((ref) {
   final apiClient = ref.watch(apiClientProvider);
-  return WaitListRepository(apiClient);
+  final localDb = ref.watch(databaseProvider);
+  return WaitListRepository(apiClient, localDb);
+});
+
+final proceduresRepositoryProvider = Provider<IProceduresRepository>((ref) {
+  final apiClient = ref.watch(apiClientProvider);
+  return ProceduresRepository(apiClient);
+});
+
+final reportsRepositoryProvider = Provider<IReportsRepository>((ref) {
+  final apiClient = ref.watch(apiClientProvider);
+  return ReportsRepository(apiClient);
 });

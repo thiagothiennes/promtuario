@@ -2,15 +2,25 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/entities/treatment_plan.dart';
 import '../../domain/repositories/i_prontuario_repository.dart';
 import '../../../../core/providers/providers.dart';
+import '../../../../core/network/realtime_service.dart';
 
 part 'treatment_plan_viewmodel.g.dart';
 
-/// Gerencia o estado do Plano de Tratamento do paciente.
-/// Permite propor procedimentos, acompanhar execuções e gerenciar aprovações.
 @riverpod
 class TreatmentPlanViewModel extends _$TreatmentPlanViewModel {
   @override
   FutureOr<TreatmentPlan?> build(String patientId) async {
+    final realtime = ref.read(realtimeServiceProvider);
+    await realtime.joinPatientGroup(patientId);
+
+    realtime.on('TreatmentPlanUpdated', (args) {
+      ref.invalidateSelf();
+    });
+
+    ref.onDispose(() {
+      realtime.leavePatientGroup(patientId);
+    });
+
     return _fetchPlan(patientId);
   }
 
@@ -19,53 +29,61 @@ class TreatmentPlanViewModel extends _$TreatmentPlanViewModel {
     return await repository.getTreatmentPlan(patientId);
   }
 
-  /// Persiste as alterações no plano de tratamento ou cria um novo registro.
-  Future<void> savePlan(TreatmentPlan plan) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final repository = ref.read(prontuarioRepositoryProvider);
-      await repository.saveTreatmentPlan(plan);
-      return _fetchPlan(arg);
-    });
-  }
-
-  /// Adiciona um novo item (procedimento) ao plano de tratamento atual.
+  /// Adiciona um item com atualização otimista para resposta imediata na UI.
   Future<void> addItem(TreatmentItem item) async {
-    final currentPlan = state.value;
-    if (currentPlan == null) return;
+    final previousState = state.value;
+    if (previousState == null) return;
 
-    final updatedItems = List<TreatmentItem>.from(currentPlan.items)..add(item);
-    final updatedPlan = currentPlan.copyWith(
-      items: updatedItems, 
+    // Atualização Otimista
+    final updatedPlan = previousState.copyWith(
+      items: [...previousState.items, item],
       updatedAt: DateTime.now(),
     );
-    
-    await savePlan(updatedPlan);
-  }
+    state = AsyncValue.data(updatedPlan);
 
-  /// Atualiza o status de um item específico (ex: marcar como executado).
-  Future<void> updateItemStatus(String itemId, TreatmentItemStatus status) async {
-    final currentPlan = state.value;
-    if (currentPlan == null) return;
-
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    try {
       final repository = ref.read(prontuarioRepositoryProvider);
-      await repository.updateTreatmentItemStatus(currentPlan.id, itemId, status.name);
-      return _fetchPlan(arg);
-    });
+      await repository.saveTreatmentPlan(updatedPlan);
+    } catch (e, st) {
+      // Reverte em caso de erro
+      state = AsyncValue.error(e, st);
+      state = AsyncValue.data(previousState);
+    }
   }
 
-  /// Aprova formalmente o plano de tratamento (Ação restrita a Professores/Coordenadores).
+  /// Atualiza o status de um item (ex: de pendente para executado).
+  Future<void> updateItemStatus(String itemId, TreatmentItemStatus status) async {
+    final previousState = state.value;
+    if (previousState == null) return;
+
+    final updatedItems = previousState.items.map((item) {
+      return item.id == itemId ? item.copyWith(status: status) : item;
+    }).toList();
+
+    final updatedPlan = previousState.copyWith(items: updatedItems);
+    state = AsyncValue.data(updatedPlan);
+
+    try {
+      final repository = ref.read(prontuarioRepositoryProvider);
+      await repository.updateTreatmentItemStatus(previousState.id, itemId, status.name);
+    } catch (e) {
+      state = AsyncValue.data(previousState);
+    }
+  }
+
   Future<void> approvePlan() async {
     final currentPlan = state.value;
     if (currentPlan == null) return;
 
-    final updatedPlan = currentPlan.copyWith(
-      status: TreatmentPlanStatus.approved,
-      updatedAt: DateTime.now(),
-    );
-
-    await savePlan(updatedPlan);
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final repository = ref.read(prontuarioRepositoryProvider);
+      final updatedPlan = currentPlan.copyWith(
+        status: TreatmentPlanStatus.approved,
+        updatedAt: DateTime.now(),
+      );
+      await repository.saveTreatmentPlan(updatedPlan);
+      return updatedPlan;
+    });
   }
 }

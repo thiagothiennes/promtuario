@@ -11,9 +11,8 @@ class WaitListEntry with _$WaitListEntry {
     required String patientName,
     required String clinicId,
     required String specialty,
-    required String priority, // 'Normal', 'Urgente', 'Prioritário'
+    required String priority,
     String? observation,
-    @Default(false) bool isResolved,
     required DateTime createdAt,
   }) = _WaitListEntry;
 

@@ -9,13 +9,21 @@ class Clinic with _$Clinic {
     required String id,
     required String name,
     required String description,
-    required String specialty, // Matches Specialty enum
-    required int maxCapacity,
-    required String coordinatorUserId,
     @Default(true) bool isActive,
-    required String openingTime,
-    required String closingTime,
   }) = _Clinic;
 
   factory Clinic.fromJson(Map<String, dynamic> json) => _$ClinicFromJson(json);
+}
+
+@freezed
+class Procedure with _$Procedure {
+  const factory Procedure({
+    required String id,
+    required String clinicId,
+    required String name,
+    required double baseValue,
+    @Default(true) bool isActive,
+  }) = _Procedure;
+
+  factory Procedure.fromJson(Map<String, dynamic> json) => _$ProcedureFromJson(json);
 }

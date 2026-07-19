@@ -1,9 +1,8 @@
-import '../../../../core/network/api_client.dart';
+import '../../../core/network/api_client.dart';
 import '../../domain/entities/notification_item.dart';
 import '../../domain/repositories/i_notification_repository.dart';
 
 /// Implementação do repositório de notificações.
-/// Integra com a API para gerenciar alertas em tempo real.
 class NotificationRepository implements INotificationRepository {
   final ApiClient _apiClient;
 
@@ -23,7 +22,7 @@ class NotificationRepository implements INotificationRepository {
 
   @override
   Future<void> markAllAsRead() async {
-    await _apiClient.instance.post('/notifications/mark-all-read');
+    await _apiClient.instance.post('/notifications/read-all');
   }
 
   @override

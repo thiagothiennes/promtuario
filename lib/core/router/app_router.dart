@@ -13,6 +13,7 @@ import '../../features/users/presentation/views/user_list_screen.dart';
 import '../../features/users/presentation/views/add_user_screen.dart';
 import '../../features/agenda/presentation/views/agenda_screen.dart';
 import '../../features/agenda/presentation/views/add_appointment_screen.dart';
+import '../../features/agenda/presentation/views/wait_list_screen.dart';
 import '../../features/prontuario/presentation/views/prescription_screen.dart';
 import '../../features/prontuario/presentation/views/certificate_screen.dart';
 import '../../features/prontuario/presentation/views/anamnese_screen.dart';
@@ -22,8 +23,6 @@ import '../../features/settings/presentation/views/settings_screen.dart';
 import '../../features/notifications/presentation/views/notification_list_screen.dart';
 import '../../features/audit/presentation/views/audit_log_screen.dart';
 
-/// Provedor do GoRouter para gerenciar a navegação do sistema.
-/// Implementa proteção de rotas e redirecionamento automático baseado no estado de autenticação.
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authViewModelProvider);
 
@@ -127,6 +126,14 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'add',
                 builder: (context, state) => const AddAppointmentScreen(),
+              ),
+              GoRoute(
+                path: 'wait-list',
+                builder: (context, state) {
+                  final clinicId = state.uri.queryParameters['clinicId']!;
+                  final clinicName = state.uri.queryParameters['clinicName']!;
+                  return WaitListScreen(clinicId: clinicId, clinicName: clinicName);
+                },
               ),
             ],
           ),

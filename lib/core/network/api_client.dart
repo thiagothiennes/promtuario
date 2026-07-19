@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../security/storage_service.dart';
 
@@ -17,7 +18,7 @@ class ApiClient {
   ApiClient(this._storage) {
     _dio = Dio(
       BaseOptions(
-        baseUrl: 'https://api.odontoclinica.edu.br/api', // URL base definida para o backend
+        baseUrl: 'https://api.odontoclinica.edu.br/api',
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 15),
         contentType: 'application/json',
@@ -33,13 +34,15 @@ class ApiClient {
         return handler.next(options);
       },
       onError: (DioException e, handler) async {
-        // Se receber 401 (Não autorizado), tenta renovar o token
+        // Log de erro centralizado
+        debugPrint('API Error [${e.response?.statusCode}]: ${e.message}');
+
         if (e.response?.statusCode == 401) {
           final refreshToken = await _storage.getRefreshToken();
           
           if (refreshToken != null) {
             try {
-              // Requisição isolada para não entrar no interceptor recursivamente
+              // Tenta renovar o token
               final refreshResponse = await Dio(BaseOptions(baseUrl: _dio.options.baseUrl))
                   .post('/auth/refresh', data: {'refreshToken': refreshToken});
 
@@ -49,14 +52,14 @@ class ApiClient {
 
                 await _storage.saveTokens(access: newAccessToken, refresh: newRefreshToken);
 
-                // Refaz a requisição original com o novo token
+                // Refaz a requisição original
                 e.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
                 final response = await _dio.fetch(e.requestOptions);
                 return handler.resolve(response);
               }
             } catch (refreshError) {
-              // Se falhar o refresh, limpa sessão e redireciona (via router listenable)
               await _storage.clearSession();
+              // Aqui o router listenable em app_router.dart redirecionará para o login
             }
           }
         }
@@ -64,8 +67,13 @@ class ApiClient {
       },
     ));
     
-    // Adicionar log em desenvolvimento
-    _dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
+    if (kDebugMode) {
+      _dio.interceptors.add(LogInterceptor(
+        responseBody: true, 
+        requestBody: true,
+        error: true,
+      ));
+    }
   }
 
   Dio get instance => _dio;

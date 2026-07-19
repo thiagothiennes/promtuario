@@ -17,4 +17,7 @@ abstract class IAppointmentRepository {
 
   /// Reagenda uma consulta para novo horário.
   Future<void> rescheduleAppointment(String id, DateTime newStart, DateTime newEnd);
+
+  /// Sincroniza agendamentos feitos em modo offline.
+  Future<void> syncAppointments();
 }

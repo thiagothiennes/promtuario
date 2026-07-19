@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../viewmodels/patient_viewmodel.dart';
 import 'package:intl/intl.dart';
 
-/// Tela de Listagem de Pacientes com busca e navegação para cadastro.
+/// Tela de Listagem de Pacientes com busca e feedback visual de sincronização.
 class PatientListScreen extends ConsumerWidget {
   const PatientListScreen({super.key});
 
@@ -15,6 +15,13 @@ class PatientListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Gestão de Pacientes'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.sync),
+            onPressed: () => ref.refresh(patientViewModelProvider),
+            tooltip: 'Sincronizar manual',
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -41,9 +48,20 @@ class PatientListScreen extends ConsumerWidget {
                           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                           child: Text(patient.fullName.substring(0, 1).toUpperCase()),
                         ),
-                        title: Text(
-                          patient.fullName,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        title: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                patient.fullName,
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            if (!patient.isSynced)
+                              const Tooltip(
+                                message: 'Aguardando sincronização (Offline)',
+                                child: Icon(Icons.cloud_off, size: 16, color: Colors.orange),
+                              ),
+                          ],
                         ),
                         subtitle: Text('CPF: ${patient.cpf} • Nasc: ${DateFormat('dd/MM/yyyy').format(patient.birthDate)}'),
                         trailing: const Icon(Icons.chevron_right),
@@ -52,21 +70,7 @@ class PatientListScreen extends ConsumerWidget {
                     },
                   ),
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.error_outline, size: 48, color: Colors.red),
-                    const SizedBox(height: 16),
-                    Text('Erro ao carregar pacientes: $err'),
-                    const SizedBox(height: 16),
-                    FilledButton(
-                      onPressed: () => ref.refresh(patientViewModelProvider),
-                      child: const Text('Tentar Novamente'),
-                    ),
-                  ],
-                ),
-              ),
+              error: (err, stack) => _buildErrorState(ref, err.toString()),
             ),
           ),
         ],
@@ -88,6 +92,27 @@ class PatientListScreen extends ConsumerWidget {
           SizedBox(height: 16),
           Text('Nenhum paciente encontrado.', style: TextStyle(color: Colors.grey)),
         ],
+      ),
+    );
+  }
+
+  Widget _buildErrorState(WidgetRef ref, String error) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: Colors.red),
+            const SizedBox(height: 16),
+            Text('Erro ao carregar pacientes: $error', textAlign: TextAlign.center),
+            const SizedBox(height: 16),
+            FilledButton(
+              onPressed: () => ref.invalidate(patientViewModelProvider),
+              child: const Text('Tentar Novamente'),
+            ),
+          ],
+        ),
       ),
     );
   }

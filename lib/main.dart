@@ -2,35 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'core/router/app_router.dart';
-import 'core/theme/app_theme.dart';
-import 'core/network/realtime_service.dart';
+import 'package:logging/logging.dart';
+import 'package:promt/core/router/app_router.dart';
+import 'package:promt/core/theme/app_theme.dart';
+import 'package:promt/core/theme/theme_viewmodel.dart'; // Importação adicionada
+import 'package:promt/core/network/realtime_service.dart';
+import 'package:promt/core/network/sync_service.dart';
+import 'package:promt/core/network/notification_handler.dart';
 
 /// Ponto de entrada principal do sistema OdontoClinica Universitária.
-/// Inicializa as configurações globais, injeção de dependência e roteamento.
 void main() async {
-  // Garante que o binding do Flutter esteja inicializado antes de qualquer operação assíncrona.
+  // Garante que o binding do Flutter esteja inicializado.
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Configuração global de Logs
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    debugPrint('${record.level.name}: ${record.time}: ${record.loggerName}: ${record.message}');
+  });
 
   // Inicializa a formatação de datas para Português do Brasil.
   await initializeDateFormatting('pt_BR', null);
 
-  // Tratamento global de erros para produção (Segurança e Estabilidade)
-  FlutterError.onError = (details) {
-    FlutterError.presentError(details);
-    // Em produção, integrado com Sentry ou Crashlytics.
-  };
-
   // Cria o container do Riverpod para inicializações pré-runApp
   final container = ProviderContainer();
   
-  // Tenta inicializar a conexão em tempo real (SignalR)
-  // Essencial para o requisito de Odontograma Interativo em tempo real.
-  try {
-    await container.read(realtimeServiceProvider).init();
-  } catch (e) {
-    debugPrint('Erro ao conectar ao Realtime Service: $e');
-  }
+  // Inicialização não-bloqueante de serviços
+  container.read(realtimeServiceProvider).init().catchError((e) {
+    debugPrint('Aviso: Erro na conexão inicial do SignalR: $e');
+  });
+
+  container.read(syncServiceProvider).startAutoSync();
+  container.read(notificationHandlerProvider).init();
 
   runApp(
     UncontrolledProviderScope(
@@ -45,14 +48,13 @@ class OdontoClinicaApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Escuta as mudanças no roteador (GoRouter) configurado no core.
+    // Escuta as mudanças no roteador e no tema.
     final router = ref.watch(routerProvider);
+    final themeMode = ref.watch(themeViewModelProvider);
 
     return MaterialApp.router(
       title: 'OdontoClinica Universitária',
       debugShowCheckedModeBanner: false,
-      
-      // Configuração de Localização padrão (PT-BR)
       locale: const Locale('pt', 'BR'),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -62,13 +64,9 @@ class OdontoClinicaApp extends ConsumerWidget {
       supportedLocales: const [
         Locale('pt', 'BR'),
       ],
-
-      // Design System Material 3
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.system,
-
-      // Injeção da configuração de roteamento.
+      themeMode: themeMode,
       routerConfig: router,
     );
   }
