@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../viewmodels/notification_viewmodel.dart';
 import '../domain/entities/notification_item.dart';
+import '../domain/entities/notification_item.dart' show NotificationType;
 
 /// Tela de notificações e alertas do sistema.
 class NotificationListScreen extends ConsumerWidget {
