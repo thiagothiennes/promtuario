@@ -1,30 +1,48 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:promt/core/providers/providers.dart';
+import 'package:promt/features/prontuario/domain/entities/odontogram.dart';
 
-/// Gerencia o prontuário eletrônico do paciente.
-class ProntuarioViewModel extends StateNotifier<AsyncValue<Map<String, dynamic>>> {
+/// Gerencia o prontuário eletrônico do paciente com odontograma.
+class ProntuarioViewModel extends StateNotifier<AsyncValue<Odontogram?>> {
   ProntuarioViewModel(this.ref, this.patientId) : super(const AsyncValue.loading()) {
-    _fetchProntuario();
+    _fetchOdontogram();
   }
 
   final Ref ref;
   final String patientId;
 
-  Future<void> _fetchProntuario() async {
-    // Implementar busca se necessário
-    state = const AsyncValue.data({});
+  Future<void> _fetchOdontogram() async {
+    state = await AsyncValue.guard(() => 
+      ref.read(prontuarioRepositoryProvider).getOdontogram(patientId)
+    );
   }
 
-  Future<void> refresh() async => _fetchProntuario();
+  Future<void> refresh() async => _fetchOdontogram();
 
-  Future<void> updateProntuario(Map<String, dynamic> data) async {
+  /// Atualiza a condição de um dente no odontograma.
+  Future<void> updateToothCondition(ToothCondition condition) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      return {};
+      final current = state.value;
+      if (current == null) return null;
+
+      final updatedTeeth = current.teeth.where((t) => t.toothNumber != condition.toothNumber).toList();
+      updatedTeeth.add(condition);
+
+      final updated = Odontogram(
+        id: current.id,
+        patientId: current.patientId,
+        teeth: updatedTeeth,
+        updatedAt: DateTime.now(),
+        updatedBy: 'user', // TODO: obter do auth
+      );
+
+      await ref.read(prontuarioRepositoryProvider).saveOdontogram(updated);
+      return updated;
     });
   }
 }
 
-final prontuarioViewModelProvider = StateNotifierProvider.family<ProntuarioViewModel, AsyncValue<Map<String, dynamic>>, String>((ref, patientId) {
+final prontuarioViewModelProvider = StateNotifierProvider.family<ProntuarioViewModel, AsyncValue<Odontogram?>, String>((ref, patientId) {
   return ProntuarioViewModel(ref, patientId);
 });

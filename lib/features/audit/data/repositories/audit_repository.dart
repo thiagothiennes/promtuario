@@ -13,15 +13,15 @@ class AuditRepository implements IAuditRepository {
   AuditRepository(this._apiClient, this._localDb);
 
   @override
-  Future<List<AuditLog>> getLogs(
-      {int page = 1, int pageSize = 50, String? userId}) async {
+  Future<List<AuditLog>> getLogs({int page = 1, int pageSize = 50, String? userId, String? action}) async {
     final response = await _apiClient.instance.get('/logs', queryParameters: {
       'page': page,
       'pageSize': pageSize,
       if (userId != null) 'userId': userId,
+      if (action != null) 'action': action,
     });
 
-    final List<dynamic> data = response.data['items'];
+    final List<dynamic> data = response.data['items'] ?? [];
     return data.map((json) => AuditLog.fromJson(json)).toList();
   }
 

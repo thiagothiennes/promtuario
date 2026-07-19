@@ -98,7 +98,7 @@ class ReportsScreen extends ConsumerWidget {
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: MediaQuery.of(null).size.width > 800 ? 3 : 1,
+      crossAxisCount: MediaQuery.of(context).size.width > 800 ? 3 : 1,
       crossAxisSpacing: 16,
       mainAxisSpacing: 16,
       childAspectRatio: 2.5,

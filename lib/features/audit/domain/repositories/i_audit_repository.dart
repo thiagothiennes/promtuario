@@ -4,11 +4,11 @@ import '../entities/audit_log.dart';
 abstract class IAuditRepository {
   /// Recupera logs de auditoria de forma paginada.
   Future<List<AuditLog>> getLogs(
-      {int page = 1, int pageSize = 50, String? userId});
+      {int page = 1, int pageSize = 50, String? userId, String? action});
 
   /// Registra uma ação sensível para conformidade LGPD.
   Future<void> registerAccess(String resourceId, String action);
 
-  /// Reenvia um evento pendente sem criar uma nova cÃ³pia na fila offline.
+  /// Reenvia um evento pendente sem criar uma nova cópia na fila offline.
   Future<bool> syncPendingAccess(String resourceId, String action);
 }

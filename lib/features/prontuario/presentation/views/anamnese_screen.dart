@@ -54,9 +54,11 @@ class _AnamneseScreenState extends ConsumerState<AnamneseScreen> {
       body: Stack(
         children: [
           anamneseAsync.when(
-            data: (anamnese) {
-              if (anamnese != null && _responses.isEmpty) {
-                _responses.addAll(anamnese.responses);
+            data: (anamneses) {
+              // Pega a anamnese mais recente da lista
+              final latestAnamnese = anamneses.isNotEmpty ? anamneses.first : null;
+              if (latestAnamnese != null && _responses.isEmpty) {
+                _responses.addAll(latestAnamnese.responses);
               }
 
               return SingleChildScrollView(
