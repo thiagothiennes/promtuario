@@ -2,19 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:promt/core/providers/providers.dart';
 
 /// Gerencia documentos (atestados/receitas) gerados para o paciente.
-class DocumentsViewModel extends FamilyStateNotifier<AsyncValue<List<String>>, String> {
-  DocumentsViewModel(this.ref) : super(const AsyncValue.loading());
-
-  final Ref ref;
-  late String _patientId;
-
-  @override
-  AsyncValue<List<String>> build(String arg) {
-    _patientId = arg;
+class DocumentsViewModel extends StateNotifier<AsyncValue<List<String>>> {
+  DocumentsViewModel(this.ref, String patientId) : super(const AsyncValue.loading()) {
     _fetchDocuments();
-    return const AsyncValue.loading();
   }
-
+  
+  final Ref ref;
+  
   Future<void> _fetchDocuments() async {
     // Implementar busca de documentos gerados no repositório
     state = const AsyncValue.data([]);
@@ -24,7 +18,5 @@ class DocumentsViewModel extends FamilyStateNotifier<AsyncValue<List<String>>, S
 }
 
 final documentsViewModelProvider = StateNotifierProvider.family<DocumentsViewModel, AsyncValue<List<String>>, String>((ref, patientId) {
-  final vm = DocumentsViewModel(ref);
-  vm.build(patientId);
-  return vm;
+  return DocumentsViewModel(ref, patientId);
 });

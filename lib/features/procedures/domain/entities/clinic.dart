@@ -14,16 +14,3 @@ class Clinic with _$Clinic {
 
   factory Clinic.fromJson(Map<String, dynamic> json) => _$ClinicFromJson(json);
 }
-
-@freezed
-class Procedure with _$Procedure {
-  const factory Procedure({
-    required String id,
-    required String clinicId,
-    required String name,
-    required double baseValue,
-    @Default(true) bool isActive,
-  }) = _Procedure;
-
-  factory Procedure.fromJson(Map<String, dynamic> json) => _$ProcedureFromJson(json);
-}
