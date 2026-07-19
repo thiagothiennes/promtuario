@@ -30,10 +30,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     // Pequeno delay apenas para não "piscar" a logo
     await Future.delayed(const Duration(milliseconds: 500));
 
+    if (!mounted) return;
+
     if (authState.user != null) {
-      context.go('/dashboard');
+      if (mounted) {
+        context.go('/dashboard');
+      }
     } else {
-      context.go('/login');
+      if (mounted) {
+        context.go('/login');
+      }
     }
   }
 
