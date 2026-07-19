@@ -33,13 +33,24 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isSplash = state.matchedLocation == '/splash';
       final isLoggingIn = state.matchedLocation == '/login';
       final isLoggedIn = authState.user != null;
+      final isInitialized = authState.isInitialized;
 
-      if (isSplash) return null;
+      // Se ainda não foi inicializado, permanece na splash
+      if (!isInitialized) {
+        return null;
+      }
 
+      // Se está na splash e já foi inicializado, redireciona
+      if (isSplash) {
+        return isLoggedIn ? '/dashboard' : '/login';
+      }
+
+      // Se não está logado e tenta acessar outra rota, vai para login
       if (!isLoggedIn && !isLoggingIn) {
         return '/login';
       }
 
+      // Se está logado e tenta acessar login, vai para dashboard
       if (isLoggedIn && isLoggingIn) {
         return '/dashboard';
       }
