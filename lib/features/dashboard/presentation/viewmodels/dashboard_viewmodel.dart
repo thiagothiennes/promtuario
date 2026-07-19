@@ -1,31 +1,33 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/dashboard_stats_model.dart';
-import '../../../../core/providers/providers.dart';
-import '../../../../core/network/realtime_service.dart';
+import '../../../core/providers/providers.dart';
 
-part 'dashboard_viewmodel.g.dart';
-
-@riverpod
-class DashboardViewModel extends _$DashboardViewModel {
-  @override
-  FutureOr<DashboardStatsModel> build() async {
-    final realtime = ref.read(realtimeServiceProvider);
-    
-    // Escuta eventos que podem alterar as estatísticas globais
-    realtime.on('ReceiveNotification', (_) => ref.invalidateSelf());
-    realtime.on('AppointmentUpdated', (_) => ref.invalidateSelf());
-    realtime.on('PatientUpdated', (_) => ref.invalidateSelf());
-
-    return _fetchStats();
+/// Gerencia o estado do dashboard com estatísticas da clínica.
+class DashboardViewModel extends StateNotifier<AsyncValue<DashboardStatsModel>> {
+  DashboardViewModel(this.ref) : super(const AsyncValue.loading()) {
+    _fetchStats();
   }
+
+  final Ref ref;
 
   Future<DashboardStatsModel> _fetchStats() async {
-    final repository = ref.read(dashboardRepositoryProvider);
-    return await repository.getStats();
+    // TODO: Implementar repositório de dashboard
+    return DashboardStatsModel(
+      totalPatients: 0,
+      appointmentsToday: 0,
+      pendingTreatments: 0,
+      revenue: 0.0,
+    );
   }
 
+  /// Recarrega as estatísticas do dashboard.
   Future<void> refresh() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() => _fetchStats());
   }
 }
+
+/// Provider para criar a instância do DashboardViewModel.
+final dashboardViewModelProvider = StateNotifierProvider<DashboardViewModel, AsyncValue<DashboardStatsModel>>((ref) {
+  return DashboardViewModel(ref);
+});

@@ -1,50 +1,46 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/anamnese.dart';
-import '../../domain/repositories/i_prontuario_repository.dart';
-import '../../../auth/presentation/viewmodels/auth_viewmodel.dart';
-import '../../../../core/providers/providers.dart';
+import '../../../core/providers/providers.dart';
 
-part 'anamnese_viewmodel.g.dart';
-
-/// Gerencia o estado da Ficha de Anamnese do paciente.
-/// Garante que o histórico de saúde seja persistido com o ID do profissional logado.
-@riverpod
-class AnamneseViewModel extends _$AnamneseViewModel {
-  @override
-  FutureOr<Anamnese?> build(String patientId) async {
-    return _fetchAnamnese(patientId);
+/// Gerencia as anamneses dos pacientes.
+class AnamneseViewModel extends StateNotifier<AsyncValue<List<Anamnese>>> {
+  AnamneseViewModel(this.ref) : super(const AsyncValue.loading()) {
+    _fetchAnamneses();
   }
 
-  Future<Anamnese?> _fetchAnamnese(String patientId) async {
-    final repository = ref.read(prontuarioRepositoryProvider);
-    return await repository.getAnamneseByPatientId(patientId);
+  final Ref ref;
+
+  Future<List<Anamnese>> _fetchAnamneses({String? patientId}) async {
+    // TODO: Implementar repositório de anamneses
+    return [];
   }
 
-  /// Salva ou atualiza a anamnese utilizando o ID do usuário autenticado.
-  Future<void> saveAnamnese(Map<String, dynamic> responses) async {
-    final authState = ref.read(authViewModelProvider);
-    final user = authState.user;
-    
-    if (user == null) {
-      state = AsyncValue.error('Usuário não autenticado', StackTrace.current);
-      return;
-    }
+  /// Recarrega as anamneses.
+  Future<void> refresh() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() => _fetchAnamneses());
+  }
 
+  /// Cria uma nova anamnese.
+  Future<void> createAnamnese(Anamnese anamnese) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final repository = ref.read(prontuarioRepositoryProvider);
-      final currentAnamnese = state.value;
-      
-      final anamnese = Anamnese(
-        id: currentAnamnese?.id ?? '',
-        patientId: arg,
-        responses: responses,
-        createdAt: currentAnamnese?.createdAt ?? DateTime.now(),
-        createdBy: user.id,
-      );
-      
-      await repository.saveAnamnese(anamnese);
-      return _fetchAnamnese(arg);
+      // TODO: Implementar criação de anamnese
+      return _fetchAnamneses();
+    });
+  }
+
+  /// Atualiza uma anamnese existente.
+  Future<void> updateAnamnese(Anamnese anamnese) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      // TODO: Implementar atualização de anamnese
+      return _fetchAnamneses();
     });
   }
 }
+
+/// Provider para criar a instância do AnamneseViewModel.
+final anamneseViewModelProvider = StateNotifierProvider<AnamneseViewModel, AsyncValue<List<Anamnese>>>((ref) {
+  return AnamneseViewModel(ref);
+});

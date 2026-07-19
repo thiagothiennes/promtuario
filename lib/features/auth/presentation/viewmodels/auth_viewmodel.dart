@@ -1,9 +1,7 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/user.dart';
 import '../../../core/providers/providers.dart';
 import '../../../../core/network/realtime_service.dart';
-
-part 'auth_viewmodel.g.dart';
 
 /// Estado da autenticação.
 class AuthState {
@@ -34,10 +32,11 @@ class AuthState {
   }
 }
 
-@riverpod
-class AuthViewModel extends _$AuthViewModel {
-  @override
-  AuthState build() => AuthState();
+/// Provider notifier responsável pela autenticação.
+class AuthViewModel extends StateNotifier<AuthState> {
+  AuthViewModel(this.ref) : super(AuthState());
+
+  final Ref ref;
 
   /// Verifica se existe uma sessão ativa (Token salvo).
   Future<void> checkAuth() async {
@@ -90,3 +89,8 @@ class AuthViewModel extends _$AuthViewModel {
     state = AuthState(isInitialized: true);
   }
 }
+
+/// Provider para criar a instância do AuthViewModel.
+final authViewModelProvider = StateNotifierProvider<AuthViewModel, AuthState>((ref) {
+  return AuthViewModel(ref);
+});

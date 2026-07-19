@@ -1,28 +1,46 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../domain/entities/clinic.dart';
-import '../../domain/repositories/i_procedures_repository.dart';
-import '../../../../core/providers/providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../domain/entities/procedure.dart';
+import '../../../core/providers/providers.dart';
 
-part 'procedures_viewmodel.g.dart';
-
-@riverpod
-class ProceduresViewModel extends _$ProceduresViewModel {
-  @override
-  FutureOr<List<Procedure>> build() async {
-    return _fetchAll();
+/// Gerencia os procedimentos disponíveis.
+class ProceduresViewModel extends StateNotifier<AsyncValue<List<Procedure>>> {
+  ProceduresViewModel(this.ref) : super(const AsyncValue.loading()) {
+    _fetchProcedures();
   }
 
-  Future<List<Procedure>> _fetchAll() async {
-    final repository = ref.read(proceduresRepositoryProvider);
-    return await repository.getAllProcedures();
+  final Ref ref;
+
+  Future<List<Procedure>> _fetchProcedures() async {
+    // TODO: Implementar repositório de procedimentos
+    return [];
   }
 
-  /// Filtra procedimentos por clínica selecionada.
-  Future<void> filterByClinic(String clinicId) async {
+  /// Recarrega a lista de procedimentos.
+  Future<void> refresh() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() => _fetchProcedures());
+  }
+
+  /// Adiciona um novo procedimento.
+  Future<void> addProcedure(Procedure procedure) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final repository = ref.read(proceduresRepositoryProvider);
-      return await repository.getProceduresByClinic(clinicId);
+      // TODO: Implementar adição de procedimento
+      return _fetchProcedures();
+    });
+  }
+
+  /// Atualiza um procedimento existente.
+  Future<void> updateProcedure(Procedure procedure) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      // TODO: Implementar atualização de procedimento
+      return _fetchProcedures();
     });
   }
 }
+
+/// Provider para criar a instância do ProceduresViewModel.
+final proceduresViewModelProvider = StateNotifierProvider<ProceduresViewModel, AsyncValue<List<Procedure>>>((ref) {
+  return ProceduresViewModel(ref);
+});

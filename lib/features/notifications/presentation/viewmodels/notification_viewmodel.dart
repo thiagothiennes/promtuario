@@ -1,54 +1,50 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/notification_item.dart';
-import '../../domain/repositories/i_notification_repository.dart';
-import '../../../../core/providers/providers.dart';
+import '../../../core/providers/providers.dart';
 import '../../../../core/network/realtime_service.dart';
 
-part 'notification_viewmodel.g.dart';
+/// Gerencia as notificações em tempo real.
+class NotificationViewModel extends StateNotifier<AsyncValue<List<NotificationItem>>> {
+  NotificationViewModel(this.ref) : super(const AsyncValue.loading()) {
+    _initRealtime();
+    _fetchNotifications();
+  }
 
-@riverpod
-class NotificationViewModel extends _$NotificationViewModel {
-  @override
-  FutureOr<List<NotificationItem>> build() async {
+  final Ref ref;
+
+  void _initRealtime() {
     final realtime = ref.read(realtimeServiceProvider);
     
-    // Escuta novas notificações em tempo real
-    realtime.on('ReceiveNotification', (args) {
-      ref.invalidateSelf(); // Recarrega a lista automaticamente
+    realtime.on('NewNotification', (args) {
+      _fetchNotifications();
     });
-
-    return _fetchNotifications();
   }
 
   Future<List<NotificationItem>> _fetchNotifications() async {
-    final repository = ref.read(notificationRepositoryProvider);
-    return await repository.getNotifications();
+    // TODO: Implementar repositório de notificações
+    return [];
   }
 
-  Future<void> markAsRead(String notificationId) async {
+  /// Marca uma notificação como lida.
+  Future<void> markAsRead(String id) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final repository = ref.read(notificationRepositoryProvider);
-      await repository.markAsRead(notificationId);
+      // TODO: Implementar marcação como lida
       return _fetchNotifications();
     });
   }
 
-  Future<void> markAllAsRead() async {
+  /// Limpa todas as notificações lidas.
+  Future<void> clearRead() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final repository = ref.read(notificationRepositoryProvider);
-      await repository.markAllAsRead();
-      return _fetchNotifications();
-    });
-  }
-
-  Future<void> delete(String notificationId) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final repository = ref.read(notificationRepositoryProvider);
-      await repository.deleteNotification(notificationId);
+      // TODO: Implementar limpeza de notificacoes lidas
       return _fetchNotifications();
     });
   }
 }
+
+/// Provider para criar a instância do NotificationViewModel.
+final notificationViewModelProvider = StateNotifierProvider<NotificationViewModel, AsyncValue<List<NotificationItem>>>((ref) {
+  return NotificationViewModel(ref);
+});

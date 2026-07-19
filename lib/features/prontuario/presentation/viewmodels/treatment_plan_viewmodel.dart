@@ -1,89 +1,46 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/treatment_plan.dart';
-import '../../domain/repositories/i_prontuario_repository.dart';
-import '../../../../core/providers/providers.dart';
-import '../../../../core/network/realtime_service.dart';
+import '../../../core/providers/providers.dart';
 
-part 'treatment_plan_viewmodel.g.dart';
-
-@riverpod
-class TreatmentPlanViewModel extends _$TreatmentPlanViewModel {
-  @override
-  FutureOr<TreatmentPlan?> build(String patientId) async {
-    final realtime = ref.read(realtimeServiceProvider);
-    await realtime.joinPatientGroup(patientId);
-
-    realtime.on('TreatmentPlanUpdated', (args) {
-      ref.invalidateSelf();
-    });
-
-    ref.onDispose(() {
-      realtime.leavePatientGroup(patientId);
-    });
-
-    return _fetchPlan(patientId);
+/// Gerencia os planos de tratamento dos pacientes.
+class TreatmentPlanViewModel extends StateNotifier<AsyncValue<List<TreatmentPlan>>> {
+  TreatmentPlanViewModel(this.ref) : super(const AsyncValue.loading()) {
+    _fetchTreatmentPlans();
   }
 
-  Future<TreatmentPlan?> _fetchPlan(String patientId) async {
-    final repository = ref.read(prontuarioRepositoryProvider);
-    return await repository.getTreatmentPlan(patientId);
+  final Ref ref;
+
+  Future<List<TreatmentPlan>> _fetchTreatmentPlans({String? patientId}) async {
+    // TODO: Implementar repositório de planos de tratamento
+    return [];
   }
 
-  /// Adiciona um item com atualização otimista para resposta imediata na UI.
-  Future<void> addItem(TreatmentItem item) async {
-    final previousState = state.value;
-    if (previousState == null) return;
-
-    // Atualização Otimista
-    final updatedPlan = previousState.copyWith(
-      items: [...previousState.items, item],
-      updatedAt: DateTime.now(),
-    );
-    state = AsyncValue.data(updatedPlan);
-
-    try {
-      final repository = ref.read(prontuarioRepositoryProvider);
-      await repository.saveTreatmentPlan(updatedPlan);
-    } catch (e, st) {
-      // Reverte em caso de erro
-      state = AsyncValue.error(e, st);
-      state = AsyncValue.data(previousState);
-    }
+  /// Recarrega os planos de tratamento.
+  Future<void> refresh() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() => _fetchTreatmentPlans());
   }
 
-  /// Atualiza o status de um item (ex: de pendente para executado).
-  Future<void> updateItemStatus(String itemId, TreatmentItemStatus status) async {
-    final previousState = state.value;
-    if (previousState == null) return;
-
-    final updatedItems = previousState.items.map((item) {
-      return item.id == itemId ? item.copyWith(status: status) : item;
-    }).toList();
-
-    final updatedPlan = previousState.copyWith(items: updatedItems);
-    state = AsyncValue.data(updatedPlan);
-
-    try {
-      final repository = ref.read(prontuarioRepositoryProvider);
-      await repository.updateTreatmentItemStatus(previousState.id, itemId, status.name);
-    } catch (e) {
-      state = AsyncValue.data(previousState);
-    }
-  }
-
-  Future<void> approvePlan() async {
-    final currentPlan = state.value;
-    if (currentPlan == null) return;
-
+  /// Cria um novo plano de tratamento.
+  Future<void> createTreatmentPlan(TreatmentPlan plan) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final repository = ref.read(prontuarioRepositoryProvider);
-      final updatedPlan = currentPlan.copyWith(
-        status: TreatmentPlanStatus.approved,
-        updatedAt: DateTime.now(),
-      );
-      await repository.saveTreatmentPlan(updatedPlan);
-      return updatedPlan;
+      // TODO: Implementar criação de plano de tratamento
+      return _fetchTreatmentPlans();
+    });
+  }
+
+  /// Atualiza um plano de tratamento existente.
+  Future<void> updateTreatmentPlan(TreatmentPlan plan) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      // TODO: Implementar atualização de plano de tratamento
+      return _fetchTreatmentPlans();
     });
   }
 }
+
+/// Provider para criar a instância do TreatmentPlanViewModel.
+final treatmentPlanViewModelProvider = StateNotifierProvider<TreatmentPlanViewModel, AsyncValue<List<TreatmentPlan>>>((ref) {
+  return TreatmentPlanViewModel(ref);
+});

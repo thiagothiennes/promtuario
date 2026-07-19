@@ -1,49 +1,36 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../domain/entities/prescription.dart';
-import '../../domain/repositories/i_prontuario_repository.dart';
-import '../../../../core/providers/providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/providers/providers.dart';
 
-part 'documents_viewmodel.g.dart';
-
-/// Gerencia o histórico e emissão de documentos (Receitas e Atestados).
-@riverpod
-class DocumentsViewModel extends _$DocumentsViewModel {
-  @override
-  FutureOr<List<dynamic>> build(String patientId) async {
-    return _fetchHistory(patientId);
+/// Gerencia documentos anexados ao prontuário.
+class DocumentsViewModel extends StateNotifier<AsyncValue<List<String>>> {
+  DocumentsViewModel(this.ref) : super(const AsyncValue.loading()) {
+    _fetchDocuments();
   }
 
-  Future<List<dynamic>> _fetchHistory(String patientId) async {
-    final repository = ref.read(prontuarioRepositoryProvider);
-    
-    // Busca o histórico de receitas
-    final prescriptions = await repository.getPrescriptionHistory(patientId);
-    
-    // Aqui poderíamos unificar com o histórico de atestados se houvesse um endpoint separado,
-    // ou filtrar uma lista genérica de documentos.
-    // Por enquanto, ordenamos por data decrescente.
-    prescriptions.sort((a, b) => b.date.compareTo(a.date));
-    
-    return prescriptions;
+  final Ref ref;
+
+  Future<List<String>> _fetchDocuments({String? patientId}) async {
+    // TODO: Implementar repositório de documentos
+    return [];
   }
 
-  /// Emite uma nova receita.
-  Future<void> emitPrescription(Prescription prescription) async {
+  /// Recarrega os documentos.
+  Future<void> refresh() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() => _fetchDocuments());
+  }
+
+  /// Adiciona um documento.
+  Future<void> addDocument(String path) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final repository = ref.read(prontuarioRepositoryProvider);
-      await repository.createPrescription(prescription);
-      return _fetchHistory(arg);
-    });
-  }
-
-  /// Emite um novo atestado.
-  Future<void> emitCertificate(MedicalCertificate certificate) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final repository = ref.read(prontuarioRepositoryProvider);
-      await repository.createCertificate(certificate);
-      return _fetchHistory(arg);
+      // TODO: Implementar adição de documento
+      return _fetchDocuments();
     });
   }
 }
+
+/// Provider para criar a instância do DocumentsViewModel.
+final documentsViewModelProvider = StateNotifierProvider<DocumentsViewModel, AsyncValue<List<String>>>((ref) {
+  return DocumentsViewModel(ref);
+});

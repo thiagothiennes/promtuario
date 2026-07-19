@@ -1,18 +1,16 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/patient.dart';
 import '../../domain/repositories/i_patient_repository.dart';
 import '../../../core/providers/providers.dart';
 
-part 'patient_viewmodel.g.dart';
-
 /// Notifier responsável pela gestão de pacientes.
 /// Implementa busca, cadastro, atualização e anonimização (LGPD).
-@riverpod
-class PatientViewModel extends _$PatientViewModel {
-  @override
-  FutureOr<List<Patient>> build() async {
-    return _fetchPatients();
+class PatientViewModel extends StateNotifier<AsyncValue<List<Patient>>> {
+  PatientViewModel(this.ref) : super(const AsyncValue.loading()) {
+    _fetchPatients();
   }
+
+  final Ref ref;
 
   Future<List<Patient>> _fetchPatients({String? query}) async {
     final repository = ref.read(patientRepositoryProvider);
@@ -56,3 +54,8 @@ class PatientViewModel extends _$PatientViewModel {
     });
   }
 }
+
+/// Provider para criar a instância do PatientViewModel.
+final patientViewModelProvider = StateNotifierProvider<PatientViewModel, AsyncValue<List<Patient>>>((ref) {
+  return PatientViewModel(ref);
+});

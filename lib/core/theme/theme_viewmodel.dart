@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-part 'theme_viewmodel.g.dart';
-
-@riverpod
-class ThemeViewModel extends _$ThemeViewModel {
-  @override
-  ThemeMode build() => ThemeMode.system;
+/// Notifier responsável pelo gerenciamento do tema da aplicação.
+class ThemeViewModel extends StateNotifier<ThemeMode> {
+  ThemeViewModel() : super(ThemeMode.system);
 
   void toggleTheme(bool isDark) {
     state = isDark ? ThemeMode.dark : ThemeMode.light;
@@ -16,3 +13,8 @@ class ThemeViewModel extends _$ThemeViewModel {
     state = mode;
   }
 }
+
+/// Provider para criar a instância do ThemeViewModel.
+final themeViewModelProvider = StateNotifierProvider<ThemeViewModel, ThemeMode>((ref) {
+  return ThemeViewModel();
+});

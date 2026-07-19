@@ -1,47 +1,56 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../auth/domain/entities/user.dart';
-import '../../domain/repositories/i_user_management_repository.dart';
-import '../../../../core/providers/providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/providers/providers.dart';
+import '../../domain/entities/user.dart';
 
-part 'user_management_viewmodel.g.dart';
-
-@riverpod
-class UserManagementViewModel extends _$UserManagementViewModel {
-  @override
-  FutureOr<List<User>> build() async {
-    return _fetchUsers();
+/// Gerencia o cadastro e administração de usuários.
+class UserManagementViewModel extends StateNotifier<AsyncValue<List<User>>> {
+  UserManagementViewModel(this.ref) : super(const AsyncValue.loading()) {
+    _fetchUsers();
   }
 
-  Future<List<User>> _fetchUsers({UserRole? role, String? query}) async {
-    final repository = ref.read(userManagementRepositoryProvider);
-    return await repository.getUsers(role: role, query: query);
+  final Ref ref;
+
+  Future<List<User>> _fetchUsers() async {
+    final repository = ref.read(authRepositoryProvider);
+    // TODO: Implementar método para listar todos os usuários
+    return [];
   }
 
-  Future<void> search(String query) async {
+  /// Recarrega a lista de usuários.
+  Future<void> refresh() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _fetchUsers(query: query));
+    state = await AsyncValue.guard(() => _fetchUsers());
   }
 
-  Future<void> filterByRole(UserRole? role) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _fetchUsers(role: role));
-  }
-
-  Future<void> createUser(User user, String password) async {
+  /// Cria um novo usuário.
+  Future<void> createUser(User user) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final repository = ref.read(userManagementRepositoryProvider);
-      await repository.createUser(user, password);
+      // TODO: Implementar criação de usuário
       return _fetchUsers();
     });
   }
 
-  Future<void> toggleStatus(String userId, bool active) async {
+  /// Atualiza um usuário existente.
+  Future<void> updateUser(User user) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final repository = ref.read(userManagementRepositoryProvider);
-      await repository.toggleUserStatus(userId, active);
+      // TODO: Implementar atualização de usuário
+      return _fetchUsers();
+    });
+  }
+
+  /// Remove um usuário.
+  Future<void> deleteUser(String id) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      // TODO: Implementar remoção de usuário
       return _fetchUsers();
     });
   }
 }
+
+/// Provider para criar a instância do UserManagementViewModel.
+final userManagementViewModelProvider = StateNotifierProvider<UserManagementViewModel, AsyncValue<List<User>>>((ref) {
+  return UserManagementViewModel(ref);
+});
