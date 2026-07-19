@@ -3,22 +3,17 @@ import 'package:promt/features/prontuario/domain/entities/anamnese.dart';
 import 'package:promt/core/providers/providers.dart';
 
 /// Gerencia as anamneses dos pacientes.
-class AnamneseViewModel extends FamilyStateNotifier<AsyncValue<List<Anamnese>>, String> {
-  AnamneseViewModel(this.ref) : super(const AsyncValue.loading());
+class AnamneseViewModel extends StateNotifier<AsyncValue<List<Anamnese>>> {
+  AnamneseViewModel(this.ref, this.patientId) : super(const AsyncValue.loading()) {
+    _fetchAnamneses();
+  }
 
   final Ref ref;
-  late String _patientId;
-
-  @override
-  AsyncValue<List<Anamnese>> build(String arg) {
-    _patientId = arg;
-    _fetchAnamneses();
-    return const AsyncValue.loading();
-  }
+  final String patientId;
 
   Future<void> _fetchAnamneses() async {
     state = await AsyncValue.guard(() => 
-      ref.read(prontuarioRepositoryProvider).getAnamneses(_patientId)
+      ref.read(prontuarioRepositoryProvider).getAnamneses(patientId)
     );
   }
 
@@ -27,15 +22,13 @@ class AnamneseViewModel extends FamilyStateNotifier<AsyncValue<List<Anamnese>>, 
   Future<void> saveAnamnese(Map<String, dynamic> responses) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await ref.read(prontuarioRepositoryProvider).saveAnamnese(_patientId, responses);
-      final list = await ref.read(prontuarioRepositoryProvider).getAnamneses(_patientId);
+      await ref.read(prontuarioRepositoryProvider).saveAnamnese(patientId, responses);
+      final list = await ref.read(prontuarioRepositoryProvider).getAnamneses(patientId);
       return list;
     });
   }
 }
 
 final anamneseViewModelProvider = StateNotifierProvider.family<AnamneseViewModel, AsyncValue<List<Anamnese>>, String>((ref, patientId) {
-  final vm = AnamneseViewModel(ref);
-  vm.build(patientId);
-  return vm;
+  return AnamneseViewModel(ref, patientId);
 });

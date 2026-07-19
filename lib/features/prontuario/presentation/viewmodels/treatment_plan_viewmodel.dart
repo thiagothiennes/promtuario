@@ -3,22 +3,17 @@ import 'package:promt/features/prontuario/domain/entities/treatment_plan.dart';
 import 'package:promt/core/providers/providers.dart';
 
 /// Gerencia os planos de tratamento dos pacientes.
-class TreatmentPlanViewModel extends FamilyStateNotifier<AsyncValue<List<TreatmentPlan>>, String> {
-  TreatmentPlanViewModel(this.ref) : super(const AsyncValue.loading());
+class TreatmentPlanViewModel extends StateNotifier<AsyncValue<List<TreatmentPlan>>> {
+  TreatmentPlanViewModel(this.ref, this.patientId) : super(const AsyncValue.loading()) {
+    _fetchTreatmentPlans();
+  }
 
   final Ref ref;
-  late String _patientId;
-
-  @override
-  AsyncValue<List<TreatmentPlan>> build(String arg) {
-    _patientId = arg;
-    _fetchTreatmentPlans();
-    return const AsyncValue.loading();
-  }
+  final String patientId;
 
   Future<void> _fetchTreatmentPlans() async {
     state = await AsyncValue.guard(() => 
-      ref.read(prontuarioRepositoryProvider).getTreatmentPlans(_patientId)
+      ref.read(prontuarioRepositoryProvider).getTreatmentPlans(patientId)
     );
   }
 
@@ -30,7 +25,7 @@ class TreatmentPlanViewModel extends FamilyStateNotifier<AsyncValue<List<Treatme
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.read(prontuarioRepositoryProvider).saveTreatmentPlan(plan);
-      final list = await ref.read(prontuarioRepositoryProvider).getTreatmentPlans(_patientId);
+      final list = await ref.read(prontuarioRepositoryProvider).getTreatmentPlans(patientId);
       return list;
     });
   }
@@ -38,7 +33,5 @@ class TreatmentPlanViewModel extends FamilyStateNotifier<AsyncValue<List<Treatme
 
 /// Provider para criar a instância do TreatmentPlanViewModel por paciente.
 final treatmentPlanViewModelProvider = StateNotifierProvider.family<TreatmentPlanViewModel, AsyncValue<List<TreatmentPlan>>, String>((ref, patientId) {
-  final vm = TreatmentPlanViewModel(ref);
-  vm.build(patientId);
-  return vm;
+  return TreatmentPlanViewModel(ref, patientId);
 });

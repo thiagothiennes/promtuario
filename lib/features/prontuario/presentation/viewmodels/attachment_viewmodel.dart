@@ -4,22 +4,17 @@ import 'package:promt/core/providers/providers.dart';
 import 'package:promt/features/prontuario/domain/entities/attachment.dart';
 
 /// Gerencia anexos do prontuário (imagens, exames, etc).
-class AttachmentViewModel extends FamilyStateNotifier<AsyncValue<List<Attachment>>, String> {
-  AttachmentViewModel(this.ref) : super(const AsyncValue.loading());
+class AttachmentViewModel extends StateNotifier<AsyncValue<List<Attachment>>> {
+  AttachmentViewModel(this.ref, this.patientId) : super(const AsyncValue.loading()) {
+    _fetchAttachments();
+  }
 
   final Ref ref;
-  late String _patientId;
-
-  @override
-  AsyncValue<List<Attachment>> build(String arg) {
-    _patientId = arg;
-    _fetchAttachments();
-    return const AsyncValue.loading();
-  }
+  final String patientId;
 
   Future<void> _fetchAttachments() async {
     state = await AsyncValue.guard(() => 
-      ref.read(attachmentRepositoryProvider).getAttachments(_patientId)
+      ref.read(attachmentRepositoryProvider).getAttachments(patientId)
     );
   }
 
@@ -29,12 +24,12 @@ class AttachmentViewModel extends FamilyStateNotifier<AsyncValue<List<Attachment
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.read(attachmentRepositoryProvider).uploadAttachment(
-        _patientId, 
+        patientId, 
         file, 
         type, 
         description: description
       );
-      final list = await ref.read(attachmentRepositoryProvider).getAttachments(_patientId);
+      final list = await ref.read(attachmentRepositoryProvider).getAttachments(patientId);
       return list;
     });
   }
@@ -42,14 +37,12 @@ class AttachmentViewModel extends FamilyStateNotifier<AsyncValue<List<Attachment
   Future<void> removeAttachment(String id) async {
     state = await AsyncValue.guard(() async {
       await ref.read(attachmentRepositoryProvider).deleteAttachment(id);
-      final list = await ref.read(attachmentRepositoryProvider).getAttachments(_patientId);
+      final list = await ref.read(attachmentRepositoryProvider).getAttachments(patientId);
       return list;
     });
   }
 }
 
 final attachmentViewModelProvider = StateNotifierProvider.family<AttachmentViewModel, AsyncValue<List<Attachment>>, String>((ref, patientId) {
-  final vm = AttachmentViewModel(ref);
-  vm.build(patientId);
-  return vm;
+  return AttachmentViewModel(ref, patientId);
 });

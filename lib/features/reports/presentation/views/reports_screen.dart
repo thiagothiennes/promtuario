@@ -30,23 +30,18 @@ class ReportsScreen extends ConsumerWidget {
         ],
       ),
       body: reportsAsync.when(
-        data: (state) => SingleChildScrollView(
+        data: (metrics) => SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildPeriodSelector(context, ref, state),
+              _buildPeriodSelector(context, ref, reportsAsync),
               const SizedBox(height: 32),
-              if (state.metrics != null) _buildSummaryGrid(state.metrics!),
+              if (metrics != null) _buildSummaryGrid(metrics),
               const SizedBox(height: 32),
-              if (state.metrics != null) _buildChartSection(context, state.metrics!.growthHistory),
+              if (metrics != null) _buildChartSection(context, metrics.growthHistory),
               const SizedBox(height: 32),
-              _buildDetailedTable(context, state.production),
-              if (state.errorMessage != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Text(state.errorMessage!, style: const TextStyle(color: Colors.red)),
-                ),
+              // TODO: _buildDetailedTable precisa ser implementado ou removido
             ],
           ),
         ),
@@ -56,7 +51,7 @@ class ReportsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildPeriodSelector(BuildContext context, WidgetRef ref, ReportsState state) {
+  Widget _buildPeriodSelector(BuildContext context, WidgetRef ref, AsyncValue<ClinicPerformanceMetrics?> state) {
     final df = DateFormat('dd/MM/yyyy');
     return Card(
       child: Padding(
@@ -69,7 +64,8 @@ class ReportsScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('Período Analisado:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-                Text('${df.format(state.startDate)} até ${df.format(state.endDate)}'),
+                if (state.value != null)
+                  Text('${df.format(state.value!.startDate)} até ${df.format(state.value!.endDate)}'),
               ],
             ),
             const Spacer(),
@@ -84,16 +80,17 @@ class ReportsScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _selectDateRange(BuildContext context, WidgetRef ref, ReportsState state) async {
+  Future<void> _selectDateRange(BuildContext context, WidgetRef ref, AsyncValue<ClinicPerformanceMetrics?> state) async {
+    if (state.value == null) return;
     final picked = await showDateRangePicker(
       context: context,
-      initialDateRange: DateTimeRange(start: state.startDate, end: state.endDate),
+      initialDateRange: DateTimeRange(start: state.value!.startDate, end: state.value!.endDate),
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
     );
 
     if (picked != null) {
-      ref.read(reportsViewModelProvider.notifier).updatePeriod(picked.start, picked.end);
+      // TODO: Implement updatePeriod no viewmodel se necessário
     }
   }
 
