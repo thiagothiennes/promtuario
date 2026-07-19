@@ -1,21 +1,39 @@
-# Compiled and build artifacts
-*.o
-*.obj
-*.out
+```
+# Flutter/Dart specific
+.dart_tool/
+.packages
+pubspec.lock
 
-# Dependencies
-**/build/
+# Build outputs
+build/
+*.apk
+*.aab
+*.app
+*.exe
+*.dll
+*.so
+*.dylib
 
-# Logs and temp files
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
 *.log
 *.tmp
-*.swp
 
 # Environment
 .env
 .env.local
 *.env.*
 
-# Editors
-.vscode/
-.idea/
+# Dependencies
+vendor/
+node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+```

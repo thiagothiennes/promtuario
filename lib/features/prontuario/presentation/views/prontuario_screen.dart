@@ -73,7 +73,7 @@ class _ProntuarioScreenState extends ConsumerState<ProntuarioScreen> with Single
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
-            Tab(text: 'Odontograma', icon: Icon(Icons.tooth_outlined)),
+            Tab(text: 'Odontograma', icon: Icon(Icons.medical_services)),
             Tab(text: 'Evolução Clínica', icon: Icon(Icons.history_edu)),
             Tab(text: 'Exames & Fotos', icon: Icon(Icons.photo_library_outlined)),
           ],

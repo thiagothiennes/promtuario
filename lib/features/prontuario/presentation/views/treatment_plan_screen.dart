@@ -108,10 +108,13 @@ class _TreatmentPlanScreenState extends ConsumerState<TreatmentPlanScreen> {
         ],
       ),
       body: planAsync.when(
-        data: (plan) {
-          if (plan == null) {
+        data: (plans) {
+          if (plans.isEmpty) {
             return _buildEmptyState();
           }
+
+          // Usa o primeiro plano da lista (mais recente ou ativo)
+          final plan = plans.first;
 
           return Column(
             children: [

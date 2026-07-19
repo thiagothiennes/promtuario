@@ -181,12 +181,26 @@ class AppDatabase extends _$AppDatabase {
             await m.addColumn(odontogramLocal, odontogramLocal.isSynced);
           }
           if (from < 20) {
-            await m.addColumn(evolutionsLocal, evolutionsLocal.studentId);
-            await m.addColumn(evolutionsLocal, evolutionsLocal.studentName);
-            await m.addColumn(evolutionsLocal, evolutionsLocal.professorName);
-            await m.addColumn(evolutionsLocal, evolutionsLocal.isSignedByProfessor);
-            await m.addColumn(evolutionsLocal, evolutionsLocal.signedAt);
-            await m.addColumn(evolutionsLocal, evolutionsLocal.clinicName);
+            // Verifica se as colunas já existem antes de adicionar
+            final evolutionsTable = await m.schemaSnapshot.tableFor('evolutions_local');
+            if (!evolutionsTable.columns.containsKey('student_id')) {
+              await m.addColumn(evolutionsLocal, evolutionsLocal.studentId);
+            }
+            if (!evolutionsTable.columns.containsKey('student_name')) {
+              await m.addColumn(evolutionsLocal, evolutionsLocal.studentName);
+            }
+            if (!evolutionsTable.columns.containsKey('professor_name')) {
+              await m.addColumn(evolutionsLocal, evolutionsLocal.professorName);
+            }
+            if (!evolutionsTable.columns.containsKey('is_signed_by_professor')) {
+              await m.addColumn(evolutionsLocal, evolutionsLocal.isSignedByProfessor);
+            }
+            if (!evolutionsTable.columns.containsKey('signed_at')) {
+              await m.addColumn(evolutionsLocal, evolutionsLocal.signedAt);
+            }
+            if (!evolutionsTable.columns.containsKey('clinic_name')) {
+              await m.addColumn(evolutionsLocal, evolutionsLocal.clinicName);
+            }
           }
         },
       );

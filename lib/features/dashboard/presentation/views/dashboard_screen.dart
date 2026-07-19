@@ -186,7 +186,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   Widget _buildContent(dynamic stats, User? user) {
     return RefreshIndicator(
-      onPressed: () => ref.read(dashboardViewModelProvider.notifier).refresh(),
+      onRefresh: () => ref.read(dashboardViewModelProvider.notifier).refresh(),
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         physics: const AlwaysScrollableScrollPhysics(),

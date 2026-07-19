@@ -176,54 +176,52 @@ class ProntuarioRepository implements IProntuarioRepository {
   }
 
   @override
-  Future<Anamnese?> getAnamneseByPatientId(String patientId) async {
+  Future<List<Anamnese>> getAnamneses(String patientId) async {
     try {
       final response =
-          await _apiClient.instance.get('/patients/$patientId/anamnese');
-      if (response.data == null) return null;
-
-      final anamnese = Anamnese.fromJson(response.data);
-
-      await _localDb.into(_localDb.anamneseLocal).insertOnConflictUpdate(
-            AnamneseLocalCompanion.insert(
-              patientId: patientId,
-              responsesJson: jsonEncode(anamnese.responses),
-              lastUpdated: DateTime.now(),
-              isSynced: const Value(true),
-            ),
-          );
-
-      return anamnese;
+          await _apiClient.instance.get('/patients/$patientId/anamneses');
+      final List<dynamic> data = response.data ?? [];
+      return data.map((json) => Anamnese.fromJson(json)).toList();
     } catch (e) {
       final localData = await (_localDb.select(_localDb.anamneseLocal)
             ..where((t) => t.patientId.equals(patientId)))
           .getSingleOrNull();
 
       if (localData != null) {
-        return Anamnese(
-          id: 'local',
-          patientId: patientId,
-          responses: jsonDecode(localData.responsesJson),
-          createdAt: localData.lastUpdated,
-          createdBy: 'offline',
-        );
+        return [
+          Anamnese(
+            id: 'local',
+            patientId: patientId,
+            responses: jsonDecode(localData.responsesJson),
+            createdAt: localData.lastUpdated,
+            createdBy: 'offline',
+          ),
+        ];
       }
-      return null;
+      return [];
     }
   }
 
   @override
-  Future<void> saveAnamnese(Anamnese anamnese) async {
+  Future<void> saveAnamnese(String patientId, Map<String, dynamic> responses) async {
+    final anamnese = Anamnese(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      patientId: patientId,
+      responses: responses,
+      createdAt: DateTime.now(),
+      createdBy: _currentUser?.id ?? 'unknown',
+    );
+
     try {
       await _apiClient.instance.post(
-        '/patients/${anamnese.patientId}/anamnese',
+        '/patients/$patientId/anamnese',
         data: anamnese.toJson(),
       );
 
       await _localDb.into(_localDb.anamneseLocal).insertOnConflictUpdate(
             AnamneseLocalCompanion.insert(
-              patientId: anamnese.patientId,
-              responsesJson: jsonEncode(anamnese.responses),
+              patientId: patientId,
+              responsesJson: jsonEncode(responses),
               lastUpdated: DateTime.now(),
               isSynced: const Value(true),
             ),
@@ -231,8 +229,8 @@ class ProntuarioRepository implements IProntuarioRepository {
     } catch (e) {
       await _localDb.into(_localDb.anamneseLocal).insertOnConflictUpdate(
             AnamneseLocalCompanion.insert(
-              patientId: anamnese.patientId,
-              responsesJson: jsonEncode(anamnese.responses),
+              patientId: patientId,
+              responsesJson: jsonEncode(responses),
               lastUpdated: DateTime.now(),
               isSynced: const Value(false),
             ),
@@ -241,44 +239,67 @@ class ProntuarioRepository implements IProntuarioRepository {
   }
 
   @override
-  Future<TreatmentPlan?> getTreatmentPlan(String patientId) async {
+  Future<List<Evolution>> getEvolutions(String patientId) async {
     try {
       final response =
-          await _apiClient.instance.get('/patients/$patientId/treatment-plan');
-      if (response.data == null) return null;
-      final plan = TreatmentPlan.fromJson(response.data);
+          await _apiClient.instance.get('/prontuario/$patientId/evolutions');
+      final List<dynamic> data = response.data ?? [];
+      return data.map((json) => Evolution.fromJson(json)).toList();
+    } catch (e) {
+      final localEvolutions = await (_localDb.select(_localDb.evolutionsLocal)
+            ..where((t) => t.patientId.equals(patientId)))
+          .get();
 
-      for (var item in plan.items) {
-        await _saveTreatmentItemLocal(plan.id, item, true);
-      }
+      return localEvolutions
+          .map((row) => Evolution(
+                id: row.id,
+                patientId: row.patientId,
+                studentId: row.studentId ?? '',
+                studentName: row.studentName ?? 'Aluno',
+                professorId: row.professorId ?? '',
+                professorName: row.professorName ?? 'Professor',
+                description: row.description,
+                isSignedByProfessor: row.isSignedByProfessor,
+                signedAt: row.signedAt,
+                createdAt: row.createdAt,
+                clinicName: row.clinicName,
+              ))
+          .toList();
+    }
+  }
 
-      return plan;
+  @override
+  Future<List<TreatmentPlan>> getTreatmentPlans(String patientId) async {
+    try {
+      final response =
+          await _apiClient.instance.get('/patients/$patientId/treatment-plans');
+      final List<dynamic> data = response.data ?? [];
+      return data.map((json) => TreatmentPlan.fromJson(json)).toList();
     } catch (e) {
       final localItems = await (_localDb.select(_localDb.treatmentItemsLocal)
             ..where((t) => t.planId.isNotNull()))
           .get();
 
-      if (localItems.isEmpty) return null;
+      if (localItems.isEmpty) return [];
 
-      return TreatmentPlan(
-        id: localItems.first.planId,
+      // Agrupa itens por planId
+      final plansMap = <String, List<TreatmentItem>>{};
+      for (var item in localItems) {
+        if (!plansMap.containsKey(item.planId)) {
+          plansMap[item.planId] = [];
+        }
+        plansMap[item.planId]!.add(_mapRowToItem(item));
+      }
+
+      return plansMap.entries.map((entry) => TreatmentPlan(
+        id: entry.key,
         patientId: patientId,
         description: 'Plano em modo offline',
-        items: localItems
-            .map((row) => TreatmentItem(
-                  id: row.id,
-                  procedureId: '',
-                  procedureName: row.procedureName,
-                  value: row.value,
-                  toothNumber: row.toothNumber,
-                  status: TreatmentItemStatus.values
-                      .firstWhere((e) => e.name == row.status),
-                ))
-            .toList(),
+        items: entry.value,
         createdByUserId: 'offline',
         status: TreatmentPlanStatus.inProgress,
         createdAt: DateTime.now(),
-      );
+      )).toList();
     }
   }
 
