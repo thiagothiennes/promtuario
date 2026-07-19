@@ -1,6 +1,7 @@
 import '../../../../core/network/api_client.dart';
-import '../domain/entities/clinic.dart';
-import '../domain/repositories/i_procedures_repository.dart';
+import '../../domain/entities/clinic.dart';
+import '../../domain/entities/procedure.dart';
+import '../../domain/repositories/i_procedures_repository.dart';
 
 /// Implementação do repositório de Clínicas e Procedimentos.
 /// Centraliza a definição das clínicas escola autorizadas na instituição.

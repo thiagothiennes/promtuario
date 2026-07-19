@@ -1,4 +1,5 @@
 import '../entities/clinic.dart';
+import '../entities/procedure.dart';
 
 /// Contrato para o Repositório de Clínicas e Procedimentos.
 abstract class IProceduresRepository {

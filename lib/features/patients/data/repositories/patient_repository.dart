@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:promt/core/network/api_client.dart';
-import 'package:promt/core/database/local_database.dart';
+import 'package:promt/core/database/local_database.dart' as drift_db;
 import 'package:promt/features/patients/domain/entities/patient.dart';
 import 'package:promt/features/patients/domain/repositories/i_patient_repository.dart';
 
@@ -8,7 +8,7 @@ import 'package:promt/features/patients/domain/repositories/i_patient_repository
 /// Gerencia a sincronização entre a API remota e o Banco de Dados local (SQLite).
 class PatientRepository implements IPatientRepository {
   final ApiClient _apiClient;
-  final AppDatabase _localDb;
+  final drift_db.AppDatabase _localDb;
 
   PatientRepository(this._apiClient, this._localDb);
 
@@ -131,7 +131,7 @@ class PatientRepository implements IPatientRepository {
     );
   }
 
-  Patient _mapSchemaToEntity(PatientData row) {
+  Patient _mapSchemaToEntity(drift_db.PatientsData row) {
     return Patient(
       id: row.id,
       fullName: row.fullName,
