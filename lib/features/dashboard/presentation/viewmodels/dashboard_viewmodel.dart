@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:promt/features/dashboard/domain/models/dashboard_stats_model.dart';
-import 'package:promt/core/providers/providers.dart';
+import '../../domain/models/dashboard_stats_model.dart';
+import '../../../core/providers/providers.dart';
 
 /// Gerencia o estado do dashboard com estatísticas da clínica.
 class DashboardViewModel extends StateNotifier<AsyncValue<DashboardStatsModel>> {
@@ -11,16 +11,12 @@ class DashboardViewModel extends StateNotifier<AsyncValue<DashboardStatsModel>> 
   final Ref ref;
 
   Future<DashboardStatsModel> _fetchStats() async {
-    // Por enquanto retornando dados mockados seguindo a estrutura correta do modelo
-    return const DashboardStatsModel(
-      totalPatients: 120,
-      appointmentsToday: 8,
-      proceduresThisMonth: 45,
-      pendingAlerts: 2,
-      growthData: [
-        MonthlyGrowthModel(month: 'Jan', count: 10),
-        MonthlyGrowthModel(month: 'Fev', count: 15),
-      ],
+    // TODO: Implementar repositório de dashboard
+    return DashboardStatsModel(
+      totalPatients: 0,
+      appointmentsToday: 0,
+      pendingTreatments: 0,
+      revenue: 0.0,
     );
   }
 
