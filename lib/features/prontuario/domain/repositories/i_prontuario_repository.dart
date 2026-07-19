@@ -10,17 +10,17 @@ abstract class IProntuarioRepository {
   Future<void> saveOdontogram(Odontogram odontogram);
   
   Future<void> addEvolution(String patientId, String description, String professorId);
-  Future<List<Evolution>> getEvolutionHistory(String patientId);
+  Future<List<Evolution>> getEvolutions(String patientId);
   Future<void> signEvolution(String evolutionId);
 
   Future<Prescription> createPrescription(Prescription prescription);
   Future<List<Prescription>> getPrescriptionHistory(String patientId);
   Future<MedicalCertificate> createCertificate(MedicalCertificate certificate);
 
-  Future<Anamnese?> getAnamneseByPatientId(String patientId);
-  Future<void> saveAnamnese(Anamnese anamnese);
+  Future<List<Anamnese>> getAnamneses(String patientId);
+  Future<void> saveAnamnese(String patientId, Map<String, dynamic> responses);
   
-  Future<TreatmentPlan?> getTreatmentPlan(String patientId);
+  Future<List<TreatmentPlan>> getTreatmentPlans(String patientId);
   Future<void> saveTreatmentPlan(TreatmentPlan plan);
   Future<void> updateTreatmentItemStatus(String planId, String itemId, String status);
 

@@ -22,6 +22,8 @@ class ClinicPerformanceMetrics with _$ClinicPerformanceMetrics {
     required double absenceRate,
     required int totalProceduresThisMonth,
     required List<MonthlyGrowth> growthHistory,
+    required DateTime startDate,
+    required DateTime endDate,
   }) = _ClinicPerformanceMetrics;
 
   factory ClinicPerformanceMetrics.fromJson(Map<String, dynamic> json) => _$ClinicPerformanceMetricsFromJson(json);

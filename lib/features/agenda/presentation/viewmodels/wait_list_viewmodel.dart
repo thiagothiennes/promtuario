@@ -1,53 +1,50 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/wait_list_entry.dart';
-import '../../domain/repositories/i_wait_list_repository.dart';
-import '../../../../core/providers/providers.dart';
+import 'package:promt/features/agenda/domain/entities/wait_list_entry.dart';
+import 'package:promt/core/providers/providers.dart';
 
-/// Gerencia a lista de espera de atendimentos.
-class WaitListViewModel extends StateNotifier<AsyncValue<List<WaitListEntry>>> {
-  WaitListViewModel(this.ref) : super(const AsyncValue.loading()) {
-    _fetchEntries();
-  }
+/// Gerencia a lista de espera de atendimentos filtrada por clínica.
+class WaitListViewModel extends FamilyStateNotifier<AsyncValue<List<WaitListEntry>>, String> {
+  WaitListViewModel(this.ref) : super(const AsyncValue.loading());
 
   final Ref ref;
+  late String _clinicId;
 
-  Future<List<WaitListEntry>> _fetchEntries() async {
-    final repository = ref.read(waitListRepositoryProvider);
-    return await repository.getEntries();
+  @override
+  AsyncValue<List<WaitListEntry>> build(String arg) {
+    _clinicId = arg;
+    _fetchEntries();
+    return const AsyncValue.loading();
+  }
+
+  Future<void> _fetchEntries() async {
+    state = await AsyncValue.guard(() => 
+      ref.read(waitListRepositoryProvider).getWaitListByClinic(_clinicId)
+    );
   }
 
   /// Adiciona um paciente à lista de espera.
   Future<void> addEntry(WaitListEntry entry) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final repository = ref.read(waitListRepositoryProvider);
-      await repository.addEntry(entry);
-      return _fetchEntries();
+      await ref.read(waitListRepositoryProvider).addToWaitList(entry);
+      final list = await ref.read(waitListRepositoryProvider).getWaitListByClinic(_clinicId);
+      return list;
     });
   }
 
-  /// Remove um paciente da lista de espera.
-  Future<void> removeEntry(String id) async {
-    state = const AsyncValue.loading();
+  /// Resolve uma entrada (marcar como concluído/atendido).
+  Future<void> resolve(String id) async {
     state = await AsyncValue.guard(() async {
-      final repository = ref.read(waitListRepositoryProvider);
-      await repository.removeEntry(id);
-      return _fetchEntries();
-    });
-  }
-
-  /// Converte um entry da lista de espera em agendamento.
-  Future<void> convertToAppointment(String id) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final repository = ref.read(waitListRepositoryProvider);
-      await repository.convertToAppointment(id);
-      return _fetchEntries();
+      await ref.read(waitListRepositoryProvider).resolveEntry(id);
+      final list = await ref.read(waitListRepositoryProvider).getWaitListByClinic(_clinicId);
+      return list;
     });
   }
 }
 
-/// Provider para criar a instância do WaitListViewModel.
-final waitListViewModelProvider = StateNotifierProvider<WaitListViewModel, AsyncValue<List<WaitListEntry>>>((ref) {
-  return WaitListViewModel(ref);
+/// Provider para criar a instância do WaitListViewModel por clínica.
+final waitListViewModelProvider = StateNotifierProvider.family<WaitListViewModel, AsyncValue<List<WaitListEntry>>, String>((ref, clinicId) {
+  final vm = WaitListViewModel(ref);
+  vm.build(clinicId);
+  return vm;
 });

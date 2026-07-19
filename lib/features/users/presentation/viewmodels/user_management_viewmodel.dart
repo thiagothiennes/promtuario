@@ -10,37 +10,40 @@ class UserManagementViewModel extends StateNotifier<AsyncValue<List<User>>> {
 
   final Ref ref;
 
-  Future<List<User>> _fetchUsers() async {
+  Future<List<User>> _fetchUsers({UserRole? role, String? query}) async {
     final repository = ref.read(userManagementRepositoryProvider);
-    return await repository.getAllUsers();
+    return await repository.getUsers(role: role, query: query);
   }
 
-  /// Recarrega a lista de usuários.
   Future<void> refresh() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() => _fetchUsers());
   }
 
-  /// Cria um novo usuário.
-  Future<void> createUser(User user) async {
+  Future<void> search(String query) async {
+    state = await AsyncValue.guard(() => _fetchUsers(query: query));
+  }
+
+  Future<void> filterByRole(UserRole? role) async {
+    state = await AsyncValue.guard(() => _fetchUsers(role: role));
+  }
+
+  Future<void> createUser(User user, String password) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await ref.read(userManagementRepositoryProvider).createUser(user);
+      await ref.read(userManagementRepositoryProvider).createUser(user, password);
       return _fetchUsers();
     });
   }
 
-  /// Atualiza um usuário existente.
-  Future<void> updateUser(User user) async {
-    state = const AsyncValue.loading();
+  Future<void> toggleStatus(String userId, bool active) async {
     state = await AsyncValue.guard(() async {
-      await ref.read(userManagementRepositoryProvider).updateUser(user);
+      await ref.read(userManagementRepositoryProvider).toggleUserStatus(userId, active);
       return _fetchUsers();
     });
   }
 }
 
-/// Provider para criar a instância do UserManagementViewModel.
 final userManagementViewModelProvider = StateNotifierProvider<UserManagementViewModel, AsyncValue<List<User>>>((ref) {
   return UserManagementViewModel(ref);
 });

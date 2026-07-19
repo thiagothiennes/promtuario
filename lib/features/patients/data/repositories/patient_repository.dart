@@ -1,11 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:promt/core/network/api_client.dart';
 import 'package:promt/core/database/local_database.dart' as drift_db;
-import 'package:promt/features/patients/domain/entities/patient.dart';
+import 'package:promt/features/patients/domain/entities/patient.dart' as entity;
 import 'package:promt/features/patients/domain/repositories/i_patient_repository.dart';
 
 /// Implementação do Repositório de Pacientes.
-/// Gerencia a sincronização entre a API remota e o Banco de Dados local (SQLite).
 class PatientRepository implements IPatientRepository {
   final ApiClient _apiClient;
   final drift_db.AppDatabase _localDb;
@@ -13,7 +12,7 @@ class PatientRepository implements IPatientRepository {
   PatientRepository(this._apiClient, this._localDb);
 
   @override
-  Future<List<Patient>> getPatients({int page = 1, String? query}) async {
+  Future<List<entity.Patient>> getPatients({int page = 1, String? query}) async {
     try {
       final response = await _apiClient.instance.get('/patients', queryParameters: {
         'page': page,
@@ -32,13 +31,13 @@ class PatientRepository implements IPatientRepository {
   }
 
   @override
-  Future<Patient> getPatientById(String id) async {
+  Future<entity.Patient> getPatientById(String id) async {
     final response = await _apiClient.instance.get('/patients/$id');
     return _mapJsonToEntity(response.data);
   }
 
   @override
-  Future<Patient> createPatient(Patient patient) async {
+  Future<entity.Patient> createPatient(entity.Patient patient) async {
     try {
       final response = await _apiClient.instance.post('/patients', data: _mapEntityToJson(patient));
       final newPatient = _mapJsonToEntity(response.data);
@@ -52,13 +51,13 @@ class PatientRepository implements IPatientRepository {
   }
 
   @override
-  Future<void> updatePatient(Patient patient) async {
+  Future<void> updatePatient(entity.Patient patient) async {
     await _apiClient.instance.put('/patients/${patient.id}', data: _mapEntityToJson(patient));
     await _saveLocal(patient, true);
   }
 
   @override
-  Future<List<Patient>> getLocalPatients() async {
+  Future<List<entity.Patient>> getLocalPatients() async {
     final results = await _localDb.select(_localDb.patients).get();
     return results.map((row) => _mapSchemaToEntity(row)).toList();
   }
@@ -75,15 +74,15 @@ class PatientRepository implements IPatientRepository {
         await _apiClient.instance.post('/patients', data: _mapEntityToJson(patient));
         
         await (_localDb.update(_localDb.patients)..where((t) => t.id.equals(row.id))).write(
-          const PatientsCompanion(isSynced: Value(true)),
+          drift_db.PatientsCompanion(isSynced: const Value(true)),
         );
       } catch (_) {}
     }
   }
 
-  Future<void> _saveLocal(Patient patient, bool isSynced) async {
+  Future<void> _saveLocal(entity.Patient patient, bool isSynced) async {
     await _localDb.into(_localDb.patients).insertOnConflictUpdate(
-          PatientsCompanion.insert(
+          drift_db.PatientsCompanion.insert(
             id: patient.id,
             fullName: patient.fullName,
             cpf: patient.cpf,
@@ -103,14 +102,14 @@ class PatientRepository implements IPatientRepository {
         );
   }
 
-  void _updateLocalCache(List<Patient> patients) async {
+  void _updateLocalCache(List<entity.Patient> patients) async {
     for (var patient in patients) {
       await _saveLocal(patient, true);
     }
   }
 
-  Patient _mapJsonToEntity(Map<String, dynamic> json) {
-    return Patient(
+  entity.Patient _mapJsonToEntity(Map<String, dynamic> json) {
+    return entity.Patient(
       id: json['id'],
       fullName: json['fullName'],
       cpf: json['cpf'],
@@ -118,7 +117,7 @@ class PatientRepository implements IPatientRepository {
       email: json['email'],
       phone: json['phone'],
       gender: json['gender'],
-      address: json['address'] != null ? PatientAddress(
+      address: json['address'] != null ? entity.PatientAddress(
         street: json['address']['street'],
         number: json['address']['number'],
         neighborhood: json['address']['neighborhood'],
@@ -126,13 +125,13 @@ class PatientRepository implements IPatientRepository {
         state: json['address']['state'],
         zipCode: json['address']['zipCode'],
       ) : null,
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
       lgpdConsent: json['lgpdConsent'] ?? false,
     );
   }
 
-  Patient _mapSchemaToEntity(drift_db.PatientsData row) {
-    return Patient(
+  entity.Patient _mapSchemaToEntity(dynamic row) {
+    return entity.Patient(
       id: row.id,
       fullName: row.fullName,
       cpf: row.cpf,
@@ -141,7 +140,7 @@ class PatientRepository implements IPatientRepository {
       phone: row.phone,
       gender: row.gender,
       lgpdConsent: row.lgpdConsent,
-      address: row.street != null ? PatientAddress(
+      address: row.street != null ? entity.PatientAddress(
         street: row.street!,
         number: row.number ?? '',
         neighborhood: row.neighborhood ?? '',
@@ -153,7 +152,7 @@ class PatientRepository implements IPatientRepository {
     );
   }
 
-  Map<String, dynamic> _mapEntityToJson(Patient patient) {
+  Map<String, dynamic> _mapEntityToJson(entity.Patient patient) {
     return {
       'id': patient.id,
       'fullName': patient.fullName,

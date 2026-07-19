@@ -244,6 +244,8 @@ mixin _$ClinicPerformanceMetrics {
   double get absenceRate => throw _privateConstructorUsedError;
   int get totalProceduresThisMonth => throw _privateConstructorUsedError;
   List<MonthlyGrowth> get growthHistory => throw _privateConstructorUsedError;
+  DateTime get startDate => throw _privateConstructorUsedError;
+  DateTime get endDate => throw _privateConstructorUsedError;
 
   /// Serializes this ClinicPerformanceMetrics to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -265,7 +267,9 @@ abstract class $ClinicPerformanceMetricsCopyWith<$Res> {
       {double occupancyRate,
       double absenceRate,
       int totalProceduresThisMonth,
-      List<MonthlyGrowth> growthHistory});
+      List<MonthlyGrowth> growthHistory,
+      DateTime startDate,
+      DateTime endDate});
 }
 
 /// @nodoc
@@ -288,6 +292,8 @@ class _$ClinicPerformanceMetricsCopyWithImpl<$Res,
     Object? absenceRate = null,
     Object? totalProceduresThisMonth = null,
     Object? growthHistory = null,
+    Object? startDate = null,
+    Object? endDate = null,
   }) {
     return _then(_value.copyWith(
       occupancyRate: null == occupancyRate
@@ -306,6 +312,14 @@ class _$ClinicPerformanceMetricsCopyWithImpl<$Res,
           ? _value.growthHistory
           : growthHistory // ignore: cast_nullable_to_non_nullable
               as List<MonthlyGrowth>,
+      startDate: null == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endDate: null == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -323,7 +337,9 @@ abstract class _$$ClinicPerformanceMetricsImplCopyWith<$Res>
       {double occupancyRate,
       double absenceRate,
       int totalProceduresThisMonth,
-      List<MonthlyGrowth> growthHistory});
+      List<MonthlyGrowth> growthHistory,
+      DateTime startDate,
+      DateTime endDate});
 }
 
 /// @nodoc
@@ -345,6 +361,8 @@ class __$$ClinicPerformanceMetricsImplCopyWithImpl<$Res>
     Object? absenceRate = null,
     Object? totalProceduresThisMonth = null,
     Object? growthHistory = null,
+    Object? startDate = null,
+    Object? endDate = null,
   }) {
     return _then(_$ClinicPerformanceMetricsImpl(
       occupancyRate: null == occupancyRate
@@ -363,6 +381,14 @@ class __$$ClinicPerformanceMetricsImplCopyWithImpl<$Res>
           ? _value._growthHistory
           : growthHistory // ignore: cast_nullable_to_non_nullable
               as List<MonthlyGrowth>,
+      startDate: null == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endDate: null == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -374,7 +400,9 @@ class _$ClinicPerformanceMetricsImpl implements _ClinicPerformanceMetrics {
       {required this.occupancyRate,
       required this.absenceRate,
       required this.totalProceduresThisMonth,
-      required final List<MonthlyGrowth> growthHistory})
+      required final List<MonthlyGrowth> growthHistory,
+      required this.startDate,
+      required this.endDate})
       : _growthHistory = growthHistory;
 
   factory _$ClinicPerformanceMetricsImpl.fromJson(Map<String, dynamic> json) =>
@@ -395,8 +423,13 @@ class _$ClinicPerformanceMetricsImpl implements _ClinicPerformanceMetrics {
   }
 
   @override
+  final DateTime startDate;
+  @override
+  final DateTime endDate;
+
+  @override
   String toString() {
-    return 'ClinicPerformanceMetrics(occupancyRate: $occupancyRate, absenceRate: $absenceRate, totalProceduresThisMonth: $totalProceduresThisMonth, growthHistory: $growthHistory)';
+    return 'ClinicPerformanceMetrics(occupancyRate: $occupancyRate, absenceRate: $absenceRate, totalProceduresThisMonth: $totalProceduresThisMonth, growthHistory: $growthHistory, startDate: $startDate, endDate: $endDate)';
   }
 
   @override
@@ -412,7 +445,10 @@ class _$ClinicPerformanceMetricsImpl implements _ClinicPerformanceMetrics {
                     other.totalProceduresThisMonth, totalProceduresThisMonth) ||
                 other.totalProceduresThisMonth == totalProceduresThisMonth) &&
             const DeepCollectionEquality()
-                .equals(other._growthHistory, _growthHistory));
+                .equals(other._growthHistory, _growthHistory) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -422,7 +458,9 @@ class _$ClinicPerformanceMetricsImpl implements _ClinicPerformanceMetrics {
       occupancyRate,
       absenceRate,
       totalProceduresThisMonth,
-      const DeepCollectionEquality().hash(_growthHistory));
+      const DeepCollectionEquality().hash(_growthHistory),
+      startDate,
+      endDate);
 
   /// Create a copy of ClinicPerformanceMetrics
   /// with the given fields replaced by the non-null parameter values.
@@ -443,11 +481,12 @@ class _$ClinicPerformanceMetricsImpl implements _ClinicPerformanceMetrics {
 
 abstract class _ClinicPerformanceMetrics implements ClinicPerformanceMetrics {
   const factory _ClinicPerformanceMetrics(
-          {required final double occupancyRate,
-          required final double absenceRate,
-          required final int totalProceduresThisMonth,
-          required final List<MonthlyGrowth> growthHistory}) =
-      _$ClinicPerformanceMetricsImpl;
+      {required final double occupancyRate,
+      required final double absenceRate,
+      required final int totalProceduresThisMonth,
+      required final List<MonthlyGrowth> growthHistory,
+      required final DateTime startDate,
+      required final DateTime endDate}) = _$ClinicPerformanceMetricsImpl;
 
   factory _ClinicPerformanceMetrics.fromJson(Map<String, dynamic> json) =
       _$ClinicPerformanceMetricsImpl.fromJson;
@@ -460,6 +499,10 @@ abstract class _ClinicPerformanceMetrics implements ClinicPerformanceMetrics {
   int get totalProceduresThisMonth;
   @override
   List<MonthlyGrowth> get growthHistory;
+  @override
+  DateTime get startDate;
+  @override
+  DateTime get endDate;
 
   /// Create a copy of ClinicPerformanceMetrics
   /// with the given fields replaced by the non-null parameter values.

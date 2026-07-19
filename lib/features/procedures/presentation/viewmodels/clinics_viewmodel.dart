@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/clinic.dart';
-import '../../../core/providers/providers.dart';
+import 'package:promt/features/procedures/domain/entities/clinic.dart';
+import 'package:promt/core/providers/providers.dart';
 
 /// Gerencia as clínicas/unidades de atendimento.
 class ClinicsViewModel extends StateNotifier<AsyncValue<List<Clinic>>> {
@@ -11,32 +11,14 @@ class ClinicsViewModel extends StateNotifier<AsyncValue<List<Clinic>>> {
   final Ref ref;
 
   Future<List<Clinic>> _fetchClinics() async {
-    // TODO: Implementar repositório de clínicas
-    return [];
+    final repository = ref.read(proceduresRepositoryProvider);
+    return await repository.getClinics();
   }
 
   /// Recarrega a lista de clínicas.
   Future<void> refresh() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() => _fetchClinics());
-  }
-
-  /// Adiciona uma nova clínica.
-  Future<void> addClinic(Clinic clinic) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      // TODO: Implementar adição de clínica
-      return _fetchClinics();
-    });
-  }
-
-  /// Atualiza uma clínica existente.
-  Future<void> updateClinic(Clinic clinic) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      // TODO: Implementar atualização de clínica
-      return _fetchClinics();
-    });
   }
 }
 

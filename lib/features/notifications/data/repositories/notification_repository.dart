@@ -1,6 +1,6 @@
-import '../../../core/network/api_client.dart';
-import '../../domain/entities/notification_item.dart';
-import '../../domain/repositories/i_notification_repository.dart';
+import 'package:promt/core/network/api_client.dart';
+import 'package:promt/features/notifications/domain/entities/notification_item.dart';
+import 'package:promt/features/notifications/domain/repositories/i_notification_repository.dart';
 
 /// Implementação do repositório de notificações.
 class NotificationRepository implements INotificationRepository {

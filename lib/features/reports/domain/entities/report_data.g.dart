@@ -34,6 +34,8 @@ _$ClinicPerformanceMetricsImpl _$$ClinicPerformanceMetricsImplFromJson(
       growthHistory: (json['growthHistory'] as List<dynamic>)
           .map((e) => MonthlyGrowth.fromJson(e as Map<String, dynamic>))
           .toList(),
+      startDate: DateTime.parse(json['startDate'] as String),
+      endDate: DateTime.parse(json['endDate'] as String),
     );
 
 Map<String, dynamic> _$$ClinicPerformanceMetricsImplToJson(
@@ -43,6 +45,8 @@ Map<String, dynamic> _$$ClinicPerformanceMetricsImplToJson(
       'absenceRate': instance.absenceRate,
       'totalProceduresThisMonth': instance.totalProceduresThisMonth,
       'growthHistory': instance.growthHistory,
+      'startDate': instance.startDate.toIso8601String(),
+      'endDate': instance.endDate.toIso8601String(),
     };
 
 _$MonthlyGrowthImpl _$$MonthlyGrowthImplFromJson(Map<String, dynamic> json) =>

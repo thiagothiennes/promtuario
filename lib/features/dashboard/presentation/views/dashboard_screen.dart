@@ -6,8 +6,6 @@ import 'package:promt/features/auth/presentation/viewmodels/auth_viewmodel.dart'
 import 'package:promt/features/dashboard/presentation/viewmodels/dashboard_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 
-/// Tela principal do sistema (Dashboard).
-/// Implementa um layout responsivo com Adaptive Navigation e RBAC.
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
 
@@ -25,7 +23,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final user = authState.user;
     final isDesktop = MediaQuery.of(context).size.width > 900;
 
-    // Definição dinâmica do menu baseado no perfil (RBAC)
     final menuItems = _getMenuItems(user?.role);
 
     return Scaffold(
@@ -106,7 +103,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       },
     ];
 
-    // Itens Administrativos
     if (role == UserRole.admin || role == UserRole.coordenador) {
       items.add({
         'label': 'Relatórios',
@@ -144,10 +140,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         const SizedBox(height: 20),
         const Icon(Icons.medical_services, size: 40, color: Color(0xFF006494)),
         const SizedBox(height: 10),
-        Text(
-          'OdontoClinica',
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-        ),
+        Text('OdontoClinica', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 20),
       ],
     );
@@ -162,15 +155,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       ),
       child: Row(
         children: [
-          Text(
-            'Sistema de Gestão Clínica',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-          ),
+          Text('Sistema de Gestão Clínica', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
           const Spacer(),
-          IconButton(
-            icon: const Icon(Icons.notifications_none),
-            onPressed: () => context.push('/dashboard/notifications'),
-          ),
+          IconButton(icon: const Icon(Icons.notifications_none), onPressed: () => context.push('/dashboard/notifications')),
           const SizedBox(width: 16),
           _buildUserAvatar(context, user),
         ],
@@ -302,7 +289,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           const Icon(Icons.error_outline, size: 64, color: Colors.red),
           const SizedBox(height: 16),
           Text('Falha ao carregar dashboard: $message'),
-          TextButton(onPressed: () => ref.read(dashboardViewModelProvider.notifier).refresh(), child: const Text('Tentar Novamente')),
+          TextButton(
+            onPressed: () => ref.read(dashboardViewModelProvider.notifier).refresh(), 
+            child: const Text('Tentar Novamente')
+          ),
         ],
       ),
     );
