@@ -115,11 +115,13 @@ var app = builder.Build();
 // 8. Middleware Pipeline
 app.UseMiddleware<ExceptionMiddleware>();
 
-if (app.Environment.IsDevelopment())
+// Swagger sempre habilitado para desenvolvimento e testes
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "OdontoClinica API V1");
+    c.RoutePrefix = string.Empty; // Define / como padrão ao invés de /swagger
+});
 
 app.UseStaticFiles();
 app.UseHttpsRedirection();
