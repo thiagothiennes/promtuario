@@ -20,7 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 2. Injeção de Dependências (DI) - Repositorie
+// 2. Injeção de Dependências (DI) - Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
@@ -78,7 +78,7 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFlutter",
-        policy => policy.WithOrigins("http://localhost:3000", "http://localhost:5173", "http://localhost:8080")
+        policy => policy.AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()); // Necessário para SignalR
@@ -115,11 +115,13 @@ var app = builder.Build();
 // 8. Middleware Pipeline
 app.UseMiddleware<ExceptionMiddleware>();
 
-if (app.Environment.IsDevelopment())
+// Swagger sempre habilitado para desenvolvimento e testes
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "OdontoClinica API V1");
+    c.RoutePrefix = string.Empty; // Define / como padrão ao invés de /swagger
+});
 
 app.UseStaticFiles();
 app.UseHttpsRedirection();

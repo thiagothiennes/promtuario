@@ -7,33 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Swagger / OpenAPI -->
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    
-    <!-- Autenticação JWT e Identidade (Versões 8.0.1 para alinhar com JwtBearer 9.0.0) -->
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.6" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.0.1" />
-    <PackageReference Include="Microsoft.IdentityModel.Protocols" Version="8.0.1" />
-    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.0.1" />
-    
-    <!-- Validação de Modelos -->
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-    
-    <!-- Logging (Serilog) - Versões alinhadas -->
+    <PackageReference Include="Serilog" Version="3.1.2" />
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
-    <PackageReference Include="Serilog" Version="4.2.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-    
-    <!-- Entity Framework Core Provider para PostgreSQL -->
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
-    
-    <!-- Ferramentas de Design do EF Core -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
