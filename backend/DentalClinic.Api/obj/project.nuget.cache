@@ -1,20 +1,13 @@
 {
   "version": 2,
-<<<<<<< HEAD
   "dgSpecHash": "BCQ7/tGBfPY=",
   "success": true,
   "projectFilePath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-=======
-  "dgSpecHash": "dDgdBcm01NU=",
-  "success": false,
-  "projectFilePath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
   "expectedPackageFiles": [
     "C:\\Users\\Thiago\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
-<<<<<<< HEAD
     "C:\\Users\\Thiago\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\9.0.0\\microsoft.aspnetcore.authentication.jwtbearer.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\9.0.0\\microsoft.aspnetcore.cryptography.internal.9.0.0.nupkg.sha512",
@@ -34,14 +27,6 @@
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\9.0.0\\microsoft.entityframeworkcore.analyzers.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.entityframeworkcore.design\\9.0.0\\microsoft.entityframeworkcore.design.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\9.0.0\\microsoft.entityframeworkcore.relational.9.0.0.nupkg.sha512",
-=======
-    "C:\\Users\\Thiago\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\9.0.0\\microsoft.aspnetcore.authentication.jwtbearer.9.0.0.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.0\\microsoft.entityframeworkcore.9.0.0.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.0\\microsoft.entityframeworkcore.abstractions.9.0.0.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\9.0.0\\microsoft.entityframeworkcore.analyzers.9.0.0.nupkg.sha512",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\9.0.0\\microsoft.extensions.caching.abstractions.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.extensions.caching.memory\\9.0.0\\microsoft.extensions.caching.memory.9.0.0.nupkg.sha512",
@@ -53,11 +38,8 @@
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.extensions.diagnostics.abstractions\\9.0.0\\microsoft.extensions.diagnostics.abstractions.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\9.0.0\\microsoft.extensions.fileproviders.abstractions.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.extensions.hosting.abstractions\\9.0.0\\microsoft.extensions.hosting.abstractions.9.0.0.nupkg.sha512",
-<<<<<<< HEAD
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.extensions.identity.core\\9.0.0\\microsoft.extensions.identity.core.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.extensions.identity.stores\\9.0.0\\microsoft.extensions.identity.stores.9.0.0.nupkg.sha512",
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.extensions.logging\\9.0.0\\microsoft.extensions.logging.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\9.0.0\\microsoft.extensions.logging.abstractions.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.extensions.options\\9.0.0\\microsoft.extensions.options.9.0.0.nupkg.sha512",
@@ -69,33 +51,22 @@
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\8.0.1\\microsoft.identitymodel.protocols.openidconnect.8.0.1.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.0.1\\microsoft.identitymodel.tokens.8.0.1.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
-<<<<<<< HEAD
     "C:\\Users\\Thiago\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\npgsql\\9.0.0\\npgsql.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\9.0.0\\npgsql.entityframeworkcore.postgresql.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\serilog\\4.2.0\\serilog.4.2.0.nupkg.sha512",
-=======
-    "C:\\Users\\Thiago\\.nuget\\packages\\serilog\\4.0.0\\serilog.4.0.0.nupkg.sha512",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
     "C:\\Users\\Thiago\\.nuget\\packages\\serilog.aspnetcore\\9.0.0\\serilog.aspnetcore.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\serilog.extensions.hosting\\9.0.0\\serilog.extensions.hosting.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\serilog.extensions.logging\\9.0.0\\serilog.extensions.logging.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\serilog.formatting.compact\\3.0.0\\serilog.formatting.compact.3.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\serilog.settings.configuration\\9.0.0\\serilog.settings.configuration.9.0.0.nupkg.sha512",
-<<<<<<< HEAD
     "C:\\Users\\Thiago\\.nuget\\packages\\serilog.sinks.console\\6.0.0\\serilog.sinks.console.6.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\serilog.sinks.debug\\3.0.0\\serilog.sinks.debug.3.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\serilog.sinks.file\\6.0.0\\serilog.sinks.file.6.0.0.nupkg.sha512",
-=======
-    "C:\\Users\\Thiago\\.nuget\\packages\\serilog.sinks.console\\5.0.1\\serilog.sinks.console.5.0.1.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\serilog.sinks.debug\\3.0.0\\serilog.sinks.debug.3.0.0.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\serilog.sinks.file\\5.0.0\\serilog.sinks.file.5.0.0.nupkg.sha512",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
     "C:\\Users\\Thiago\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512",
-<<<<<<< HEAD
     "C:\\Users\\Thiago\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\system.collections.immutable\\7.0.0\\system.collections.immutable.7.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\system.composition\\7.0.0\\system.composition.7.0.0.nupkg.sha512",
@@ -110,86 +81,10 @@
     "C:\\Users\\Thiago\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\system.text.json\\9.0.0\\system.text.json.9.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512",
-=======
-    "C:\\Users\\Thiago\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.0.1\\system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.18\\microsoft.netcore.app.ref.9.0.18.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.18\\microsoft.windowsdesktop.app.ref.9.0.18.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.18\\microsoft.aspnetcore.app.ref.9.0.18.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\9.0.18\\microsoft.netcore.app.host.win-x64.9.0.18.nupkg.sha512"
   ],
-<<<<<<< HEAD
   "logs": []
-=======
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "message": "DentalClinic.Api depends on Serilog (>= 3.1.2) but Serilog 3.1.2 was not found. Serilog 4.0.0 was resolved instead.",
-      "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "libraryId": "Serilog",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    },
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "message": "DentalClinic.Api depends on Swashbuckle.AspNetCore (>= 6.4.6) but Swashbuckle.AspNetCore 6.4.6 was not found. Swashbuckle.AspNetCore 6.5.0 was resolved instead.",
-      "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "libraryId": "Swashbuckle.AspNetCore",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    },
-    {
-      "code": "NU1101",
-      "level": "Error",
-      "message": "Unable to find package Microsoft.EntityFrameworkCore.PostgreSQL. No packages exist with this id in source(s): nuget.org",
-      "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "filePath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "libraryId": "Microsoft.EntityFrameworkCore.PostgreSQL",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    },
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warning As Error: Detected package downgrade: Serilog from 4.2.0 to 4.0.0. Reference the package directly from the project to select a different version. \r\n DentalClinic.Api -> Serilog.AspNetCore 9.0.0 -> Serilog (>= 4.2.0) \r\n DentalClinic.Api -> Serilog (>= 3.1.2)",
-      "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "filePath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "libraryId": "Serilog",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    },
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warning As Error: Detected package downgrade: Serilog.Sinks.Console from 6.0.0 to 5.0.1. Reference the package directly from the project to select a different version. \r\n DentalClinic.Api -> Serilog.AspNetCore 9.0.0 -> Serilog.Sinks.Console (>= 6.0.0) \r\n DentalClinic.Api -> Serilog.Sinks.Console (>= 5.0.1)",
-      "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "filePath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "libraryId": "Serilog.Sinks.Console",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    },
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warning As Error: Detected package downgrade: Serilog.Sinks.File from 6.0.0 to 5.0.0. Reference the package directly from the project to select a different version. \r\n DentalClinic.Api -> Serilog.AspNetCore 9.0.0 -> Serilog.Sinks.File (>= 6.0.0) \r\n DentalClinic.Api -> Serilog.Sinks.File (>= 5.0.0)",
-      "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "filePath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "libraryId": "Serilog.Sinks.File",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    }
-  ]
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
 }

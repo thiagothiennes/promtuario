@@ -1,7 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
     "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Infrastructure\\DentalClinic.Infrastructure.csproj": {}
   },
   "projects": {
@@ -13,19 +12,6 @@
         "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj",
         "packagesPath": "C:\\Users\\Thiago\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Core\\obj\\",
-=======
-    "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Infrastructure\\DentalClinic.Infrastructure.csproj": {}
-  },
-  "projects": {
-    "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj",
-        "projectName": "DentalClinic.Core",
-        "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj",
-        "packagesPath": "C:\\Users\\Thiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Core\\obj\\",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Thiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -60,18 +46,14 @@
           "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
-<<<<<<< HEAD
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
             },
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
             "FluentValidation": {
               "target": "Package",
               "version": "[11.9.0, )"
             },
-<<<<<<< HEAD
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
               "version": "[9.0.0, )"
@@ -91,11 +73,6 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[8.0.1, )"
-=======
-            "MediatR": {
-              "target": "Package",
-              "version": "[12.2.0, )"
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
             }
           },
           "imports": [
@@ -132,7 +109,6 @@
         }
       }
     },
-<<<<<<< HEAD
     "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Infrastructure\\DentalClinic.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -141,16 +117,6 @@
         "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Infrastructure\\DentalClinic.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Thiago\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Infrastructure\\obj\\",
-=======
-    "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Infrastructure\\DentalClinic.Infrastructure.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Infrastructure\\DentalClinic.Infrastructure.csproj",
-        "projectName": "DentalClinic.Infrastructure",
-        "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Infrastructure\\DentalClinic.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Thiago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Infrastructure\\obj\\",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Thiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -166,13 +132,8 @@
             "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {
-<<<<<<< HEAD
               "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj": {
                 "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj"
-=======
-              "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj": {
-                "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj"
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
               }
             }
           }
@@ -198,42 +159,25 @@
               "target": "Package",
               "version": "[4.0.3, )"
             },
-<<<<<<< HEAD
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.0.0, )"
             },
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.0.0, )"
             },
-<<<<<<< HEAD
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
               "version": "[8.0.1, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
-=======
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[9.0.0, )"
-            },
-            "Microsoft.EntityFrameworkCore.PostgreSQL": {
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
               "target": "Package",
               "version": "[9.0.0, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-<<<<<<< HEAD
               "version": "[8.0.1, )"
-=======
-              "version": "[7.5.0, )"
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
             }
           },
           "imports": [

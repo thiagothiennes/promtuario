@@ -1,6 +1,5 @@
 {
   "version": 2,
-<<<<<<< HEAD
   "dgSpecHash": "0b3nYJiqhOE=",
   "success": true,
   "projectFilePath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj",
@@ -16,22 +15,19 @@
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.identitymodel.logging\\8.0.1\\microsoft.identitymodel.logging.8.0.1.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.0.1\\microsoft.identitymodel.tokens.8.0.1.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.0.1\\system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.18\\microsoft.aspnetcore.app.ref.9.0.18.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.18\\microsoft.netcore.app.ref.9.0.18.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.18\\microsoft.windowsdesktop.app.ref.9.0.18.nupkg.sha512"
-=======
-  "dgSpecHash": "+OOPZLfy5zA=",
-  "success": true,
-  "projectFilePath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\Thiago\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
-    "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.18\\microsoft.netcore.app.ref.9.0.18.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.18\\microsoft.windowsdesktop.app.ref.9.0.18.nupkg.sha512",
     "C:\\Users\\Thiago\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.18\\microsoft.aspnetcore.app.ref.9.0.18.nupkg.sha512"
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "message": "Problema ao ler o arquivo de cache C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Core\\obj\\project.nuget.cache: '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0.",
+      "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

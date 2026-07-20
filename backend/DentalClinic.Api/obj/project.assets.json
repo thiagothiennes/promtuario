@@ -65,43 +65,15 @@
           }
         }
       },
-<<<<<<< HEAD
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
           "lib/net6.0/_._": {
-=======
-      "MediatR/12.2.0": {
-        "type": "package",
-        "dependencies": {
-          "MediatR.Contracts": "[2.0.1, 3.0.0)",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
-        },
-        "compile": {
-          "lib/net6.0/MediatR.dll": {
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
             "related": ".xml"
           }
         },
         "runtime": {
-<<<<<<< HEAD
           "lib/net6.0/Humanizer.dll": {
-=======
-          "lib/net6.0/MediatR.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "MediatR.Contracts/2.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/MediatR.Contracts.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/MediatR.Contracts.dll": {
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
             "related": ".xml"
           }
         }
@@ -125,7 +97,6 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-<<<<<<< HEAD
       "Microsoft.AspNetCore.Cryptography.Internal/9.0.0": {
         "type": "package",
         "compile": {
@@ -519,8 +490,6 @@
           }
         }
       },
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
       "Microsoft.EntityFrameworkCore/9.0.0": {
         "type": "package",
         "dependencies": {
@@ -559,7 +528,6 @@
       "Microsoft.EntityFrameworkCore.Analyzers/9.0.0": {
         "type": "package"
       },
-<<<<<<< HEAD
       "Microsoft.EntityFrameworkCore.Design/9.0.0": {
         "type": "package",
         "dependencies": {
@@ -610,8 +578,6 @@
           }
         }
       },
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
       "Microsoft.Extensions.ApiDescription.Server/6.0.5": {
         "type": "package",
         "build": {
@@ -816,7 +782,6 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-<<<<<<< HEAD
       "Microsoft.Extensions.Identity.Core/9.0.0": {
         "type": "package",
         "dependencies": {
@@ -853,8 +818,6 @@
           }
         }
       },
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
       "Microsoft.Extensions.Logging/9.0.0": {
         "type": "package",
         "dependencies": {
@@ -1038,7 +1001,6 @@
           }
         }
       },
-<<<<<<< HEAD
       "Mono.TextTemplating/3.0.0": {
         "type": "package",
         "dependencies": {
@@ -1062,17 +1024,10 @@
         },
         "compile": {
           "lib/net8.0/Npgsql.dll": {
-=======
-      "Serilog/4.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/net8.0/Serilog.dll": {
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
             "related": ".xml"
           }
         },
         "runtime": {
-<<<<<<< HEAD
           "lib/net8.0/Npgsql.dll": {
             "related": ".xml"
           }
@@ -1105,9 +1060,6 @@
         },
         "runtime": {
           "lib/net9.0/Serilog.dll": {
-=======
-          "lib/net8.0/Serilog.dll": {
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
             "related": ".xml"
           }
         }
@@ -1208,7 +1160,6 @@
           }
         }
       },
-<<<<<<< HEAD
       "Serilog.Sinks.Console/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -1216,24 +1167,11 @@
         },
         "compile": {
           "lib/net8.0/Serilog.Sinks.Console.dll": {
-=======
-      "Serilog.Sinks.Console/5.0.1": {
-        "type": "package",
-        "dependencies": {
-          "Serilog": "3.1.1"
-        },
-        "compile": {
-          "lib/net7.0/Serilog.Sinks.Console.dll": {
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
             "related": ".xml"
           }
         },
         "runtime": {
-<<<<<<< HEAD
           "lib/net8.0/Serilog.Sinks.Console.dll": {
-=======
-          "lib/net7.0/Serilog.Sinks.Console.dll": {
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
             "related": ".xml"
           }
         }
@@ -1254,7 +1192,6 @@
           }
         }
       },
-<<<<<<< HEAD
       "Serilog.Sinks.File/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -1268,21 +1205,6 @@
         "runtime": {
           "lib/net8.0/Serilog.Sinks.File.dll": {
             "related": ".xml"
-=======
-      "Serilog.Sinks.File/5.0.0": {
-        "type": "package",
-        "dependencies": {
-          "Serilog": "2.10.0"
-        },
-        "compile": {
-          "lib/net5.0/Serilog.Sinks.File.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net5.0/Serilog.Sinks.File.dll": {
-            "related": ".pdb;.xml"
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
           }
         }
       },
@@ -1349,7 +1271,6 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-<<<<<<< HEAD
       "System.CodeDom/6.0.0": {
         "type": "package",
         "compile": {
@@ -1492,8 +1413,6 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
       "System.IdentityModel.Tokens.Jwt/8.0.1": {
         "type": "package",
         "dependencies": {
@@ -1511,7 +1430,6 @@
           }
         }
       },
-<<<<<<< HEAD
       "System.IO.Pipelines/7.0.0": {
         "type": "package",
         "compile": {
@@ -1595,13 +1513,10 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
       "DentalClinic.Core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
-<<<<<<< HEAD
           "BCrypt.Net-Next": "4.0.3",
           "FluentValidation": "11.9.0",
           "Microsoft.Extensions.Configuration.Abstractions": "9.0.0",
@@ -1609,10 +1524,6 @@
           "Microsoft.Extensions.Logging.Abstractions": "9.0.0",
           "Microsoft.IdentityModel.Tokens": "8.0.1",
           "System.IdentityModel.Tokens.Jwt": "8.0.1"
-=======
-          "FluentValidation": "11.9.0",
-          "MediatR": "12.2.0"
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
         },
         "compile": {
           "bin/placeholder/DentalClinic.Core.dll": {}
@@ -1627,17 +1538,11 @@
         "dependencies": {
           "BCrypt.Net-Next": "4.0.3",
           "DentalClinic.Core": "1.0.0",
-<<<<<<< HEAD
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.0",
           "Microsoft.IdentityModel.Tokens": "8.0.1",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.0",
           "System.IdentityModel.Tokens.Jwt": "8.0.1"
-=======
-          "Microsoft.EntityFrameworkCore": "9.0.0",
-          "Microsoft.EntityFrameworkCore.PostgreSQL": "9.0.0",
-          "System.IdentityModel.Tokens.Jwt": "7.5.0"
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
         },
         "compile": {
           "bin/placeholder/DentalClinic.Infrastructure.dll": {}
@@ -1741,7 +1646,6 @@
         "lib/netstandard2.1/FluentValidation.DependencyInjectionExtensions.xml"
       ]
     },
-<<<<<<< HEAD
     "Humanizer.Core/2.14.1": {
       "sha512": "lQKvtaTDOXnoVJ20ibTuSIOf2i0uO0MPbDhd1jm238I+U/2ZnRENj0cktKZhtchBMtCUSRQ5v4xBCUbKNmyVMw==",
       "type": "package",
@@ -1758,36 +1662,6 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
-=======
-    "MediatR/12.2.0": {
-      "sha512": "8TUFrHapKi6D74PhnSNEguRsH91HNGyP3R4ZQdgDorJgl9Wac5Prh0vA33QfrniAaS6L2xNNhc6vxzg+5AIbwA==",
-      "type": "package",
-      "path": "mediatr/12.2.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "gradient_128x128.png",
-        "lib/net6.0/MediatR.dll",
-        "lib/net6.0/MediatR.xml",
-        "lib/netstandard2.0/MediatR.dll",
-        "lib/netstandard2.0/MediatR.xml",
-        "mediatr.12.2.0.nupkg.sha512",
-        "mediatr.nuspec"
-      ]
-    },
-    "MediatR.Contracts/2.0.1": {
-      "sha512": "FYv95bNT4UwcNA+G/J1oX5OpRiSUxteXaUt2BJbRSdRNiIUNbggJF69wy6mnk2wYToaanpdXZdCwVylt96MpwQ==",
-      "type": "package",
-      "path": "mediatr.contracts/2.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "gradient_128x128.png",
-        "lib/netstandard2.0/MediatR.Contracts.dll",
-        "lib/netstandard2.0/MediatR.Contracts.xml",
-        "mediatr.contracts.2.0.1.nupkg.sha512",
-        "mediatr.contracts.nuspec"
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
       ]
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/9.0.0": {
@@ -1806,7 +1680,6 @@
         "microsoft.aspnetcore.authentication.jwtbearer.nuspec"
       ]
     },
-<<<<<<< HEAD
     "Microsoft.AspNetCore.Cryptography.Internal/9.0.0": {
       "sha512": "M1dzTEl+2+RqT4vWcqEpWasPXHd58wC93U7QMlmPSmx+qixyVxCQjZ183wr7Wa68b4pF7wC501MU9rdA0ZNhMg==",
       "type": "package",
@@ -2842,8 +2715,6 @@
         "microsoft.codeanalysis.workspaces.msbuild.nuspec"
       ]
     },
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
     "Microsoft.EntityFrameworkCore/9.0.0": {
       "sha512": "wpG+nfnfDAw87R3ovAsUmjr3MZ4tYXf6bFqEPVAIKE6IfPml3DS//iX0DBnf8kWn5ZHSO5oi1m4d/Jf+1LifJQ==",
       "type": "package",
@@ -2889,7 +2760,6 @@
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
-<<<<<<< HEAD
     "Microsoft.EntityFrameworkCore.Design/9.0.0": {
       "sha512": "Pqo8I+yHJ3VQrAoY0hiSncf+5P7gN/RkNilK5e+/K/yKh+yAWxdUAI6t0TG26a9VPlCa9FhyklzyFvRyj3YG9A==",
       "type": "package",
@@ -2921,8 +2791,6 @@
         "microsoft.entityframeworkcore.relational.nuspec"
       ]
     },
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
     "Microsoft.Extensions.ApiDescription.Server/6.0.5": {
       "sha512": "Ckb5EDBUNJdFWyajfXzUIMRkhf52fHZOQuuZg/oiu8y7zDCVwD0iHhew6MnThjHmevanpxL3f5ci2TtHQEN6bw==",
       "type": "package",
@@ -3450,7 +3318,6 @@
         "useSharedDesignerContext.txt"
       ]
     },
-<<<<<<< HEAD
     "Microsoft.Extensions.Identity.Core/9.0.0": {
       "sha512": "+cQjUs8PIheIMALzrf/e4gW6A/yOK8XYBxeEmAfLvVIaV9lsBGvVT0zjEZ1KPQDJ9nUeQ9uAw077J7LPUwv8wA==",
       "type": "package",
@@ -3489,8 +3356,6 @@
         "microsoft.extensions.identity.stores.nuspec"
       ]
     },
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
     "Microsoft.Extensions.Logging/9.0.0": {
       "sha512": "crjWyORoug0kK7RSNJBTeSE6VX8IQgLf3nUpTB9m62bPXp/tzbnOsnbe8TXEG0AASNaKZddnpHKw7fET8E++Pg==",
       "type": "package",
@@ -3820,7 +3685,6 @@
         "microsoft.openapi.nuspec"
       ]
     },
-<<<<<<< HEAD
     "Mono.TextTemplating/3.0.0": {
       "sha512": "YqueG52R/Xej4VVbKuRIodjiAhV0HR/XVbLbNrJhCZnzjnSjgMJ/dCdV0akQQxavX6hp/LC6rqLGLcXeQYU7XA==",
       "type": "package",
@@ -3874,12 +3738,6 @@
       "sha512": "gmoWVOvKgbME8TYR+gwMf7osROiWAURterc6Rt2dQyX7wtjZYpqFiA/pY6ztjGQKKV62GGCyOcmtP1UKMHgSmA==",
       "type": "package",
       "path": "serilog/4.2.0",
-=======
-    "Serilog/4.0.0": {
-      "sha512": "2jDkUrSh5EofOp7Lx5Zgy0EB+7hXjjxE2ktTb1WVQmU00lDACR2TdROGKU0K1pDTBSJBN1PqgYpgOZF8mL7NJw==",
-      "type": "package",
-      "path": "serilog/4.0.0",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3893,17 +3751,11 @@
         "lib/net6.0/Serilog.xml",
         "lib/net8.0/Serilog.dll",
         "lib/net8.0/Serilog.xml",
-<<<<<<< HEAD
         "lib/net9.0/Serilog.dll",
         "lib/net9.0/Serilog.xml",
         "lib/netstandard2.0/Serilog.dll",
         "lib/netstandard2.0/Serilog.xml",
         "serilog.4.2.0.nupkg.sha512",
-=======
-        "lib/netstandard2.0/Serilog.dll",
-        "lib/netstandard2.0/Serilog.xml",
-        "serilog.4.0.0.nupkg.sha512",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
         "serilog.nuspec"
       ]
     },
@@ -4020,17 +3872,10 @@
         "serilog.settings.configuration.nuspec"
       ]
     },
-<<<<<<< HEAD
     "Serilog.Sinks.Console/6.0.0": {
       "sha512": "fQGWqVMClCP2yEyTXPIinSr5c+CBGUvBybPxjAGcf7ctDhadFhrQw03Mv8rJ07/wR5PDfFjewf2LimvXCDzpbA==",
       "type": "package",
       "path": "serilog.sinks.console/6.0.0",
-=======
-    "Serilog.Sinks.Console/5.0.1": {
-      "sha512": "6Jt8jl9y2ey8VV7nVEUAyjjyxjAQuvd5+qj4XYAT9CwcsvR70HHULGBeD+K2WCALFXf7CFsNQT4lON6qXcu2AA==",
-      "type": "package",
-      "path": "serilog.sinks.console/5.0.1",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4040,7 +3885,6 @@
         "lib/net462/Serilog.Sinks.Console.xml",
         "lib/net471/Serilog.Sinks.Console.dll",
         "lib/net471/Serilog.Sinks.Console.xml",
-<<<<<<< HEAD
         "lib/net6.0/Serilog.Sinks.Console.dll",
         "lib/net6.0/Serilog.Sinks.Console.xml",
         "lib/net8.0/Serilog.Sinks.Console.dll",
@@ -4048,19 +3892,6 @@
         "lib/netstandard2.0/Serilog.Sinks.Console.dll",
         "lib/netstandard2.0/Serilog.Sinks.Console.xml",
         "serilog.sinks.console.6.0.0.nupkg.sha512",
-=======
-        "lib/net5.0/Serilog.Sinks.Console.dll",
-        "lib/net5.0/Serilog.Sinks.Console.xml",
-        "lib/net6.0/Serilog.Sinks.Console.dll",
-        "lib/net6.0/Serilog.Sinks.Console.xml",
-        "lib/net7.0/Serilog.Sinks.Console.dll",
-        "lib/net7.0/Serilog.Sinks.Console.xml",
-        "lib/netstandard2.0/Serilog.Sinks.Console.dll",
-        "lib/netstandard2.0/Serilog.Sinks.Console.xml",
-        "lib/netstandard2.1/Serilog.Sinks.Console.dll",
-        "lib/netstandard2.1/Serilog.Sinks.Console.xml",
-        "serilog.sinks.console.5.0.1.nupkg.sha512",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
         "serilog.sinks.console.nuspec"
       ]
     },
@@ -4087,7 +3918,6 @@
         "serilog.sinks.debug.nuspec"
       ]
     },
-<<<<<<< HEAD
     "Serilog.Sinks.File/6.0.0": {
       "sha512": "lxjg89Y8gJMmFxVkbZ+qDgjl+T4yC5F7WSLTvA+5q0R04tfKVLRL/EHpYoJ/MEQd2EeCKDuylBIVnAYMotmh2A==",
       "type": "package",
@@ -4108,32 +3938,6 @@
         "lib/netstandard2.0/Serilog.Sinks.File.xml",
         "serilog-sink-nuget.png",
         "serilog.sinks.file.6.0.0.nupkg.sha512",
-=======
-    "Serilog.Sinks.File/5.0.0": {
-      "sha512": "uwV5hdhWPwUH1szhO8PJpFiahqXmzPzJT/sOijH/kFgUx+cyoDTMM8MHD0adw9+Iem6itoibbUXHYslzXsLEAg==",
-      "type": "package",
-      "path": "serilog.sinks.file/5.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "images/icon.png",
-        "lib/net45/Serilog.Sinks.File.dll",
-        "lib/net45/Serilog.Sinks.File.pdb",
-        "lib/net45/Serilog.Sinks.File.xml",
-        "lib/net5.0/Serilog.Sinks.File.dll",
-        "lib/net5.0/Serilog.Sinks.File.pdb",
-        "lib/net5.0/Serilog.Sinks.File.xml",
-        "lib/netstandard1.3/Serilog.Sinks.File.dll",
-        "lib/netstandard1.3/Serilog.Sinks.File.pdb",
-        "lib/netstandard1.3/Serilog.Sinks.File.xml",
-        "lib/netstandard2.0/Serilog.Sinks.File.dll",
-        "lib/netstandard2.0/Serilog.Sinks.File.pdb",
-        "lib/netstandard2.0/Serilog.Sinks.File.xml",
-        "lib/netstandard2.1/Serilog.Sinks.File.dll",
-        "lib/netstandard2.1/Serilog.Sinks.File.pdb",
-        "lib/netstandard2.1/Serilog.Sinks.File.xml",
-        "serilog.sinks.file.5.0.0.nupkg.sha512",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
         "serilog.sinks.file.nuspec"
       ]
     },
@@ -4227,7 +4031,6 @@
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
-<<<<<<< HEAD
     "System.CodeDom/6.0.0": {
       "sha512": "CPc6tWO1LAer3IzfZufDBRL+UZQcj5uS207NHALQzP84Vp/z6wF0Aa0YZImOQY8iStY0A2zI/e3ihKNPfUm8XA==",
       "type": "package",
@@ -4436,8 +4239,6 @@
         "useSharedDesignerContext.txt"
       ]
     },
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
     "System.IdentityModel.Tokens.Jwt/8.0.1": {
       "sha512": "GJw3bYkWpOgvN3tJo5X4lYUeIFA2HD293FPUhKmp7qxS+g5ywAb34Dnd3cDAFLkcMohy5XTpoaZ4uAHuw0uSPQ==",
       "type": "package",
@@ -4461,7 +4262,6 @@
         "system.identitymodel.tokens.jwt.nuspec"
       ]
     },
-<<<<<<< HEAD
     "System.IO.Pipelines/7.0.0": {
       "sha512": "jRn6JYnNPW6xgQazROBLSfpdoczRw694vO5kKvMcNnpXuolEixUyw6IBuBs2Y2mlSX/LdLvyyWmfXhaI3ND1Yg==",
       "type": "package",
@@ -4642,8 +4442,6 @@
         "useSharedDesignerContext.txt"
       ]
     },
-=======
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
     "DentalClinic.Core/1.0.0": {
       "type": "project",
       "path": "../DentalClinic.Core/DentalClinic.Core.csproj",
@@ -4661,7 +4459,6 @@
       "DentalClinic.Infrastructure >= 1.0.0",
       "FluentValidation.AspNetCore >= 11.3.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 9.0.0",
-<<<<<<< HEAD
       "Microsoft.EntityFrameworkCore.Design >= 9.0.0",
       "Microsoft.IdentityModel.Protocols >= 8.0.1",
       "Microsoft.IdentityModel.Protocols.OpenIdConnect >= 8.0.1",
@@ -4673,13 +4470,6 @@
       "Serilog.Sinks.File >= 6.0.0",
       "Swashbuckle.AspNetCore >= 6.5.0",
       "System.IdentityModel.Tokens.Jwt >= 8.0.1"
-=======
-      "Serilog >= 3.1.2",
-      "Serilog.AspNetCore >= 9.0.0",
-      "Serilog.Sinks.Console >= 5.0.1",
-      "Serilog.Sinks.File >= 5.0.0",
-      "Swashbuckle.AspNetCore >= 6.4.6"
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
     ]
   },
   "packageFolders": {
@@ -4688,19 +4478,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
       "projectName": "DentalClinic.Api",
       "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
       "packagesPath": "C:\\Users\\Thiago\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Api\\obj\\",
-=======
-      "projectUniqueName": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "projectName": "DentalClinic.Api",
-      "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\DentalClinic.Api.csproj",
-      "packagesPath": "C:\\Users\\Thiago\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Api\\obj\\",
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Thiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4716,19 +4498,11 @@
           "framework": "net9.0",
           "targetAlias": "net9.0",
           "projectReferences": {
-<<<<<<< HEAD
             "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj": {
               "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj"
             },
             "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Infrastructure\\DentalClinic.Infrastructure.csproj": {
               "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\backend\\DentalClinic.Infrastructure\\DentalClinic.Infrastructure.csproj"
-=======
-            "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj": {
-              "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Core\\DentalClinic.Core.csproj"
-            },
-            "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Infrastructure\\DentalClinic.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\Thiago\\AndroidStudioProjects\\promtuario\\promtuario\\backend\\DentalClinic.Infrastructure\\DentalClinic.Infrastructure.csproj"
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
             }
           }
         }
@@ -4758,7 +4532,6 @@
             "target": "Package",
             "version": "[9.0.0, )"
           },
-<<<<<<< HEAD
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
@@ -4784,11 +4557,6 @@
           "Serilog": {
             "target": "Package",
             "version": "[4.2.0, )"
-=======
-          "Serilog": {
-            "target": "Package",
-            "version": "[3.1.2, )"
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
           },
           "Serilog.AspNetCore": {
             "target": "Package",
@@ -4796,7 +4564,6 @@
           },
           "Serilog.Sinks.Console": {
             "target": "Package",
-<<<<<<< HEAD
             "version": "[6.0.0, )"
           },
           "Serilog.Sinks.File": {
@@ -4810,17 +4577,6 @@
           "System.IdentityModel.Tokens.Jwt": {
             "target": "Package",
             "version": "[8.0.1, )"
-=======
-            "version": "[5.0.1, )"
-          },
-          "Serilog.Sinks.File": {
-            "target": "Package",
-            "version": "[5.0.0, )"
-          },
-          "Swashbuckle.AspNetCore": {
-            "target": "Package",
-            "version": "[6.4.6, )"
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
           }
         },
         "imports": [
@@ -4863,67 +4619,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
-<<<<<<< HEAD
   }
-=======
-  },
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "DentalClinic.Api depends on Serilog (>= 3.1.2) but Serilog 3.1.2 was not found. Serilog 4.0.0 was resolved instead.",
-      "libraryId": "Serilog",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    },
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "DentalClinic.Api depends on Swashbuckle.AspNetCore (>= 6.4.6) but Swashbuckle.AspNetCore 6.4.6 was not found. Swashbuckle.AspNetCore 6.5.0 was resolved instead.",
-      "libraryId": "Swashbuckle.AspNetCore",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    },
-    {
-      "code": "NU1101",
-      "level": "Error",
-      "message": "Unable to find package Microsoft.EntityFrameworkCore.PostgreSQL. No packages exist with this id in source(s): nuget.org",
-      "libraryId": "Microsoft.EntityFrameworkCore.PostgreSQL",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    },
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warning As Error: Detected package downgrade: Serilog from 4.2.0 to 4.0.0. Reference the package directly from the project to select a different version. \r\n DentalClinic.Api -> Serilog.AspNetCore 9.0.0 -> Serilog (>= 4.2.0) \r\n DentalClinic.Api -> Serilog (>= 3.1.2)",
-      "libraryId": "Serilog",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    },
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warning As Error: Detected package downgrade: Serilog.Sinks.Console from 6.0.0 to 5.0.1. Reference the package directly from the project to select a different version. \r\n DentalClinic.Api -> Serilog.AspNetCore 9.0.0 -> Serilog.Sinks.Console (>= 6.0.0) \r\n DentalClinic.Api -> Serilog.Sinks.Console (>= 5.0.1)",
-      "libraryId": "Serilog.Sinks.Console",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    },
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warning As Error: Detected package downgrade: Serilog.Sinks.File from 6.0.0 to 5.0.0. Reference the package directly from the project to select a different version. \r\n DentalClinic.Api -> Serilog.AspNetCore 9.0.0 -> Serilog.Sinks.File (>= 6.0.0) \r\n DentalClinic.Api -> Serilog.Sinks.File (>= 5.0.0)",
-      "libraryId": "Serilog.Sinks.File",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    }
-  ]
->>>>>>> 99c9c3da9e2ecf5acb6d0048516f5fcd0a594e98
 }
