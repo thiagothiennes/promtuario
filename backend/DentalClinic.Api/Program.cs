@@ -74,14 +74,22 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
-// 6. Configuração de CORS para o Flutter
+// 6. Configuração de CORS para o Flutter (CORRIGIDO)
+// Não podemos usar AllowAnyOrigin() junto com AllowCredentials()
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFlutter",
-        policy => policy.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials()); // Necessário para SignalR
+    options.AddPolicy("AllowFlutter", policy =>
+    {
+        policy.WithOrigins(
+                "http://localhost",
+                "http://localhost:5000",
+                "http://10.0.2.2",      // Emulador Android
+                "http://192.168.1.0"    // Rede local genérica (ajuste se necessário)
+            )
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials(); // Necessário para SignalR e Cookies
+    });
 });
 
 builder.Services.AddEndpointsApiExplorer();
