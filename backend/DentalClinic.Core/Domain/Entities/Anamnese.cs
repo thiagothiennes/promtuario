@@ -8,7 +8,7 @@ namespace DentalClinic.Core.Domain.Entities;
 /// </summary>
 public sealed class Anamnese : Entity
 {
-    public Guid PatientId { get; private set; }
+    public int PatientId { get; private set; }
     public Patient Patient { get; private set; } = null!;
 
     /// <summary>
@@ -22,7 +22,7 @@ public sealed class Anamnese : Entity
 
     private Anamnese() { }
 
-    public static Anamnese Create(Guid patientId, string respostasJson, Guid criadoPorId)
+    public static Anamnese Create(int patientId, string respostasJson, Guid criadoPorId)
     {
         return new Anamnese
         {

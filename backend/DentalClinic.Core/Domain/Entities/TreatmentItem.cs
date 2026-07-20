@@ -7,7 +7,7 @@ public sealed class TreatmentItem : Entity
 {
     public Guid TreatmentPlanId { get; private set; }
     public Guid ProcedureId { get; private set; }
-    public string ProcedureName { get; private set; } = null!;
+    public string ProcedureName { get; private set; } = string.Empty;
     public decimal Value { get; private set; }
     public int? ToothNumber { get; private set; }
     public TreatmentItemStatus Status { get; private set; }

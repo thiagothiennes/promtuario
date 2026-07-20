@@ -8,8 +8,8 @@ public sealed class Notification : Entity
     public Guid UserId { get; private set; }
     public User User { get; private set; } = null!;
 
-    public string Title { get; private set; } = null!;
-    public string Message { get; private set; } = null!;
+    public string Title { get; private set; } = string.Empty;
+    public string Message { get; private set; } = string.Empty;
     public bool IsRead { get; private set; }
     public NotificationType Type { get; private set; }
     public string? RelatedEntityId { get; private set; }

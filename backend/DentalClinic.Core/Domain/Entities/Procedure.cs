@@ -5,10 +5,10 @@ namespace DentalClinic.Core.Domain.Entities;
 /// </summary>
 public sealed class Procedure : Entity
 {
-    public string Name { get; private set; }
-    public string Code { get; private set; } // TUSS ou Código Interno
+    public string Name { get; private set; } = string.Empty;
+    public string Code { get; private set; } = string.Empty; // TUSS ou Código Interno
     public decimal BaseValue { get; private set; }
-    public Specialty Specialty { get; private set; }
+    public Specialty? Specialty { get; private set; }
     public int EstimatedTimeMinutes { get; private set; }
 
     private Procedure() { }

@@ -29,7 +29,7 @@ public class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
             .HasMaxLength(1000);
 
         builder.HasOne(a => a.Patient)
-            .WithMany()
+            .WithMany(p => p.Appointments)
             .HasForeignKey(a => a.PatientId)
             .OnDelete(DeleteBehavior.Restrict);
 

@@ -5,7 +5,7 @@ namespace DentalClinic.Core.Domain.Entities;
 /// </summary>
 public sealed class Odontogram : Entity
 {
-    public Guid PatientId { get; private set; }
+    public int PatientId { get; private set; }
     public Patient Patient { get; private set; } = null!;
 
     public List<ToothCondition> Teeth { get; private set; } = new();
@@ -14,7 +14,7 @@ public sealed class Odontogram : Entity
 
     private Odontogram() { }
 
-    public static Odontogram Create(Guid patientId, Guid userId)
+    public static Odontogram Create(int patientId, Guid userId)
     {
         return new Odontogram
         {

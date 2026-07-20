@@ -2,13 +2,16 @@ namespace DentalClinic.Core.Domain.ValueObjects;
 
 public record Address
 {
-    public string Street { get; }
-    public string Number { get; }
-    public string? Complement { get; }
-    public string Neighborhood { get; }
-    public string City { get; }
-    public string State { get; }
-    public string ZipCode { get; }
+    public string Street { get; private set; } = string.Empty;
+    public string Number { get; private set; } = string.Empty;
+    public string? Complement { get; private set; }
+    public string Neighborhood { get; private set; } = string.Empty;
+    public string City { get; private set; } = string.Empty;
+    public string State { get; private set; } = string.Empty;
+    public string ZipCode { get; private set; } = string.Empty;
+
+    // Construtor padrão para o EF Core
+    protected Address() { }
 
     private Address(string street, string number, string? complement, string neighborhood, string city, string state, string zipCode)
     {

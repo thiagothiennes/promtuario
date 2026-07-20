@@ -36,7 +36,7 @@ public class AnexosController : ControllerBase
     /// </summary>
     [HttpPost("upload/{pacienteId}")]
     [ProducesResponseType(typeof(Anexo), StatusCodes.Status201Created)]
-    public async Task<IActionResult> Upload(Guid pacienteId, IFormFile file, [FromQuery] string tipo)
+    public async Task<IActionResult> Upload(int pacienteId, IFormFile file, [FromQuery] string tipo)
     {
         if (file == null || file.Length == 0)
             return BadRequest("Arquivo inválido ou vazio.");
@@ -75,7 +75,7 @@ public class AnexosController : ControllerBase
     /// Lista todos os anexos registrados para um paciente.
     /// </summary>
     [HttpGet("paciente/{pacienteId}")]
-    public async Task<IActionResult> GetByPaciente(Guid pacienteId)
+    public async Task<IActionResult> GetByPaciente(int pacienteId)
     {
         var anexos = await _anexoRepository.GetByPacienteIdAsync(pacienteId);
         return Ok(anexos);

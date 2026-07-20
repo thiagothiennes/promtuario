@@ -16,7 +16,7 @@ public class PatientRepository : IPatientRepository
         _context = context;
     }
 
-    public async Task<Patient?> GetByIdAsync(Guid id)
+    public async Task<Patient?> GetByIdAsync(int id)
     {
         return await _context.Patients
             .FirstOrDefaultAsync(p => p.Id == id);
@@ -31,7 +31,7 @@ public class PatientRepository : IPatientRepository
             searchTerm = searchTerm.ToLower();
             query = query.Where(p =>
                 p.Name.ToLower().Contains(searchTerm) ||
-                p.CPF.Value.Contains(searchTerm));
+                p.CPF.Contains(searchTerm));
         }
 
         return await query
@@ -62,18 +62,31 @@ public class PatientRepository : IPatientRepository
             searchTerm = searchTerm.ToLower();
             query = query.Where(p =>
                 p.Name.ToLower().Contains(searchTerm) ||
-                p.CPF.Value.Contains(searchTerm));
+                p.CPF.Contains(searchTerm));
         }
 
         return await query.CountAsync();
     }
 
-    public async Task AnonymizeAsync(Guid id)
+    public async Task AnonymizeAsync(int id)
     {
         var patient = await GetByIdAsync(id);
         if (patient != null)
         {
-            patient.AnonymizeData();
+            patient.Name = "Paciente Anonimizado";
+            patient.Email = $"anonimo_{patient.Id}@anonimo.com";
+            patient.Phone = "***";
+            patient.AlternatePhone = null;
+            patient.Address = null;
+            patient.Neighborhood = null;
+            patient.City = null;
+            patient.State = null;
+            patient.ZipCode = null;
+            patient.ResponsibleName = null;
+            patient.ResponsiblePhone = null;
+            patient.IsActive = false;
+            patient.UpdatedAt = DateTime.UtcNow;
+            
             await UpdateAsync(patient);
         }
     }

@@ -18,7 +18,7 @@ public class ProntuarioRepository : IProntuarioRepository
     }
 
     // Odontograma
-    public async Task<Odontogram?> GetOdontogramByPatientIdAsync(Guid patientId)
+    public async Task<Odontogram?> GetOdontogramByPatientIdAsync(int patientId)
     {
         return await _context.Odontograms
             .FirstOrDefaultAsync(o => o.PatientId == patientId);
@@ -42,7 +42,7 @@ public class ProntuarioRepository : IProntuarioRepository
     }
 
     // Evoluções
-    public async Task AddEvolutionAsync(Guid patientId, string description, Guid professorId, Guid studentId)
+    public async Task AddEvolutionAsync(int patientId, string description, Guid professorId, Guid studentId)
     {
         // Em um sistema real, a ClinicId seria recuperada do contexto do agendamento ou da sessão do aluno.
         // Como o requisito pede código pronto para produção, garantimos que a evolução seja salva vinculada aos atores.
@@ -51,7 +51,7 @@ public class ProntuarioRepository : IProntuarioRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Evolution>> GetEvolutionHistoryAsync(Guid patientId)
+    public async Task<IEnumerable<Evolution>> GetEvolutionHistoryAsync(int patientId)
     {
         return await _context.Evolutions
             .Include(e => e.Professor)
@@ -80,7 +80,7 @@ public class ProntuarioRepository : IProntuarioRepository
         return prescription;
     }
 
-    public async Task<IEnumerable<Prescription>> GetPrescriptionHistoryAsync(Guid patientId)
+    public async Task<IEnumerable<Prescription>> GetPrescriptionHistoryAsync(int patientId)
     {
         return await _context.Prescriptions
             .Where(p => p.PatientId == patientId)
@@ -96,7 +96,7 @@ public class ProntuarioRepository : IProntuarioRepository
     }
 
     // Anamnese
-    public async Task<Anamnese?> GetAnamneseByPatientIdAsync(Guid patientId)
+    public async Task<Anamnese?> GetAnamneseByPatientIdAsync(int patientId)
     {
         return await _context.Anamneses
             .FirstOrDefaultAsync(a => a.PatientId == patientId);

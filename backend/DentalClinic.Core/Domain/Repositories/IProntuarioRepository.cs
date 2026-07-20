@@ -9,21 +9,21 @@ namespace DentalClinic.Core.Domain.Repositories;
 public interface IProntuarioRepository
 {
     // Odontograma
-    Task<Odontogram?> GetOdontogramByPatientIdAsync(Guid patientId);
+    Task<Odontogram?> GetOdontogramByPatientIdAsync(int patientId);
     Task SaveOdontogramAsync(Odontogram odontogram);
 
     // Evoluções
-    Task AddEvolutionAsync(Guid patientId, string description, Guid professorId, Guid studentId);
-    Task<IEnumerable<Evolution>> GetEvolutionHistoryAsync(Guid patientId);
+    Task AddEvolutionAsync(int patientId, string description, Guid professorId, Guid studentId);
+    Task<IEnumerable<Evolution>> GetEvolutionHistoryAsync(int patientId);
     Task<Evolution?> GetEvolutionByIdAsync(Guid id);
     Task UpdateEvolutionAsync(Evolution evolution);
 
     // Documentos
     Task<Prescription> CreatePrescriptionAsync(Prescription prescription);
-    Task<IEnumerable<Prescription>> GetPrescriptionHistoryAsync(Guid patientId);
+    Task<IEnumerable<Prescription>> GetPrescriptionHistoryAsync(int patientId);
     Task<MedicalCertificate> CreateCertificateAsync(MedicalCertificate certificate);
 
     // Anamnese
-    Task<Anamnese?> GetAnamneseByPatientIdAsync(Guid patientId);
+    Task<Anamnese?> GetAnamneseByPatientIdAsync(int patientId);
     Task SaveAnamneseAsync(Anamnese anamnese);
 }

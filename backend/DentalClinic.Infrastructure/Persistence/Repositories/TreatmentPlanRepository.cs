@@ -13,7 +13,7 @@ public class TreatmentPlanRepository : ITreatmentPlanRepository
         _context = context;
     }
 
-    public async Task<TreatmentPlan?> GetActivePlanByPatientIdAsync(Guid patientId)
+    public async Task<TreatmentPlan?> GetActivePlanByPatientIdAsync(int patientId)
     {
         return await _context.Set<TreatmentPlan>()
             .Include(p => p.Items)

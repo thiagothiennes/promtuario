@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using DentalClinic.Core.Application.DTOs;
 using DentalClinic.Core.Common;
 using DentalClinic.Core.Domain.Entities;

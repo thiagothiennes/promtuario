@@ -10,12 +10,12 @@ public sealed class Clinic : Entity
     /// <summary>
     /// Nome da clínica/especialidade.
     /// </summary>
-    public string Name { get; private set; }
+    public string Name { get; private set; } = string.Empty;
 
     /// <summary>
     /// Descrição detalhada da clínica.
     /// </summary>
-    public string Description { get; private set; }
+    public string Description { get; private set; } = string.Empty;
 
     /// <summary>
     /// Especialidade dentária da clínica.
@@ -25,7 +25,7 @@ public sealed class Clinic : Entity
     /// <summary>
     /// Endereço da clínica (Value Object).
     /// </summary>
-    public Address Address { get; private set; }
+    public Address Address { get; private set; } = null!;
 
     /// <summary>
     /// Capacidade máxima de pacientes simultâneos.
@@ -45,12 +45,12 @@ public sealed class Clinic : Entity
     /// <summary>
     /// Horário de abertura (formato HH:mm).
     /// </summary>
-    public string OpeningTime { get; private set; }
+    public string OpeningTime { get; private set; } = string.Empty;
 
     /// <summary>
     /// Horário de fechamento (formato HH:mm).
     /// </summary>
-    public string ClosingTime { get; private set; }
+    public string ClosingTime { get; private set; } = string.Empty;
 
     private Clinic()
     {

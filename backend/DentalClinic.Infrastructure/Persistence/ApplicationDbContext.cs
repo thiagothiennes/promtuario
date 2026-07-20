@@ -26,6 +26,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<Anamnese> Anamneses => Set<Anamnese>();
     public DbSet<UserSession> UserSessions => Set<UserSession>();
     public DbSet<LogAuditoria> LogsAuditoria => Set<LogAuditoria>();
+    public DbSet<MedicalRecord> MedicalRecords => Set<MedicalRecord>();
+    public DbSet<Attachment> Attachments => Set<Attachment>();
+    public DbSet<TreatmentItem> TreatmentItems => Set<TreatmentItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

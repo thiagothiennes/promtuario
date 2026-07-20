@@ -6,10 +6,10 @@ namespace DentalClinic.Core.Domain.Entities;
 /// </summary>
 public sealed class TreatmentPlan : Entity
 {
-    public Guid PatientId { get; private set; }
+    public int PatientId { get; private set; }
     public Patient Patient { get; private set; } = null!;
 
-    public string Description { get; private set; } = null!;
+    public string Description { get; private set; } = string.Empty;
 
     public List<TreatmentItem> Items { get; private set; } = new();
 
@@ -20,7 +20,7 @@ public sealed class TreatmentPlan : Entity
 
     private TreatmentPlan() { }
 
-    public static TreatmentPlan Create(Guid patientId, Guid createdByUserId, string description)
+    public static TreatmentPlan Create(int patientId, Guid createdByUserId, string description)
     {
         return new TreatmentPlan
         {

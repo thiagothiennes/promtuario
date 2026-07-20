@@ -65,7 +65,7 @@ public class UsersController : ControllerBase
             return BadRequest("Papel de usuário inválido.");
         }
 
-        var user = User.Create(
+        var user = DentalClinic.Core.Domain.Entities.User.Create(
             request.Name,
             request.Email,
             request.CPF,

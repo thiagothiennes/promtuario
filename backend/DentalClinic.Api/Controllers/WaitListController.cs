@@ -64,4 +64,4 @@ public class WaitListController : ControllerBase
     }
 }
 
-public record CreateWaitListRequest(Guid PatientId, Guid ClinicId, Specialty Specialty, string Priority, string? Observation);
+public record CreateWaitListRequest(int PatientId, Guid ClinicId, Specialty Specialty, string Priority, string? Observation);

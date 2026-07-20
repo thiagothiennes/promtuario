@@ -1,12 +1,14 @@
-using DentalClinic.Api.Filters;
+using DentalClinic.Core.Domain.Entities; // Ajuste este namespace se sua entidade estiver em outro lugar dentro do Core
+using System.Linq.Expressions;
 
-namespace DentalClinic.Core.Domain.Repositories;
-
-/// <summary>
-/// Interface para recuperação de logs de auditoria (Requisito LGPD).
-/// </summary>
-public interface ILogAuditoriaRepository
+namespace DentalClinic.Core.Domain.Repositories
 {
-    Task<IEnumerable<LogAuditoria>> GetLogsAsync(int page, int pageSize, string? userId = null);
-    Task<int> CountAsync(string? userId = null);
+    public interface ILogAuditoriaRepository
+    {
+        Task<LogAuditoria> CreateAsync(LogAuditoria log);
+        Task<IEnumerable<LogAuditoria>> GetAllAsync();
+        Task<IEnumerable<LogAuditoria>> FindAsync(Expression<Func<LogAuditoria, bool>> predicate);
+        Task<LogAuditoria?> GetByIdAsync(int id);
+        Task<int> SaveChangesAsync();
+    }
 }

@@ -39,13 +39,19 @@ public class ExceptionMiddleware
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-        var response = _env.IsDevelopment()
-            ? new { StatusCode = context.Response.StatusCode, Message = exception.Message, StackTrace = exception.StackTrace }
-            : new { StatusCode = context.Response.StatusCode, Message = "Ocorreu um erro interno no servidor. Por favor, tente novamente mais tarde." };
-
-        var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-        var json = JsonSerializer.Serialize(response, options);
-
-        await context.Response.WriteAsync(json);
+        if (_env.IsDevelopment())
+        {
+            var response = new { StatusCode = context.Response.StatusCode, Message = exception.Message, StackTrace = exception.StackTrace };
+            var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+            var json = JsonSerializer.Serialize(response, options);
+            await context.Response.WriteAsync(json);
+        }
+        else
+        {
+            var response = new { StatusCode = context.Response.StatusCode, Message = "Ocorreu um erro interno no servidor. Por favor, tente novamente mais tarde." };
+            var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+            var json = JsonSerializer.Serialize(response, options);
+            await context.Response.WriteAsync(json);
+        }
     }
 }

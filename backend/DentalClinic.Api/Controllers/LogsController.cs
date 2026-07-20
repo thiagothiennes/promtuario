@@ -30,8 +30,8 @@ public class LogsController : ControllerBase
     {
         try
         {
-            var logs = await _repository.GetLogsAsync(page, pageSize, userId);
-            var total = await _repository.CountAsync(userId);
+            var logs = await _repository.FindAsync(x => userId == null || x.Usuario == userId);
+            var total = logs.Count();
 
             return Ok(new
             {

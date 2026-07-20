@@ -14,45 +14,43 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
 
         builder.Property(p => p.Name)
             .IsRequired()
-            .HasMaxLength(255);
+            .HasMaxLength(150);
 
-        builder.OwnsOne(p => p.CPF, cpf =>
-        {
-            cpf.Property(c => c.Value)
-                .HasColumnName("cpf")
-                .IsRequired()
-                .HasMaxLength(11);
+        builder.Property(p => p.CPF)
+            .HasColumnName("cpf")
+            .IsRequired()
+            .HasMaxLength(14);
 
-            cpf.HasIndex(c => c.Value).IsUnique();
-        });
+        builder.HasIndex(p => p.CPF).IsUnique();
+
+        builder.Property(p => p.Email)
+            .IsRequired()
+            .HasMaxLength(100)
+            .HasColumnName("email");
+
+        builder.Property(p => p.Phone)
+            .IsRequired()
+            .HasMaxLength(20);
 
         builder.Property(p => p.DateOfBirth)
             .IsRequired();
 
-        builder.OwnsOne(p => p.EmailAddress, email =>
-        {
-            email.Property(e => e.Value)
-                .HasColumnName("email")
-                .HasMaxLength(255);
-        });
+        builder.Property(p => p.Address)
+            .HasMaxLength(200);
 
-        builder.Property(p => p.Phone)
-            .HasMaxLength(20);
+        builder.Property(p => p.Neighborhood)
+            .HasMaxLength(100);
 
-        builder.OwnsOne(p => p.Address, address =>
-        {
-            address.Property(a => a.Street).HasColumnName("endereco_rua").HasMaxLength(255);
-            address.Property(a => a.Number).HasColumnName("endereco_numero").HasMaxLength(20);
-            address.Property(a => a.Neighborhood).HasColumnName("endereco_bairro").HasMaxLength(100);
-            address.Property(a => a.City).HasColumnName("endereco_cidade").HasMaxLength(100);
-            address.Property(a => a.State).HasColumnName("endereco_estado").HasMaxLength(2);
-            address.Property(a => a.ZipCode).HasColumnName("endereco_cep").HasMaxLength(10);
-        });
+        builder.Property(p => p.City)
+            .HasMaxLength(100);
 
-        builder.Property(p => p.Status)
-            .HasConversion<int>();
+        builder.Property(p => p.State)
+            .HasMaxLength(2);
 
-        // Auditoria LGPD: Índice para buscas frequentes por CPF
+        builder.Property(p => p.ZipCode)
+            .HasMaxLength(9);
+
+        // Auditoria LGPD: Índice para buscas frequentes por nome
         builder.HasIndex(p => p.Name);
     }
 }

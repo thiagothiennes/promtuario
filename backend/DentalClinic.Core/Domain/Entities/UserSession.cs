@@ -6,10 +6,10 @@ namespace DentalClinic.Core.Domain.Entities;
 public sealed class UserSession : Entity
 {
     public Guid UserId { get; private set; }
-    public string Token { get; private set; }
+    public string Token { get; private set; } = string.Empty;
     public DateTime ExpiryDate { get; private set; }
     public bool IsRevoked { get; private set; }
-    public string CreatedByIp { get; private set; }
+    public string CreatedByIp { get; private set; } = string.Empty;
 
     private UserSession() { }
 

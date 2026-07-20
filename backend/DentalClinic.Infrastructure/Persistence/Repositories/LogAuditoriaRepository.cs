@@ -1,6 +1,7 @@
-using DentalClinic.Api.Filters;
+using DentalClinic.Core.Domain.Entities;
 using DentalClinic.Core.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DentalClinic.Infrastructure.Persistence.Repositories;
 
@@ -16,33 +17,35 @@ public class LogAuditoriaRepository : ILogAuditoriaRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<LogAuditoria>> GetLogsAsync(int page, int pageSize, string? userId = null)
+    public async Task<LogAuditoria> CreateAsync(LogAuditoria log)
     {
-        var query = _context.Set<LogAuditoria>().AsQueryable();
+        await _context.Set<LogAuditoria>().AddAsync(log);
+        return log;
+    }
 
-        if (!string.IsNullOrEmpty(userId))
-        {
-            var userGuid = Guid.Parse(userId);
-            query = query.Where(l => l.UsuarioId == userGuid);
-        }
-
-        return await query
+    public async Task<IEnumerable<LogAuditoria>> GetAllAsync()
+    {
+        return await _context.Set<LogAuditoria>()
             .OrderByDescending(l => l.DataHora)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
             .ToListAsync();
     }
 
-    public async Task<int> CountAsync(string? userId = null)
+    public async Task<IEnumerable<LogAuditoria>> FindAsync(Expression<Func<LogAuditoria, bool>> predicate)
     {
-        var query = _context.Set<LogAuditoria>().AsQueryable();
+        return await _context.Set<LogAuditoria>()
+            .Where(predicate)
+            .OrderByDescending(l => l.DataHora)
+            .ToListAsync();
+    }
 
-        if (!string.IsNullOrEmpty(userId))
-        {
-            var userGuid = Guid.Parse(userId);
-            query = query.Where(l => l.UsuarioId == userGuid);
-        }
+    public async Task<LogAuditoria?> GetByIdAsync(int id)
+    {
+        return await _context.Set<LogAuditoria>()
+            .FirstOrDefaultAsync(l => l.Id == id);
+    }
 
-        return await query.CountAsync();
+    public async Task<int> SaveChangesAsync()
+    {
+        return await _context.SaveChangesAsync();
     }
 }

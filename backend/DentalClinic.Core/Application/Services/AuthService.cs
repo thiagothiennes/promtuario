@@ -3,66 +3,72 @@ using DentalClinic.Core.Application.Interfaces;
 using DentalClinic.Core.Common;
 using DentalClinic.Core.Domain.Entities;
 using DentalClinic.Core.Domain.Repositories;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace DentalClinic.Core.Application.Services;
 
 /// <summary>
-/// Implementação sênior do serviço de autenticação.
-/// Gerencia login, revogação de sessões e renovação de tokens (Refresh Token).
+/// Implementação do serviço de autenticação.
+/// Gerencia o ciclo de vida da sessão do usuário e segurança de acesso.
 /// </summary>
 public class AuthService : IAuthService
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserSessionRepository _sessionRepository;
-    private readonly IPasswordHasher _passwordHasher;
     private readonly ITokenService _tokenService;
-    private readonly IConfiguration _configuration;
+    private readonly IPasswordHasher _passwordHasher;
+    private readonly ILogger<AuthService> _logger;
 
     public AuthService(
         IUserRepository userRepository,
         IUserSessionRepository sessionRepository,
-        IPasswordHasher passwordHasher,
         ITokenService tokenService,
-        IConfiguration configuration)
+        IPasswordHasher passwordHasher,
+        ILogger<AuthService> logger)
     {
         _userRepository = userRepository;
         _sessionRepository = sessionRepository;
-        _passwordHasher = passwordHasher;
         _tokenService = tokenService;
-        _configuration = configuration;
+        _passwordHasher = passwordHasher;
+        _logger = logger;
     }
 
     public async Task<Result<TokenDto>> AuthenticateAsync(LoginDto loginDto)
     {
+        _logger.LogInformation("Tentativa de login para o email: {Email}", loginDto.Email);
+
         var user = await _userRepository.GetByEmailAsync(loginDto.Email);
 
-        if (user == null || !user.CanAccess())
+        if (user == null || !_passwordHasher.VerifyPassword(loginDto.Password, user.PasswordHash))
         {
-            return Result<TokenDto>.Failure("Usuário não encontrado ou inativo.");
-        }
+            if (user != null)
+            {
+                user.IncrementFailedLogin();
+                await _userRepository.UpdateAsync(user);
+            }
 
-        bool isPasswordValid = _passwordHasher.VerifyPassword(loginDto.Password, user.PasswordHash);
-
-        if (!isPasswordValid)
-        {
-            user.RegisterFailedLoginAttempt();
-            await _userRepository.UpdateAsync(user);
+            _logger.LogWarning("Falha na autenticação para o usuário: {Email}", loginDto.Email);
             return Result<TokenDto>.Failure("Credenciais inválidas.");
         }
 
-        user.RegisterSuccessfulLogin();
-        await _userRepository.UpdateAsync(user);
+        if (user.Status == 1) // Blocked
+        {
+            return Result<TokenDto>.Failure("Sua conta está bloqueada. Entre em contato com o administrador.");
+        }
 
+        // Gera os tokens
         var accessToken = _tokenService.GenerateAccessToken(user);
         var refreshToken = _tokenService.GenerateRefreshToken();
 
-        // Persiste a sessão para controle de Refresh Token (Segurança LGPD)
-        var expiryDays = int.Parse(_configuration["Jwt:RefreshTokenExpirationDays"] ?? "7");
-        var session = UserSession.Create(user.Id, refreshToken, expiryDays, "0.0.0.0"); // Em produção, capturar IP real
+        // Persiste a sessão (Refresh Token)
+        var session = UserSession.Create(user.Id, refreshToken, 7, "0.0.0.0"); // TODO: Obter IP do contexto
         await _sessionRepository.AddAsync(session);
 
-        var userDto = new UserDto(user.Id, user.Name, user.EmailAddress.Value, user.Roles.First().ToString());
+        // Atualiza info de login
+        user.UpdateLoginInfo();
+        await _userRepository.UpdateAsync(user);
+
+        var userDto = new UserDto(user.Id, user.Name, user.EmailAddress.Value, user.Role.ToString());
 
         return Result<TokenDto>.Ok(new TokenDto(accessToken, refreshToken, userDto));
     }
@@ -77,33 +83,34 @@ public class AuthService : IAuthService
         }
 
         var user = await _userRepository.GetByIdAsync(session.UserId);
-        if (user == null || !user.CanAccess())
+        if (user == null || user.Status != 0)
         {
-            return Result<TokenDto>.Failure("Usuário não autorizado.");
+            return Result<TokenDto>.Failure("Usuário não encontrado ou inativo.");
         }
 
-        // Revoga a sessão atual (Refresh Token Rotation para segurança extra)
+        // Revoga a sessão atual
         session.Revoke();
         await _sessionRepository.UpdateAsync(session);
 
-        // Gera novo par de tokens
+        // Gera novos tokens
         var newAccessToken = _tokenService.GenerateAccessToken(user);
         var newRefreshToken = _tokenService.GenerateRefreshToken();
 
-        var expiryDays = int.Parse(_configuration["Jwt:RefreshTokenExpirationDays"] ?? "7");
-        var newSession = UserSession.Create(user.Id, newRefreshToken, expiryDays, session.CreatedByIp);
+        // Cria nova sessão
+        var newSession = UserSession.Create(user.Id, newRefreshToken, 7, session.CreatedByIp);
         await _sessionRepository.AddAsync(newSession);
 
-        var userDto = new UserDto(user.Id, user.Name, user.EmailAddress.Value, user.Roles.First().ToString());
+        var userDto = new UserDto(user.Id, user.Name, user.EmailAddress.Value, user.Role.ToString());
 
         return Result<TokenDto>.Ok(new TokenDto(newAccessToken, newRefreshToken, userDto));
     }
 
     public async Task RevokeTokenAsync(string userId)
     {
-        if (Guid.TryParse(userId, out var guid))
+        if (Guid.TryParse(userId, out var userGuid))
         {
-            await _sessionRepository.RevokeAllUserSessionsAsync(guid);
+            await _sessionRepository.RevokeAllUserSessionsAsync(userGuid);
+            _logger.LogInformation("Todas as sessões do usuário {UserId} foram revogadas.", userId);
         }
     }
 }

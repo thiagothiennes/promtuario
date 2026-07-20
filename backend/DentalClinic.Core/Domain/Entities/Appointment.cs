@@ -4,7 +4,7 @@ namespace DentalClinic.Core.Domain.Entities;
 
 public sealed class Appointment : Entity
 {
-    public Guid PatientId { get; private set; }
+    public int PatientId { get; private set; }
     public Patient Patient { get; private set; } = null!;
 
     public Guid DoctorId { get; private set; }
@@ -21,7 +21,7 @@ public sealed class Appointment : Entity
     private Appointment() { }
 
     public static Appointment Create(
-        Guid patientId,
+        int patientId,
         Guid doctorId,
         DateTime startTime,
         DateTime endTime,

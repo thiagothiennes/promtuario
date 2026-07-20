@@ -27,7 +27,7 @@ public class TreatmentPlansController : ControllerBase
     /// Obtém o plano de tratamento ativo de um paciente.
     /// </summary>
     [HttpGet("active/{patientId}")]
-    public async Task<IActionResult> GetActive(Guid patientId)
+    public async Task<IActionResult> GetActive(int patientId)
     {
         var plan = await _repository.GetActivePlanByPatientIdAsync(patientId);
         if (plan == null) return NotFound();
@@ -43,7 +43,7 @@ public class TreatmentPlansController : ControllerBase
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-        var plan = TreatmentPlan.Create(request.PatientId, Guid.Parse(userId), request.Description);
+        var plan = TreatmentPlan.Create(request.PatientId, new Guid(userId), request.Description);
         await _repository.AddAsync(plan);
 
         return CreatedAtAction(nameof(GetActive), new { patientId = plan.PatientId }, plan);
@@ -81,5 +81,5 @@ public class TreatmentPlansController : ControllerBase
     }
 }
 
-public record CreateTreatmentPlanRequest(Guid PatientId, string Description);
+public record CreateTreatmentPlanRequest(int PatientId, string Description);
 public record AddTreatmentItemRequest(Guid ProcedureId, string ProcedureName, decimal Value, int? ToothNumber);

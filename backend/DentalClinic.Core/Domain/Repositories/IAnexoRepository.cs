@@ -8,7 +8,7 @@ namespace DentalClinic.Core.Domain.Repositories;
 public interface IAnexoRepository
 {
     Task<Anexo?> GetByIdAsync(Guid id);
-    Task<IEnumerable<Anexo>> GetByPacienteIdAsync(Guid pacienteId);
+    Task<IEnumerable<Anexo>> GetByPacienteIdAsync(int pacienteId);
     Task AddAsync(Anexo anexo);
     Task DeleteAsync(Guid id);
 }

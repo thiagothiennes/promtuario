@@ -78,7 +78,7 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFlutter",
-        policy => policy.AllowAnyOrigin()
+        policy => policy.WithOrigins("http://localhost:3000", "http://localhost:5173", "http://localhost:8080")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()); // Necessário para SignalR

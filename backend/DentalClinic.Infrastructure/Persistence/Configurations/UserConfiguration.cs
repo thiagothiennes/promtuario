@@ -16,44 +16,48 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired()
             .HasMaxLength(255);
 
-        builder.OwnsOne(u => u.EmailAddress, email =>
+        // Configuração do Email como Owned Type
+        builder.OwnsOne(u => u.EmailAddress, emailBuilder =>
         {
-            email.Property(e => e.Value)
+            emailBuilder.Property(e => e.Value)
                 .HasColumnName("email")
                 .IsRequired()
                 .HasMaxLength(255);
 
-            email.HasIndex(e => e.Value).IsUnique();
+            emailBuilder.HasIndex(e => e.Value).IsUnique();
         });
 
         builder.Property(u => u.PasswordHash)
             .IsRequired();
 
-        builder.OwnsOne(u => u.CPF, cpf =>
+        // Configuração do CPF como Owned Type
+        builder.OwnsOne(u => u.CPF, cpfBuilder =>
         {
-            cpf.Property(c => c.Value)
+            cpfBuilder.Property(c => c.Value)
                 .HasColumnName("cpf")
                 .IsRequired()
                 .HasMaxLength(11);
 
-            cpf.HasIndex(c => c.Value).IsUnique();
+            cpfBuilder.HasIndex(c => c.Value).IsUnique();
         });
 
         builder.Property(u => u.Phone)
             .HasMaxLength(20);
 
-        builder.OwnsOne(u => u.Address, address =>
+        // Configuração do Endereço como Owned Type
+        builder.OwnsOne(u => u.Address, addressBuilder =>
         {
-            address.Property(a => a.Street).HasColumnName("endereco_rua").HasMaxLength(255);
-            address.Property(a => a.Number).HasColumnName("endereco_numero").HasMaxLength(20);
-            address.Property(a => a.Neighborhood).HasColumnName("endereco_bairro").HasMaxLength(100);
-            address.Property(a => a.City).HasColumnName("endereco_cidade").HasMaxLength(100);
-            address.Property(a => a.State).HasColumnName("endereco_estado").HasMaxLength(2);
-            address.Property(a => a.ZipCode).HasColumnName("endereco_cep").HasMaxLength(10);
+            addressBuilder.Property(a => a.Street).HasColumnName("endereco_rua").HasMaxLength(255);
+            addressBuilder.Property(a => a.Number).HasColumnName("endereco_numero").HasMaxLength(20);
+            addressBuilder.Property(a => a.Neighborhood).HasColumnName("endereco_bairro").HasMaxLength(100);
+            addressBuilder.Property(a => a.City).HasColumnName("endereco_cidade").HasMaxLength(100);
+            addressBuilder.Property(a => a.State).HasColumnName("endereco_estado").HasMaxLength(2);
+            addressBuilder.Property(a => a.ZipCode).HasColumnName("endereco_cep").HasMaxLength(10);
         });
 
+        // Configuração de Roles como JSONB (PostgreSQL)
         builder.Property(u => u.Roles)
-            .HasPostgresArrayConversion(); // Requires Npgsql.EntityFrameworkCore.PostgreSQL
+            .HasColumnType("jsonb");
 
         builder.Property(u => u.Status)
             .HasConversion<int>();

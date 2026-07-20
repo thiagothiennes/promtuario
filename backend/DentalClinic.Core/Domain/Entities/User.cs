@@ -1,274 +1,134 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using DentalClinic.Core.Domain.ValueObjects;
 
 namespace DentalClinic.Core.Domain.Entities;
 
-/// <summary>
-/// Entidade que representa um usuário do sistema.
-/// </summary>
-public sealed class User : Entity
+public class User
 {
-    /// <summary>
-    /// Nome completo do usuário.
-    /// </summary>
-    public string Name { get; private set; }
+    [Key]
+    public Guid Id { get; set; }
 
-    /// <summary>
-    /// Email do usuário (Value Object).
-    /// </summary>
-    public Email EmailAddress { get; private set; }
+    [Required]
+    [MaxLength(255)]
+    public string Name { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Hash da senha armazenado (BCrypt).
-    /// </summary>
-    public string PasswordHash { get; private set; }
+    [Required]
+    public Email EmailAddress { get; set; } = null!;
 
-    /// <summary>
-    /// CPF do usuário (Value Object).
-    /// </summary>
-    public CPF CPF { get; private set; }
+    [Required]
+    public string PasswordHash { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Data de nascimento.
-    /// </summary>
-    public DateTime DateOfBirth { get; private set; }
+    public CPF? CPF { get; set; }
 
-    /// <summary>
-    /// Telefone de contato.
-    /// </summary>
-    public string Phone { get; private set; }
+    public DateTime? DateOfBirth { get; set; }
 
-    /// <summary>
-    /// Endereço (Value Object).
-    /// </summary>
-    public Address Address { get; private set; }
+    [MaxLength(20)]
+    public string? Phone { get; set; }
 
-    /// <summary>
-    /// Papéis do usuário.
-    /// </summary>
-    public List<UserRole> Roles { get; private set; }
+    public Address? Address { get; set; }
 
-    /// <summary>
-    /// Status do usuário.
-    /// </summary>
-    public UserStatus Status { get; private set; }
+    public UserRole Role { get; set; } = UserRole.Student;
 
-    /// <summary>
-    /// Indica se o email foi confirmado.
-    /// </summary>
-    public bool EmailConfirmed { get; private set; }
+    public List<UserRole> Roles { get; set; } = new();
 
-    /// <summary>
-    /// Data e hora do último login.
-    /// </summary>
-    public DateTime? LastLoginAt { get; private set; }
+    public int Status { get; set; } = 0; // 0 = Active, 1 = Blocked
 
-    /// <summary>
-    /// Tentativas de login inválidas consecutivas.
-    /// </summary>
-    public int FailedLoginAttempts { get; private set; }
+    public bool EmailConfirmed { get; set; } = false;
+    public int FailedLoginAttempts { get; set; } = 0;
+    public DateTime? LastLoginAt { get; set; }
+    public DateTime? BlockedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? UpdatedAt { get; set; }
 
-    /// <summary>
-    /// Data e hora do bloqueio (se bloqueado).
-    /// </summary>
-    public DateTime? BlockedAt { get; private set; }
+    public ICollection<Appointment>? Appointments { get; set; }
+    public ICollection<Attachment>? Attachments { get; set; }
+    public ICollection<Evolution>? Evolutions { get; set; }
 
-    private User()
+    protected User()
     {
-        Name = string.Empty;
-        EmailAddress = Email.Create(string.Empty);
-        PasswordHash = string.Empty;
-        CPF = CPF.Create("00000000000");
-        Phone = string.Empty;
-        Address = Address.Create(".", ".", null, ".", ".", "SP", "00000-000");
-        Roles = [];
-        Status = UserStatus.Active;
+        Roles = new List<UserRole>();
     }
 
-    /// <summary>
-    /// Cria um novo usuário com validações.
-    /// </summary>
-    /// <param name="name">Nome completo.</param>
-    /// <param name="email">Email (será validado como Value Object).</param>
-    /// <param name="cpf">CPF (será validado como Value Object).</param>
-    /// <param name="dateOfBirth">Data de nascimento.</param>
-    /// <param name="phone">Telefone.</param>
-    /// <param name="address">Endereço (Value Object).</param>
-    /// <param name="role">Papel do usuário.</param>
-    /// <returns>Um novo usuário com senha não setada ainda.</returns>
-    public static User Create(
-        string name,
-        string email,
-        string cpf,
-        DateTime dateOfBirth,
-        string phone,
-        Address address,
-        UserRole role)
+    public User(string name, Email email, string passwordHash, UserRole role = UserRole.Student)
     {
-        ValidateName(name);
-        ValidateDateOfBirth(dateOfBirth);
-        ValidatePhone(phone);
-
-        var user = new User
-        {
-            Name = name.Trim(),
-            EmailAddress = Email.Create(email),
-            CPF = CPF.Create(cpf),
-            DateOfBirth = dateOfBirth,
-            Phone = phone.Trim(),
-            Address = address,
-            Status = UserStatus.PendingEmailConfirmation,
-            EmailConfirmed = false,
-            FailedLoginAttempts = 0,
-            Roles = [role]
-        };
-
-        return user;
-    }
-
-    /// <summary>
-    /// Define o hash da senha.
-    /// </summary>
-    /// <param name="passwordHash">Hash da senha (deve ser gerado com BCrypt).</param>
-    public void SetPasswordHash(string passwordHash)
-    {
-        if (string.IsNullOrWhiteSpace(passwordHash))
-            throw new InvalidOperationException("Hash da senha não pode ser vazio.");
-
+        Id = Guid.NewGuid();
+        Name = name;
+        EmailAddress = email;
         PasswordHash = passwordHash;
+        Role = role;
+        Roles = new List<UserRole> { role };
+        CreatedAt = DateTime.UtcNow;
+        Status = 0;
     }
 
-    /// <summary>
-    /// Marca o email como confirmado e ativa o usuário.
-    /// </summary>
+    // Fábrica estática para criação controlada via Controller
+    public static User Create(string name, string email, string cpf, DateTime? dateOfBirth, string? phone, Address? address, UserRole role)
+    {
+        return new User
+        {
+            Id = Guid.NewGuid(),
+            Name = name,
+            EmailAddress = Email.Create(email),
+            CPF = !string.IsNullOrEmpty(cpf) ? CPF.Create(cpf) : null,
+            DateOfBirth = dateOfBirth,
+            Phone = phone,
+            Address = address,
+            Role = role,
+            Roles = new List<UserRole> { role },
+            CreatedAt = DateTime.UtcNow,
+            Status = 0
+        };
+    }
+
+    public void SetPasswordHash(string hash)
+    {
+        PasswordHash = hash;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
     public void ConfirmEmail()
     {
         EmailConfirmed = true;
-        Status = UserStatus.Active;
+        UpdatedAt = DateTime.UtcNow;
     }
 
-    /// <summary>
-    /// Registra um login bem-sucedido.
-    /// </summary>
-    public void RegisterSuccessfulLogin()
+    public void Activate()
+    {
+        Status = 0;
+        BlockedAt = null;
+        FailedLoginAttempts = 0;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void Deactivate()
+    {
+        Status = 1;
+        BlockedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdateLoginInfo()
     {
         LastLoginAt = DateTime.UtcNow;
         FailedLoginAttempts = 0;
-
-        if (Status == UserStatus.Blocked)
-            Status = UserStatus.Active;
-
-        BlockedAt = null;
-        UpdatedAt = DateTime.UtcNow;
     }
 
-    /// <summary>
-    /// Registra uma tentativa de login inválida.
-    /// </summary>
-    public void RegisterFailedLoginAttempt()
+    public void IncrementFailedLogin()
     {
         FailedLoginAttempts++;
-
         if (FailedLoginAttempts >= 5)
         {
-            Status = UserStatus.Blocked;
             BlockedAt = DateTime.UtcNow;
+            Status = 1;
         }
-
-        UpdatedAt = DateTime.UtcNow;
     }
 
-    /// <summary>
-    /// Desbloqueia o usuário.
-    /// </summary>
-    public void Unblock()
+    public void ResetFailedLogin()
     {
-        Status = UserStatus.Active;
         FailedLoginAttempts = 0;
         BlockedAt = null;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    /// <summary>
-    /// Desativa o usuário.
-    /// </summary>
-    public void Deactivate()
-    {
-        Status = UserStatus.Inactive;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    /// <summary>
-    /// Ativa o usuário.
-    /// </summary>
-    public void Activate()
-    {
-        Status = UserStatus.Active;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    /// <summary>
-    /// Adiciona um papel ao usuário.
-    /// </summary>
-    /// <param name="role">Papel a adicionar.</param>
-    public void AddRole(UserRole role)
-    {
-        if (!Roles.Contains(role))
-        {
-            Roles.Add(role);
-            UpdatedAt = DateTime.UtcNow;
-        }
-    }
-
-    /// <summary>
-    /// Remove um papel do usuário.
-    /// </summary>
-    /// <param name="role">Papel a remover.</param>
-    public void RemoveRole(UserRole role)
-    {
-        if (Roles.Remove(role))
-        {
-            UpdatedAt = DateTime.UtcNow;
-        }
-    }
-
-    /// <summary>
-    /// Verifica se o usuário pode acessar o sistema.
-    /// </summary>
-    /// <returns>Verdadeiro se ativo, falso caso contrário.</returns>
-    public bool CanAccess() => Status == UserStatus.Active && EmailConfirmed;
-
-    private static void ValidateName(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-            throw new InvalidOperationException("Nome não pode ser vazio.");
-
-        if (name.Length < 3)
-            throw new InvalidOperationException("Nome deve ter no mínimo 3 caracteres.");
-
-        if (name.Length > 255)
-            throw new InvalidOperationException("Nome não pode ter mais de 255 caracteres.");
-    }
-
-    private static void ValidateDateOfBirth(DateTime dateOfBirth)
-    {
-        var age = DateTime.Today.Year - dateOfBirth.Year;
-        if (dateOfBirth.Date > DateTime.Today)
-            age--;
-
-        if (age < 18)
-            throw new InvalidOperationException("Usuário deve ter no mínimo 18 anos.");
-
-        if (age > 120)
-            throw new InvalidOperationException("Data de nascimento inválida.");
-    }
-
-    private static void ValidatePhone(string phone)
-    {
-        if (string.IsNullOrWhiteSpace(phone))
-            throw new InvalidOperationException("Telefone não pode ser vazio.");
-
-        var onlyNumbers = System.Text.RegularExpressions.Regex.Replace(phone, @"[^\d]", "");
-        if (onlyNumbers.Length < 10 || onlyNumbers.Length > 11)
-            throw new InvalidOperationException("Telefone deve ter entre 10 e 11 dígitos.");
+        if (Status == 1) Status = 0;
     }
 }

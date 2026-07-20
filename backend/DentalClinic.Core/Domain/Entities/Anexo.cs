@@ -6,12 +6,12 @@ namespace DentalClinic.Core.Domain.Entities;
 /// </summary>
 public sealed class Anexo : Entity
 {
-    public Guid PacienteId { get; private set; }
+    public int PacienteId { get; private set; }
     public Patient Paciente { get; private set; } = null!;
 
-    public string Nome { get; private set; }
-    public string Tipo { get; private set; } // 'Radiografia', 'Foto', 'Documento'
-    public string Url { get; private set; }
+    public string Nome { get; private set; } = string.Empty;
+    public string Tipo { get; private set; } = string.Empty; // 'Radiografia', 'Foto', 'Documento'
+    public string Url { get; private set; } = string.Empty;
     public long Tamanho { get; private set; }
 
     public Guid CriadoPorId { get; private set; }
@@ -19,7 +19,7 @@ public sealed class Anexo : Entity
 
     private Anexo() { }
 
-    public static Anexo Create(Guid pacienteId, string nome, string tipo, string url, long tamanho, Guid criadoPorId)
+    public static Anexo Create(int pacienteId, string nome, string tipo, string url, long tamanho, Guid criadoPorId)
     {
         return new Anexo
         {

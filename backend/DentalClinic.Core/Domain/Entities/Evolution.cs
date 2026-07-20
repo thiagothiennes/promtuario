@@ -5,7 +5,7 @@ namespace DentalClinic.Core.Domain.Entities;
 /// </summary>
 public sealed class Evolution : Entity
 {
-    public Guid PatientId { get; private set; }
+    public int PatientId { get; private set; }
     public Patient Patient { get; private set; } = null!;
 
     public Guid StudentId { get; private set; }
@@ -17,14 +17,14 @@ public sealed class Evolution : Entity
     public Guid ClinicId { get; private set; }
     public Clinic Clinic { get; private set; } = null!;
 
-    public string Description { get; private set; }
+    public string Description { get; private set; } = string.Empty;
     public bool IsSignedByProfessor { get; private set; }
     public DateTime? SignedAt { get; private set; }
 
     private Evolution() { }
 
     public static Evolution Create(
-        Guid patientId,
+        int patientId,
         Guid studentId,
         Guid professorId,
         Guid clinicId,

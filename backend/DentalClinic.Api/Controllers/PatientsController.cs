@@ -44,7 +44,7 @@ public class PatientsController : ControllerBase
     /// Busca um paciente pelo ID.
     /// </summary>
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById(int id)
     {
         var patient = await _patientRepository.GetByIdAsync(id);
         if (patient == null) return NotFound();
@@ -66,7 +66,7 @@ public class PatientsController : ControllerBase
     /// Atualiza os dados de um paciente.
     /// </summary>
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] Patient patient)
+    public async Task<IActionResult> Update(int id, [FromBody] Patient patient)
     {
         if (id != patient.Id) return BadRequest();
 
@@ -83,7 +83,7 @@ public class PatientsController : ControllerBase
     /// </summary>
     [HttpPost("{id}/anonymize")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> Anonymize(Guid id)
+    public async Task<IActionResult> Anonymize(int id)
     {
         _logger.LogWarning("Solicitação de anonimização (LGPD) para o paciente {Id}", id);
 

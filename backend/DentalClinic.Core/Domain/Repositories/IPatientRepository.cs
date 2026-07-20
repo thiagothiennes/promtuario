@@ -7,7 +7,7 @@ namespace DentalClinic.Core.Domain.Repositories;
 /// </summary>
 public interface IPatientRepository
 {
-    Task<Patient?> GetByIdAsync(Guid id);
+    Task<Patient?> GetByIdAsync(int id);
     Task<IEnumerable<Patient>> GetAllAsync(int page, int pageSize, string? searchTerm);
     Task AddAsync(Patient patient);
     Task UpdateAsync(Patient patient);
@@ -16,5 +16,5 @@ public interface IPatientRepository
     /// <summary>
     /// Anonimiza os dados pessoais do paciente conforme a LGPD.
     /// </summary>
-    Task AnonymizeAsync(Guid id);
+    Task AnonymizeAsync(int id);
 }
