@@ -4,12 +4,12 @@ import 'package:promt/features/prontuario/domain/entities/odontogram.dart';
 
 /// Gerencia o prontuário eletrônico do paciente com odontograma.
 class ProntuarioViewModel extends StateNotifier<AsyncValue<Odontogram?>> {
+  final Ref ref;
+  final String patientId;
+
   ProntuarioViewModel(this.ref, this.patientId) : super(const AsyncValue.loading()) {
     _fetchOdontogram();
   }
-
-  final Ref ref;
-  final String patientId;
 
   Future<void> _fetchOdontogram() async {
     state = await AsyncValue.guard(() => 
@@ -21,20 +21,17 @@ class ProntuarioViewModel extends StateNotifier<AsyncValue<Odontogram?>> {
 
   /// Atualiza a condição de um dente no odontograma.
   Future<void> updateToothCondition(ToothCondition condition) async {
+    final current = state.value;
+    if (current == null) return;
+
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final current = state.value;
-      if (current == null) return null;
-
       final updatedTeeth = current.teeth.where((t) => t.toothNumber != condition.toothNumber).toList();
       updatedTeeth.add(condition);
 
-      final updated = Odontogram(
-        id: current.id,
-        patientId: current.patientId,
+      final updated = current.copyWith(
         teeth: updatedTeeth,
         updatedAt: DateTime.now(),
-        updatedBy: 'user', // TODO: obter do auth
       );
 
       await ref.read(prontuarioRepositoryProvider).saveOdontogram(updated);

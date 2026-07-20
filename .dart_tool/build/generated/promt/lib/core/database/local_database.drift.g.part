@@ -3373,24 +3373,64 @@ class $EvolutionsLocalTable extends EvolutionsLocal
   late final GeneratedColumn<String> patientId = GeneratedColumn<String>(
       'patient_id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
+  static const VerificationMeta _studentIdMeta =
+      const VerificationMeta('studentId');
   @override
-  late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<String> studentId = GeneratedColumn<String>(
+      'student_id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _studentNameMeta =
+      const VerificationMeta('studentName');
+  @override
+  late final GeneratedColumn<String> studentName = GeneratedColumn<String>(
+      'student_name', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _professorIdMeta =
       const VerificationMeta('professorId');
   @override
   late final GeneratedColumn<String> professorId = GeneratedColumn<String>(
       'professor_id', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _professorNameMeta =
+      const VerificationMeta('professorName');
+  @override
+  late final GeneratedColumn<String> professorName = GeneratedColumn<String>(
+      'professor_name', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _isSignedByProfessorMeta =
+      const VerificationMeta('isSignedByProfessor');
+  @override
+  late final GeneratedColumn<bool> isSignedByProfessor = GeneratedColumn<bool>(
+      'is_signed_by_professor', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("is_signed_by_professor" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _signedAtMeta =
+      const VerificationMeta('signedAt');
+  @override
+  late final GeneratedColumn<DateTime> signedAt = GeneratedColumn<DateTime>(
+      'signed_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
       'created_at', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _clinicNameMeta =
+      const VerificationMeta('clinicName');
+  @override
+  late final GeneratedColumn<String> clinicName = GeneratedColumn<String>(
+      'clinic_name', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _isSyncedMeta =
       const VerificationMeta('isSynced');
   @override
@@ -3402,8 +3442,20 @@ class $EvolutionsLocalTable extends EvolutionsLocal
           GeneratedColumn.constraintIsAlways('CHECK ("is_synced" IN (0, 1))'),
       defaultValue: const Constant(false));
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, patientId, description, professorId, createdAt, isSynced];
+  List<GeneratedColumn> get $columns => [
+        id,
+        patientId,
+        studentId,
+        studentName,
+        professorId,
+        professorName,
+        description,
+        isSignedByProfessor,
+        signedAt,
+        createdAt,
+        clinicName,
+        isSynced
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -3426,6 +3478,28 @@ class $EvolutionsLocalTable extends EvolutionsLocal
     } else if (isInserting) {
       context.missing(_patientIdMeta);
     }
+    if (data.containsKey('student_id')) {
+      context.handle(_studentIdMeta,
+          studentId.isAcceptableOrUnknown(data['student_id']!, _studentIdMeta));
+    }
+    if (data.containsKey('student_name')) {
+      context.handle(
+          _studentNameMeta,
+          studentName.isAcceptableOrUnknown(
+              data['student_name']!, _studentNameMeta));
+    }
+    if (data.containsKey('professor_id')) {
+      context.handle(
+          _professorIdMeta,
+          professorId.isAcceptableOrUnknown(
+              data['professor_id']!, _professorIdMeta));
+    }
+    if (data.containsKey('professor_name')) {
+      context.handle(
+          _professorNameMeta,
+          professorName.isAcceptableOrUnknown(
+              data['professor_name']!, _professorNameMeta));
+    }
     if (data.containsKey('description')) {
       context.handle(
           _descriptionMeta,
@@ -3434,17 +3508,27 @@ class $EvolutionsLocalTable extends EvolutionsLocal
     } else if (isInserting) {
       context.missing(_descriptionMeta);
     }
-    if (data.containsKey('professor_id')) {
+    if (data.containsKey('is_signed_by_professor')) {
       context.handle(
-          _professorIdMeta,
-          professorId.isAcceptableOrUnknown(
-              data['professor_id']!, _professorIdMeta));
+          _isSignedByProfessorMeta,
+          isSignedByProfessor.isAcceptableOrUnknown(
+              data['is_signed_by_professor']!, _isSignedByProfessorMeta));
+    }
+    if (data.containsKey('signed_at')) {
+      context.handle(_signedAtMeta,
+          signedAt.isAcceptableOrUnknown(data['signed_at']!, _signedAtMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     } else if (isInserting) {
       context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('clinic_name')) {
+      context.handle(
+          _clinicNameMeta,
+          clinicName.isAcceptableOrUnknown(
+              data['clinic_name']!, _clinicNameMeta));
     }
     if (data.containsKey('is_synced')) {
       context.handle(_isSyncedMeta,
@@ -3463,12 +3547,24 @@ class $EvolutionsLocalTable extends EvolutionsLocal
           .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       patientId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}patient_id'])!,
-      description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+      studentId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}student_id']),
+      studentName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}student_name']),
       professorId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}professor_id']),
+      professorName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}professor_name']),
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+      isSignedByProfessor: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool, data['${effectivePrefix}is_signed_by_professor'])!,
+      signedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}signed_at']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      clinicName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}clinic_name']),
       isSynced: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_synced'])!,
     );
@@ -3484,27 +3580,55 @@ class EvolutionsLocalData extends DataClass
     implements Insertable<EvolutionsLocalData> {
   final String id;
   final String patientId;
-  final String description;
+  final String? studentId;
+  final String? studentName;
   final String? professorId;
+  final String? professorName;
+  final String description;
+  final bool isSignedByProfessor;
+  final DateTime? signedAt;
   final DateTime createdAt;
+  final String? clinicName;
   final bool isSynced;
   const EvolutionsLocalData(
       {required this.id,
       required this.patientId,
-      required this.description,
+      this.studentId,
+      this.studentName,
       this.professorId,
+      this.professorName,
+      required this.description,
+      required this.isSignedByProfessor,
+      this.signedAt,
       required this.createdAt,
+      this.clinicName,
       required this.isSynced});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['patient_id'] = Variable<String>(patientId);
-    map['description'] = Variable<String>(description);
+    if (!nullToAbsent || studentId != null) {
+      map['student_id'] = Variable<String>(studentId);
+    }
+    if (!nullToAbsent || studentName != null) {
+      map['student_name'] = Variable<String>(studentName);
+    }
     if (!nullToAbsent || professorId != null) {
       map['professor_id'] = Variable<String>(professorId);
     }
+    if (!nullToAbsent || professorName != null) {
+      map['professor_name'] = Variable<String>(professorName);
+    }
+    map['description'] = Variable<String>(description);
+    map['is_signed_by_professor'] = Variable<bool>(isSignedByProfessor);
+    if (!nullToAbsent || signedAt != null) {
+      map['signed_at'] = Variable<DateTime>(signedAt);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || clinicName != null) {
+      map['clinic_name'] = Variable<String>(clinicName);
+    }
     map['is_synced'] = Variable<bool>(isSynced);
     return map;
   }
@@ -3513,11 +3637,27 @@ class EvolutionsLocalData extends DataClass
     return EvolutionsLocalCompanion(
       id: Value(id),
       patientId: Value(patientId),
-      description: Value(description),
+      studentId: studentId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(studentId),
+      studentName: studentName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(studentName),
       professorId: professorId == null && nullToAbsent
           ? const Value.absent()
           : Value(professorId),
+      professorName: professorName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(professorName),
+      description: Value(description),
+      isSignedByProfessor: Value(isSignedByProfessor),
+      signedAt: signedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(signedAt),
       createdAt: Value(createdAt),
+      clinicName: clinicName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(clinicName),
       isSynced: Value(isSynced),
     );
   }
@@ -3528,9 +3668,16 @@ class EvolutionsLocalData extends DataClass
     return EvolutionsLocalData(
       id: serializer.fromJson<String>(json['id']),
       patientId: serializer.fromJson<String>(json['patientId']),
-      description: serializer.fromJson<String>(json['description']),
+      studentId: serializer.fromJson<String?>(json['studentId']),
+      studentName: serializer.fromJson<String?>(json['studentName']),
       professorId: serializer.fromJson<String?>(json['professorId']),
+      professorName: serializer.fromJson<String?>(json['professorName']),
+      description: serializer.fromJson<String>(json['description']),
+      isSignedByProfessor:
+          serializer.fromJson<bool>(json['isSignedByProfessor']),
+      signedAt: serializer.fromJson<DateTime?>(json['signedAt']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      clinicName: serializer.fromJson<String?>(json['clinicName']),
       isSynced: serializer.fromJson<bool>(json['isSynced']),
     );
   }
@@ -3540,9 +3687,15 @@ class EvolutionsLocalData extends DataClass
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'patientId': serializer.toJson<String>(patientId),
-      'description': serializer.toJson<String>(description),
+      'studentId': serializer.toJson<String?>(studentId),
+      'studentName': serializer.toJson<String?>(studentName),
       'professorId': serializer.toJson<String?>(professorId),
+      'professorName': serializer.toJson<String?>(professorName),
+      'description': serializer.toJson<String>(description),
+      'isSignedByProfessor': serializer.toJson<bool>(isSignedByProfessor),
+      'signedAt': serializer.toJson<DateTime?>(signedAt),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'clinicName': serializer.toJson<String?>(clinicName),
       'isSynced': serializer.toJson<bool>(isSynced),
     };
   }
@@ -3550,27 +3703,52 @@ class EvolutionsLocalData extends DataClass
   EvolutionsLocalData copyWith(
           {String? id,
           String? patientId,
-          String? description,
+          Value<String?> studentId = const Value.absent(),
+          Value<String?> studentName = const Value.absent(),
           Value<String?> professorId = const Value.absent(),
+          Value<String?> professorName = const Value.absent(),
+          String? description,
+          bool? isSignedByProfessor,
+          Value<DateTime?> signedAt = const Value.absent(),
           DateTime? createdAt,
+          Value<String?> clinicName = const Value.absent(),
           bool? isSynced}) =>
       EvolutionsLocalData(
         id: id ?? this.id,
         patientId: patientId ?? this.patientId,
-        description: description ?? this.description,
+        studentId: studentId.present ? studentId.value : this.studentId,
+        studentName: studentName.present ? studentName.value : this.studentName,
         professorId: professorId.present ? professorId.value : this.professorId,
+        professorName:
+            professorName.present ? professorName.value : this.professorName,
+        description: description ?? this.description,
+        isSignedByProfessor: isSignedByProfessor ?? this.isSignedByProfessor,
+        signedAt: signedAt.present ? signedAt.value : this.signedAt,
         createdAt: createdAt ?? this.createdAt,
+        clinicName: clinicName.present ? clinicName.value : this.clinicName,
         isSynced: isSynced ?? this.isSynced,
       );
   EvolutionsLocalData copyWithCompanion(EvolutionsLocalCompanion data) {
     return EvolutionsLocalData(
       id: data.id.present ? data.id.value : this.id,
       patientId: data.patientId.present ? data.patientId.value : this.patientId,
-      description:
-          data.description.present ? data.description.value : this.description,
+      studentId: data.studentId.present ? data.studentId.value : this.studentId,
+      studentName:
+          data.studentName.present ? data.studentName.value : this.studentName,
       professorId:
           data.professorId.present ? data.professorId.value : this.professorId,
+      professorName: data.professorName.present
+          ? data.professorName.value
+          : this.professorName,
+      description:
+          data.description.present ? data.description.value : this.description,
+      isSignedByProfessor: data.isSignedByProfessor.present
+          ? data.isSignedByProfessor.value
+          : this.isSignedByProfessor,
+      signedAt: data.signedAt.present ? data.signedAt.value : this.signedAt,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      clinicName:
+          data.clinicName.present ? data.clinicName.value : this.clinicName,
       isSynced: data.isSynced.present ? data.isSynced.value : this.isSynced,
     );
   }
@@ -3580,52 +3758,93 @@ class EvolutionsLocalData extends DataClass
     return (StringBuffer('EvolutionsLocalData(')
           ..write('id: $id, ')
           ..write('patientId: $patientId, ')
-          ..write('description: $description, ')
+          ..write('studentId: $studentId, ')
+          ..write('studentName: $studentName, ')
           ..write('professorId: $professorId, ')
+          ..write('professorName: $professorName, ')
+          ..write('description: $description, ')
+          ..write('isSignedByProfessor: $isSignedByProfessor, ')
+          ..write('signedAt: $signedAt, ')
           ..write('createdAt: $createdAt, ')
+          ..write('clinicName: $clinicName, ')
           ..write('isSynced: $isSynced')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, patientId, description, professorId, createdAt, isSynced);
+  int get hashCode => Object.hash(
+      id,
+      patientId,
+      studentId,
+      studentName,
+      professorId,
+      professorName,
+      description,
+      isSignedByProfessor,
+      signedAt,
+      createdAt,
+      clinicName,
+      isSynced);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is EvolutionsLocalData &&
           other.id == this.id &&
           other.patientId == this.patientId &&
-          other.description == this.description &&
+          other.studentId == this.studentId &&
+          other.studentName == this.studentName &&
           other.professorId == this.professorId &&
+          other.professorName == this.professorName &&
+          other.description == this.description &&
+          other.isSignedByProfessor == this.isSignedByProfessor &&
+          other.signedAt == this.signedAt &&
           other.createdAt == this.createdAt &&
+          other.clinicName == this.clinicName &&
           other.isSynced == this.isSynced);
 }
 
 class EvolutionsLocalCompanion extends UpdateCompanion<EvolutionsLocalData> {
   final Value<String> id;
   final Value<String> patientId;
-  final Value<String> description;
+  final Value<String?> studentId;
+  final Value<String?> studentName;
   final Value<String?> professorId;
+  final Value<String?> professorName;
+  final Value<String> description;
+  final Value<bool> isSignedByProfessor;
+  final Value<DateTime?> signedAt;
   final Value<DateTime> createdAt;
+  final Value<String?> clinicName;
   final Value<bool> isSynced;
   final Value<int> rowid;
   const EvolutionsLocalCompanion({
     this.id = const Value.absent(),
     this.patientId = const Value.absent(),
-    this.description = const Value.absent(),
+    this.studentId = const Value.absent(),
+    this.studentName = const Value.absent(),
     this.professorId = const Value.absent(),
+    this.professorName = const Value.absent(),
+    this.description = const Value.absent(),
+    this.isSignedByProfessor = const Value.absent(),
+    this.signedAt = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.clinicName = const Value.absent(),
     this.isSynced = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   EvolutionsLocalCompanion.insert({
     required String id,
     required String patientId,
-    required String description,
+    this.studentId = const Value.absent(),
+    this.studentName = const Value.absent(),
     this.professorId = const Value.absent(),
+    this.professorName = const Value.absent(),
+    required String description,
+    this.isSignedByProfessor = const Value.absent(),
+    this.signedAt = const Value.absent(),
     required DateTime createdAt,
+    this.clinicName = const Value.absent(),
     this.isSynced = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : id = Value(id),
@@ -3635,18 +3854,31 @@ class EvolutionsLocalCompanion extends UpdateCompanion<EvolutionsLocalData> {
   static Insertable<EvolutionsLocalData> custom({
     Expression<String>? id,
     Expression<String>? patientId,
-    Expression<String>? description,
+    Expression<String>? studentId,
+    Expression<String>? studentName,
     Expression<String>? professorId,
+    Expression<String>? professorName,
+    Expression<String>? description,
+    Expression<bool>? isSignedByProfessor,
+    Expression<DateTime>? signedAt,
     Expression<DateTime>? createdAt,
+    Expression<String>? clinicName,
     Expression<bool>? isSynced,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (patientId != null) 'patient_id': patientId,
-      if (description != null) 'description': description,
+      if (studentId != null) 'student_id': studentId,
+      if (studentName != null) 'student_name': studentName,
       if (professorId != null) 'professor_id': professorId,
+      if (professorName != null) 'professor_name': professorName,
+      if (description != null) 'description': description,
+      if (isSignedByProfessor != null)
+        'is_signed_by_professor': isSignedByProfessor,
+      if (signedAt != null) 'signed_at': signedAt,
       if (createdAt != null) 'created_at': createdAt,
+      if (clinicName != null) 'clinic_name': clinicName,
       if (isSynced != null) 'is_synced': isSynced,
       if (rowid != null) 'rowid': rowid,
     });
@@ -3655,17 +3887,29 @@ class EvolutionsLocalCompanion extends UpdateCompanion<EvolutionsLocalData> {
   EvolutionsLocalCompanion copyWith(
       {Value<String>? id,
       Value<String>? patientId,
-      Value<String>? description,
+      Value<String?>? studentId,
+      Value<String?>? studentName,
       Value<String?>? professorId,
+      Value<String?>? professorName,
+      Value<String>? description,
+      Value<bool>? isSignedByProfessor,
+      Value<DateTime?>? signedAt,
       Value<DateTime>? createdAt,
+      Value<String?>? clinicName,
       Value<bool>? isSynced,
       Value<int>? rowid}) {
     return EvolutionsLocalCompanion(
       id: id ?? this.id,
       patientId: patientId ?? this.patientId,
-      description: description ?? this.description,
+      studentId: studentId ?? this.studentId,
+      studentName: studentName ?? this.studentName,
       professorId: professorId ?? this.professorId,
+      professorName: professorName ?? this.professorName,
+      description: description ?? this.description,
+      isSignedByProfessor: isSignedByProfessor ?? this.isSignedByProfessor,
+      signedAt: signedAt ?? this.signedAt,
       createdAt: createdAt ?? this.createdAt,
+      clinicName: clinicName ?? this.clinicName,
       isSynced: isSynced ?? this.isSynced,
       rowid: rowid ?? this.rowid,
     );
@@ -3680,14 +3924,32 @@ class EvolutionsLocalCompanion extends UpdateCompanion<EvolutionsLocalData> {
     if (patientId.present) {
       map['patient_id'] = Variable<String>(patientId.value);
     }
-    if (description.present) {
-      map['description'] = Variable<String>(description.value);
+    if (studentId.present) {
+      map['student_id'] = Variable<String>(studentId.value);
+    }
+    if (studentName.present) {
+      map['student_name'] = Variable<String>(studentName.value);
     }
     if (professorId.present) {
       map['professor_id'] = Variable<String>(professorId.value);
     }
+    if (professorName.present) {
+      map['professor_name'] = Variable<String>(professorName.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (isSignedByProfessor.present) {
+      map['is_signed_by_professor'] = Variable<bool>(isSignedByProfessor.value);
+    }
+    if (signedAt.present) {
+      map['signed_at'] = Variable<DateTime>(signedAt.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (clinicName.present) {
+      map['clinic_name'] = Variable<String>(clinicName.value);
     }
     if (isSynced.present) {
       map['is_synced'] = Variable<bool>(isSynced.value);
@@ -3703,9 +3965,15 @@ class EvolutionsLocalCompanion extends UpdateCompanion<EvolutionsLocalData> {
     return (StringBuffer('EvolutionsLocalCompanion(')
           ..write('id: $id, ')
           ..write('patientId: $patientId, ')
-          ..write('description: $description, ')
+          ..write('studentId: $studentId, ')
+          ..write('studentName: $studentName, ')
           ..write('professorId: $professorId, ')
+          ..write('professorName: $professorName, ')
+          ..write('description: $description, ')
+          ..write('isSignedByProfessor: $isSignedByProfessor, ')
+          ..write('signedAt: $signedAt, ')
           ..write('createdAt: $createdAt, ')
+          ..write('clinicName: $clinicName, ')
           ..write('isSynced: $isSynced, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -5839,9 +6107,15 @@ typedef $$EvolutionsLocalTableCreateCompanionBuilder = EvolutionsLocalCompanion
     Function({
   required String id,
   required String patientId,
-  required String description,
+  Value<String?> studentId,
+  Value<String?> studentName,
   Value<String?> professorId,
+  Value<String?> professorName,
+  required String description,
+  Value<bool> isSignedByProfessor,
+  Value<DateTime?> signedAt,
   required DateTime createdAt,
+  Value<String?> clinicName,
   Value<bool> isSynced,
   Value<int> rowid,
 });
@@ -5849,9 +6123,15 @@ typedef $$EvolutionsLocalTableUpdateCompanionBuilder = EvolutionsLocalCompanion
     Function({
   Value<String> id,
   Value<String> patientId,
-  Value<String> description,
+  Value<String?> studentId,
+  Value<String?> studentName,
   Value<String?> professorId,
+  Value<String?> professorName,
+  Value<String> description,
+  Value<bool> isSignedByProfessor,
+  Value<DateTime?> signedAt,
   Value<DateTime> createdAt,
+  Value<String?> clinicName,
   Value<bool> isSynced,
   Value<int> rowid,
 });
@@ -5871,14 +6151,33 @@ class $$EvolutionsLocalTableFilterComposer
   ColumnFilters<String> get patientId => $composableBuilder(
       column: $table.patientId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get studentId => $composableBuilder(
+      column: $table.studentId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get studentName => $composableBuilder(
+      column: $table.studentName, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get professorId => $composableBuilder(
       column: $table.professorId, builder: (column) => ColumnFilters(column));
 
+  ColumnFilters<String> get professorName => $composableBuilder(
+      column: $table.professorName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isSignedByProfessor => $composableBuilder(
+      column: $table.isSignedByProfessor,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get signedAt => $composableBuilder(
+      column: $table.signedAt, builder: (column) => ColumnFilters(column));
+
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get clinicName => $composableBuilder(
+      column: $table.clinicName, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<bool> get isSynced => $composableBuilder(
       column: $table.isSynced, builder: (column) => ColumnFilters(column));
@@ -5899,14 +6198,34 @@ class $$EvolutionsLocalTableOrderingComposer
   ColumnOrderings<String> get patientId => $composableBuilder(
       column: $table.patientId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get studentId => $composableBuilder(
+      column: $table.studentId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get studentName => $composableBuilder(
+      column: $table.studentName, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get professorId => $composableBuilder(
       column: $table.professorId, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get professorName => $composableBuilder(
+      column: $table.professorName,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isSignedByProfessor => $composableBuilder(
+      column: $table.isSignedByProfessor,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get signedAt => $composableBuilder(
+      column: $table.signedAt, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get clinicName => $composableBuilder(
+      column: $table.clinicName, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<bool> get isSynced => $composableBuilder(
       column: $table.isSynced, builder: (column) => ColumnOrderings(column));
@@ -5927,14 +6246,32 @@ class $$EvolutionsLocalTableAnnotationComposer
   GeneratedColumn<String> get patientId =>
       $composableBuilder(column: $table.patientId, builder: (column) => column);
 
-  GeneratedColumn<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => column);
+  GeneratedColumn<String> get studentId =>
+      $composableBuilder(column: $table.studentId, builder: (column) => column);
+
+  GeneratedColumn<String> get studentName => $composableBuilder(
+      column: $table.studentName, builder: (column) => column);
 
   GeneratedColumn<String> get professorId => $composableBuilder(
       column: $table.professorId, builder: (column) => column);
 
+  GeneratedColumn<String> get professorName => $composableBuilder(
+      column: $table.professorName, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<bool> get isSignedByProfessor => $composableBuilder(
+      column: $table.isSignedByProfessor, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get signedAt =>
+      $composableBuilder(column: $table.signedAt, builder: (column) => column);
+
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get clinicName => $composableBuilder(
+      column: $table.clinicName, builder: (column) => column);
 
   GeneratedColumn<bool> get isSynced =>
       $composableBuilder(column: $table.isSynced, builder: (column) => column);
@@ -5969,36 +6306,60 @@ class $$EvolutionsLocalTableTableManager extends RootTableManager<
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> patientId = const Value.absent(),
-            Value<String> description = const Value.absent(),
+            Value<String?> studentId = const Value.absent(),
+            Value<String?> studentName = const Value.absent(),
             Value<String?> professorId = const Value.absent(),
+            Value<String?> professorName = const Value.absent(),
+            Value<String> description = const Value.absent(),
+            Value<bool> isSignedByProfessor = const Value.absent(),
+            Value<DateTime?> signedAt = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
+            Value<String?> clinicName = const Value.absent(),
             Value<bool> isSynced = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               EvolutionsLocalCompanion(
             id: id,
             patientId: patientId,
-            description: description,
+            studentId: studentId,
+            studentName: studentName,
             professorId: professorId,
+            professorName: professorName,
+            description: description,
+            isSignedByProfessor: isSignedByProfessor,
+            signedAt: signedAt,
             createdAt: createdAt,
+            clinicName: clinicName,
             isSynced: isSynced,
             rowid: rowid,
           ),
           createCompanionCallback: ({
             required String id,
             required String patientId,
-            required String description,
+            Value<String?> studentId = const Value.absent(),
+            Value<String?> studentName = const Value.absent(),
             Value<String?> professorId = const Value.absent(),
+            Value<String?> professorName = const Value.absent(),
+            required String description,
+            Value<bool> isSignedByProfessor = const Value.absent(),
+            Value<DateTime?> signedAt = const Value.absent(),
             required DateTime createdAt,
+            Value<String?> clinicName = const Value.absent(),
             Value<bool> isSynced = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               EvolutionsLocalCompanion.insert(
             id: id,
             patientId: patientId,
-            description: description,
+            studentId: studentId,
+            studentName: studentName,
             professorId: professorId,
+            professorName: professorName,
+            description: description,
+            isSignedByProfessor: isSignedByProfessor,
+            signedAt: signedAt,
             createdAt: createdAt,
+            clinicName: clinicName,
             isSynced: isSynced,
             rowid: rowid,
           ),

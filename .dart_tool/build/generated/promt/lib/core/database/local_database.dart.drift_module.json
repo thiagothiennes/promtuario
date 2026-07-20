@@ -7,7 +7,7 @@
       },
       "declaration": {
         "source_uri": "package:promt/core/database/local_database.dart",
-        "offset": 5841,
+        "offset": 6211,
         "name": "AppDatabase"
       },
       "references": [
@@ -98,7 +98,7 @@
       "views": [],
       "includes": [],
       "queries": [],
-      "schema_version": 19,
+      "schema_version": 20,
       "daos": [],
       "has_constructor_arg": false
     },
@@ -1797,7 +1797,7 @@
       },
       "declaration": {
         "source_uri": "package:promt/core/database/local_database.dart",
-        "offset": 4739,
+        "offset": 4746,
         "name": "EvolutionsLocal"
       },
       "references": [],
@@ -1812,7 +1812,7 @@
           "nameInDart": "id",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 4789,
+            "offset": 4796,
             "name": "id"
           },
           "typeConverter": null,
@@ -1833,7 +1833,7 @@
           "nameInDart": "patientId",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 4823,
+            "offset": 4830,
             "name": "patientId"
           },
           "typeConverter": null,
@@ -1849,13 +1849,34 @@
           "sqlType": {
             "builtin": "string"
           },
-          "nullable": false,
-          "nameInSql": "description",
-          "nameInDart": "description",
+          "nullable": true,
+          "nameInSql": "student_id",
+          "nameInDart": "studentId",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 4864,
-            "name": "description"
+            "offset": 4871,
+            "name": "studentId"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": null,
+          "overriddenJsonName": null,
+          "referenceName": null,
+          "documentationComment": null,
+          "constraints": [],
+          "customConstraints": null
+        },
+        {
+          "sqlType": {
+            "builtin": "string"
+          },
+          "nullable": true,
+          "nameInSql": "student_name",
+          "nameInDart": "studentName",
+          "declaration": {
+            "source_uri": "package:promt/core/database/local_database.dart",
+            "offset": 4923,
+            "name": "studentName"
           },
           "typeConverter": null,
           "clientDefaultCode": null,
@@ -1875,8 +1896,101 @@
           "nameInDart": "professorId",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 4907,
+            "offset": 4977,
             "name": "professorId"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": null,
+          "overriddenJsonName": null,
+          "referenceName": null,
+          "documentationComment": null,
+          "constraints": [],
+          "customConstraints": null
+        },
+        {
+          "sqlType": {
+            "builtin": "string"
+          },
+          "nullable": true,
+          "nameInSql": "professor_name",
+          "nameInDart": "professorName",
+          "declaration": {
+            "source_uri": "package:promt/core/database/local_database.dart",
+            "offset": 5031,
+            "name": "professorName"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": null,
+          "overriddenJsonName": null,
+          "referenceName": null,
+          "documentationComment": null,
+          "constraints": [],
+          "customConstraints": null
+        },
+        {
+          "sqlType": {
+            "builtin": "string"
+          },
+          "nullable": false,
+          "nameInSql": "description",
+          "nameInDart": "description",
+          "declaration": {
+            "source_uri": "package:promt/core/database/local_database.dart",
+            "offset": 5087,
+            "name": "description"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": null,
+          "overriddenJsonName": null,
+          "referenceName": null,
+          "documentationComment": null,
+          "constraints": [],
+          "customConstraints": null
+        },
+        {
+          "sqlType": {
+            "builtin": "bool"
+          },
+          "nullable": false,
+          "nameInSql": "is_signed_by_professor",
+          "nameInDart": "isSignedByProfessor",
+          "declaration": {
+            "source_uri": "package:promt/core/database/local_database.dart",
+            "offset": 5130,
+            "name": "isSignedByProfessor"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": {
+            "elements": [
+              "const ",
+              {
+                "lexeme": "Constant",
+                "import_uri": "package:drift/src/runtime/query_builder/query_builder.dart"
+              },
+              "(false)"
+            ]
+          },
+          "overriddenJsonName": null,
+          "referenceName": null,
+          "documentationComment": null,
+          "constraints": [],
+          "customConstraints": null
+        },
+        {
+          "sqlType": {
+            "builtin": "dateTime"
+          },
+          "nullable": true,
+          "nameInSql": "signed_at",
+          "nameInDart": "signedAt",
+          "declaration": {
+            "source_uri": "package:promt/core/database/local_database.dart",
+            "offset": 5223,
+            "name": "signedAt"
           },
           "typeConverter": null,
           "clientDefaultCode": null,
@@ -1896,8 +2010,29 @@
           "nameInDart": "createdAt",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 4965,
+            "offset": 5282,
             "name": "createdAt"
+          },
+          "typeConverter": null,
+          "clientDefaultCode": null,
+          "defaultArgument": null,
+          "overriddenJsonName": null,
+          "referenceName": null,
+          "documentationComment": null,
+          "constraints": [],
+          "customConstraints": null
+        },
+        {
+          "sqlType": {
+            "builtin": "string"
+          },
+          "nullable": true,
+          "nameInSql": "clinic_name",
+          "nameInDart": "clinicName",
+          "declaration": {
+            "source_uri": "package:promt/core/database/local_database.dart",
+            "offset": 5327,
+            "name": "clinicName"
           },
           "typeConverter": null,
           "clientDefaultCode": null,
@@ -1917,7 +2052,7 @@
           "nameInDart": "isSynced",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 5010,
+            "offset": 5380,
             "name": "isSynced"
           },
           "typeConverter": null,
@@ -1967,7 +2102,7 @@
       },
       "declaration": {
         "source_uri": "package:promt/core/database/local_database.dart",
-        "offset": 5199,
+        "offset": 5569,
         "name": "TreatmentItemsLocal"
       },
       "references": [],
@@ -1982,7 +2117,7 @@
           "nameInDart": "id",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 5253,
+            "offset": 5623,
             "name": "id"
           },
           "typeConverter": null,
@@ -2003,7 +2138,7 @@
           "nameInDart": "planId",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 5287,
+            "offset": 5657,
             "name": "planId"
           },
           "typeConverter": null,
@@ -2024,7 +2159,7 @@
           "nameInDart": "procedureName",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 5325,
+            "offset": 5695,
             "name": "procedureName"
           },
           "typeConverter": null,
@@ -2045,7 +2180,7 @@
           "nameInDart": "value",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 5370,
+            "offset": 5740,
             "name": "value"
           },
           "typeConverter": null,
@@ -2066,7 +2201,7 @@
           "nameInDart": "toothNumber",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 5406,
+            "offset": 5776,
             "name": "toothNumber"
           },
           "typeConverter": null,
@@ -2087,7 +2222,7 @@
           "nameInDart": "status",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 5463,
+            "offset": 5833,
             "name": "status"
           },
           "typeConverter": null,
@@ -2108,7 +2243,7 @@
           "nameInDart": "isSynced",
           "declaration": {
             "source_uri": "package:promt/core/database/local_database.dart",
-            "offset": 5501,
+            "offset": 5871,
             "name": "isSynced"
           },
           "typeConverter": null,

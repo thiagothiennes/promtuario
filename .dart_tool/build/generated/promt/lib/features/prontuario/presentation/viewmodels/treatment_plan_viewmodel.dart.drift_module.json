@@ -3,6 +3,8 @@
   "imports": [
     "package:flutter_riverpod/flutter_riverpod.dart",
     "package:promt/features/prontuario/domain/entities/treatment_plan.dart",
-    "package:promt/core/providers/providers.dart"
+    "package:promt/core/providers/providers.dart",
+    "package:promt/features/auth/presentation/viewmodels/auth_viewmodel.dart",
+    "package:uuid/uuid.dart"
   ]
 }

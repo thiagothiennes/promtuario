@@ -9,6 +9,7 @@
     "package:promt/features/prontuario/domain/entities/anamnese.dart",
     "package:promt/features/prontuario/domain/entities/treatment_plan.dart",
     "package:promt/features/prontuario/domain/entities/evolution.dart",
-    "package:promt/features/prontuario/domain/repositories/i_prontuario_repository.dart"
+    "package:promt/features/prontuario/domain/repositories/i_prontuario_repository.dart",
+    "package:promt/features/auth/domain/entities/user.dart"
   ]
 }

@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
-import '../../../../core/network/api_client.dart';
-import '../../../../core/database/local_database.dart';
-import '../../../auth/data/models/user_model.dart';
-import '../../../auth/domain/entities/user.dart';
-import '../../domain/repositories/i_user_management_repository.dart';
+import 'package:promt/core/network/api_client.dart';
+import 'package:promt/core/database/local_database.dart';
+import 'package:promt/features/auth/data/models/user_model.dart';
+import 'package:promt/features/auth/domain/entities/user.dart';
+import 'package:promt/features/users/domain/repositories/i_user_management_repository.dart';
 
 /// Implementação do Repositório de Gestão de Usuários com suporte a Cache Offline.
 class UserManagementRepository implements IUserManagementRepository {
@@ -20,8 +20,8 @@ class UserManagementRepository implements IUserManagementRepository {
         if (query != null) 'search': query,
       });
 
-      final List<dynamic> data = response.data;
-      final users = data.map((json) => UserModel.fromJson(json).toEntity()).toList();
+      final data = response.data as List;
+      final users = data.map((json) => UserModel.fromJson(json as Map<String, dynamic>).toEntity()).toList();
 
       // Atualiza o cache local
       _updateLocalCache(users);
@@ -29,14 +29,14 @@ class UserManagementRepository implements IUserManagementRepository {
       return users;
     } catch (e) {
       // Offline: Busca no banco local
-      final query = _localDb.select(_localDb.usersLocal);
-      final results = await query.get();
+      final localQuery = _localDb.select(_localDb.usersLocal);
+      final results = await localQuery.get();
       
       return results.map((row) => User(
         id: row.id,
         name: row.name,
         email: row.email,
-        role: UserRole.values.firstWhere((e) => e.name == row.role),
+        role: UserRole.values.firstWhere((e) => e.name == row.role, orElse: () => UserRole.aluno),
         isActive: row.isActive,
       )).toList();
     }
@@ -74,20 +74,5 @@ class UserManagementRepository implements IUserManagementRepository {
         ),
       );
     }
-  }
-}
-
-extension on UserModel {
-  User toEntity() {
-    return User(
-      id: id,
-      name: name,
-      email: email,
-      role: UserRole.values.firstWhere(
-        (e) => e.name == role.toLowerCase(),
-        orElse: () => UserRole.aluno,
-      ),
-      isActive: isActive,
-    );
   }
 }
